@@ -1,4 +1,4 @@
-package Main;
+
 /**
  * This is the main class of the program.
  * <p>
