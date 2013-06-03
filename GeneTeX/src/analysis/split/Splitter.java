@@ -1,4 +1,4 @@
-package analyzing.splitting;
+package analysis.split;
 
 public interface Splitter {
 
