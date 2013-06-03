@@ -3,6 +3,8 @@ package argument;
 import java.text.MessageFormat;
 import java.util.Vector;
 
+import error.CommandLineError;
+
 /**
  * Class in form of a singleton storing source and/or destination files as well 
  * as options specified in the command line.
@@ -76,7 +78,7 @@ public class ArgumentHandler {
 					instance.destinationFile = args[i]; 
 				default:
 					/** TODO: add proper exception */
-					throw new Exception("Unknown argument");
+					throw new Exception(CommandLineError.UNKNOWN_ARGUMENT);
 				}
 			} else {
 				/* file name handling */
