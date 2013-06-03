@@ -1,0 +1,10 @@
+synopsis:
+genetex [<source> [<source2>, ...] [options]] | [-h | -help]
+
+option list:
+-v (-verbose)
+-h (-help)
+-r (-rename) <dest_file_name>
+
+restrictions:
+- source or dest file names cannot start with ' - '

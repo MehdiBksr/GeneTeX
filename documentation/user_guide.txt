@@ -1,0 +1,14 @@
+- command line, arguments and options handling
+  * basic use
+  * option list
+    > -r | -rename
+    > -h | -help
+    > -v | -verbose
+  * source and destination files
+    > name restrictions
+    > multisource files (name of the output)
+- troubleshoot
+  * known problems
+  * contacts
+
+
