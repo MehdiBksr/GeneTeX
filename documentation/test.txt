@@ -1,0 +1,15 @@
+- unitary tests:
+ * unitary tests by functions
+ 	=> test an existing specific function in each testing function
+	=> wide range of input data
+	esp. limit cases
+	=> recreate partially the existing structure in order to test each 
+	function
+ * unitary tests by functionality
+ 	=> test a specific functionality in each testing function
+
+- global tests:
+	=> test the behaviour of the whole programme considering given input 
+	data
+	=> increment on test difficulty: from basic behaviour to specific cases
+

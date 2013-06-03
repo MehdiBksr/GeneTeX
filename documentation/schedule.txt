@@ -1,0 +1,174 @@
+03.06
+  am
+    M
+      > debugging, installing eclipse on linux
+    T
+      > creating documentation files
+      > reflecting on test structure
+    B
+      > creating main programme structure
+  pm
+    M
+    T
+    B
+
+04.06
+  am
+    M
+    T
+    B
+  pm
+    M
+    T
+    B
+
+05.06
+  am
+    M
+    T
+    B
+  pm
+    M
+    T
+    B
+
+06.06
+  am
+    M
+    T
+    B
+  pm
+    M
+    T
+    B
+
+07.06
+  am
+    M
+    T
+    B
+  pm
+    M
+    T
+    B
+
+08.06
+  am
+    M
+    T
+    B
+  pm
+    M
+    T
+    B
+
+09.06
+  am
+    M
+    T
+    B
+  pm
+    M
+    T
+    B
+
+10.06
+  am
+    M
+    T
+    B
+  pm
+    M
+    T
+    B
+
+11.06
+  am
+    M
+    T
+    B
+  pm
+    M
+    T
+    B
+
+12.06
+  am
+    M
+    T
+    B
+  pm
+    M
+    T
+    B
+
+13.06
+  am
+    M
+    T
+    B
+  pm
+    M
+    T
+    B
+
+14.06
+  am
+    M
+    T
+    B
+  pm
+    M
+    T
+    B
+
+15.06
+  am
+    M
+    T
+    B
+  pm
+    M
+    T
+    B
+
+16.06
+  am
+    M
+    T
+    B
+  pm
+    M
+    T
+    B
+
+17.06
+  am
+    M
+    T
+    B
+  pm
+    M
+    T
+    B
+
+18.06
+  am
+    M
+    T
+    B
+  pm
+    M
+    T
+    B
+
+19.06
+  am
+    M
+    T
+    B
+  pm
+    M
+    T
+    B
+
