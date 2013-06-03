@@ -1,4 +1,4 @@
-package analyzing.recognizing;
+package analysis.recognition;
 
 public interface Recognizer {
 

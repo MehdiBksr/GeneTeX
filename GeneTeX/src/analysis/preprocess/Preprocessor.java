@@ -1,4 +1,4 @@
-package analyzing.preprocessing;
+package analysis.preprocess;
 
 public interface Preprocessor {
 
