@@ -2,7 +2,7 @@ package error;
 
 import java.text.MessageFormat;
 
-public class CommandLineError {
+public final class CommandLineError {
 	
 	/* ************************************************************************
      *                              ATTRIBUTES                                * 
@@ -10,8 +10,15 @@ public class CommandLineError {
 	
 	private static final String lb = System.getProperty("line.separator");
 	
-	public static final String UNKNOWN_ARGUMENT = 
-			MessageFormat.format("{0}{1}{2}", "Unknown argument.", lb,
-					"For a list of available arguments, type genetex -h"); 
+	public static final String UNKNOWN_ARGUMENT_MESSAGE = 
+			MessageFormat.format("{0}{1}{2}", "Unknown argument: {0}.", lb,
+					"For a list of possible arguments, type 'genetex -h'.");
+	
+	public static final String INVALID_DESTINATION_MESSAGE = 
+			"Bad destination file name: {0}";
+	
+	public static final String INVALID_COMMAND_LINE_MESSAGE =
+			MessageFormat.format("{0}{1}{2}", "Invalid command line.", lb,
+					"For more information, type 'genetex -h'.");
 	
 }

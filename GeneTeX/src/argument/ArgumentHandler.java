@@ -4,6 +4,9 @@ import java.text.MessageFormat;
 import java.util.Vector;
 
 import error.CommandLineError;
+import error.InvalidCommandLineException;
+import error.InvalidDestinationException;
+import error.UnknownArgumentException;
 
 /**
  * Class in form of a singleton storing source and/or destination files as well 
@@ -51,47 +54,58 @@ public class ArgumentHandler {
 	 */
 	public static void initialise(String[] args) throws Exception {
 		// protection to avoid multiple initialisations
-		if (instance.initialised) return;
+		if (instance.initialised) 
+			return;
 		instance.initialised = true;
 		
+		if (args.length == 0)
+			throw new InvalidCommandLineException();
+		
 		/* Parameters */
+		
 		// argument currently handled
 		String argument;
+		int i = 0;
+				
+		while (i < args.length && (argument = args[i]).charAt(0) != '-') {
+			/* add file names to source files list */
+			instance.sourceFiles.add(argument);
+			i++;
+		}
 		
-		for (int i = 0; i < args.length; i++) {
+		while (i < args.length) {
 			argument = args[i];
-			
-			if (argument.charAt(0) == '-') {
-				/* option handling */
-				switch (argument) {
-				case "-help":
-				case "-h":
-					instance.help = true;
-					break;
-				case "-verbose":
-				case "-v":
-					instance.verbose = true;
-					break;
-				case "-rename":
-				case "-r":
-					i++;
-					instance.destinationFile = args[i]; 
-				default:
-					/** TODO: add proper exception */
-					throw new Exception(CommandLineError.UNKNOWN_ARGUMENT);
-				}
-			} else {
-				/* file name handling */
-				instance.sourceFiles.add(argument);
-				/** TODO: handle file name */
+			/* option handling */
+			switch (argument) {
+			case "-help":
+			case "-h":
+				instance.help = true;
+				break;
+			case "-verbose":
+			case "-v":
+				instance.verbose = true;
+				break;
+			case "-rename":
+			case "-r":
+				i++;
+				if (i == args.length || (argument = args[i]).charAt(0) == '-')
+					throw new InvalidDestinationException(argument);
+				instance.destinationFile = argument; 
+			default:
+				throw new UnknownArgumentException(argument);
 			}
+			i++;
 		}
 		
-		// set the default destination file name if needed
-		if (instance.destinationFile.isEmpty()) {
-			instance.destinationFile = MessageFormat.format("{0}.tex", 
-					instance.sourceFiles.elementAt(0));
-		}
+		if (instance.sourceFiles.size() != 0) 
+			// set the default destination file name if needed
+			if (instance.destinationFile.isEmpty())
+				instance.destinationFile = MessageFormat.format("{0}.tex", 
+						instance.sourceFiles.elementAt(0));
+		else
+			if (!instance.help)
+				// bad command line
+				throw new InvalidCommandLineException();
 	}
 	
 	/**
