@@ -1,5 +1,5 @@
 package analysis.recognition.neuralnetwork;
 
-public class Neuron extends NeuralNetworkNode {
+public abstract class NeuralNetworkNode {
 
 }

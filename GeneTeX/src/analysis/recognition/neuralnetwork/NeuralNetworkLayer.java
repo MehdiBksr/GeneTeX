@@ -1,5 +1,5 @@
 package analysis.recognition.neuralnetwork;
 
-public class NeuralNetworkLayer {
+public abstract class NeuralNetworkLayer {
 
 }

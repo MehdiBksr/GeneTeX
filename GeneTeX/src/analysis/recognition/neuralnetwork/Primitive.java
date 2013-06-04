@@ -1,5 +1,5 @@
 package analysis.recognition.neuralnetwork;
 
-public class Primitive extends Node {
+public class Primitive extends NeuralNetworkNode {
 
 }
