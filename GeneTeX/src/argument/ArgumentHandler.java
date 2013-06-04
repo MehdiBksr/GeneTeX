@@ -3,7 +3,6 @@ package argument;
 import java.text.MessageFormat;
 import java.util.Vector;
 
-import error.CommandLineError;
 import error.InvalidCommandLineException;
 import error.InvalidDestinationException;
 import error.UnknownArgumentException;
@@ -58,7 +57,7 @@ public class ArgumentHandler {
 			return;
 		instance.initialised = true;
 		
-		if (args.length == 0)
+		if (args == null || args.length == 0)
 			throw new InvalidCommandLineException();
 		
 		/* Parameters */
@@ -90,22 +89,24 @@ public class ArgumentHandler {
 				i++;
 				if (i == args.length || (argument = args[i]).charAt(0) == '-')
 					throw new InvalidDestinationException(argument);
-				instance.destinationFile = argument; 
+				instance.destinationFile = argument;
+				break;
 			default:
 				throw new UnknownArgumentException(argument);
 			}
 			i++;
 		}
 		
-		if (instance.sourceFiles.size() != 0) 
+		if (instance.sourceFiles.size() != 0) { 
 			// set the default destination file name if needed
 			if (instance.destinationFile.isEmpty())
 				instance.destinationFile = MessageFormat.format("{0}.tex", 
 						instance.sourceFiles.elementAt(0));
-		else
+		} else {
 			if (!instance.help)
 				// bad command line
 				throw new InvalidCommandLineException();
+		}
 	}
 	
 	/**
@@ -115,6 +116,18 @@ public class ArgumentHandler {
 	 */
 	public static ArgumentHandler getInstance() {
 		return instance;
+	}
+	
+	/**
+	 * Resets the instance of ArgumentHandler so that it can be initialised
+	 * again.
+	 */
+	public static void reset() {
+		instance.sourceFiles 		= new Vector<String>();
+		instance.destinationFile 	= new String();
+		instance.help 				= false;
+		instance.verbose 			= false;
+		instance.initialised 		= false;
 	}
     
     /* ************************************************************************
