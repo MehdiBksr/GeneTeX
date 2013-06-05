@@ -2,6 +2,8 @@ package analysis.preprocess;
 
 import java.awt.image.BufferedImage;
 
+import data.PreprocessedImage;
+
 public class BasicPreprocessor implements Preprocessor {
 	
 	/* ************************************************************************
@@ -29,7 +31,7 @@ public class BasicPreprocessor implements Preprocessor {
      *                          STATIC FUNCTIONS                              * 
      ************************************************************************ */
 	
-	public boolean[][] binarise(BufferedImage image) {
+	public PreprocessedImage binarise(BufferedImage image) {
 		boolean[][] bin = new boolean[image.getWidth()][image.getHeight()];
 		
 		for (int i = 0; i < bin.length; i++) {
@@ -45,7 +47,7 @@ public class BasicPreprocessor implements Preprocessor {
 			}
 		}
 		
-		return bin;
+		return new PreprocessedImage(bin);
 	}
     
     /* ************************************************************************

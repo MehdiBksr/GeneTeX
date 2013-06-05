@@ -8,6 +8,17 @@ import data.Symbol;
 
 public class SplittedLine extends Line {
 	
+	/* ************************************************************************
+	 *                              ATTRIBUTES                                * 
+	 ************************************************************************ */
+	
+	private int firstPixelLine;
+	private int lastPixelLine;
+	
+	/* ************************************************************************
+	 *                              METHODS                                   * 
+	 ************************************************************************ */
+	
 	private Vector<Symbol> symbols = new Vector<Symbol>();
 
 	/**
@@ -30,6 +41,31 @@ public class SplittedLine extends Line {
 	@Override
 	public Iterator<Symbol> getIterator() {
 		return symbols.iterator();
+	}
+	
+	
+	/* ************************************************************************
+	 *                               MUTATORS                                 * 
+	 ************************************************************************ */
+
+	public void setFirstPixelLine(int firstPixelLine) {
+		this.firstPixelLine = firstPixelLine;
+	}
+	
+	public void setLastPixelLine(int lastPixelLine) {
+		this.lastPixelLine = lastPixelLine;
+	}
+	
+	/* ************************************************************************
+	 *                               ACCESSORS                                * 
+	 ************************************************************************ */
+
+	public int getLastPixelLine() {
+		return lastPixelLine;
+	}
+	
+	public int getFirstPixelLine() {
+		return firstPixelLine;
 	}
 
 }
