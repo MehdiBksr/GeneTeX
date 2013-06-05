@@ -5,6 +5,7 @@ import java.util.Vector;
 
 import data.Block;
 import data.Page;
+import error.split.SplittedInStructuredException;
 
 public class StructuredPage extends Page {
 	
@@ -14,10 +15,12 @@ public class StructuredPage extends Page {
 	 * Adds a block to the page.
 	 * 
 	 * @param b The block to be added
+	 * @throws SplittedInStructuredException 
 	 * @see data.Page#addBlock(data.Block)
 	 */
 	@Override
-	public void addBlock(Block b) {
+	public void addBlock(Block b) throws SplittedInStructuredException {
+		if (!(b instanceof StructuredBlock)) throw new SplittedInStructuredException();
 		blocks.add(b);
 	}
 	

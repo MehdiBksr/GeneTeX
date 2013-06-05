@@ -5,6 +5,7 @@ import java.util.Vector;
 
 import data.Block;
 import data.Line;
+import error.split.StructuredInSplittedException;
 
 public class SplittedBlock extends Block {
 	
@@ -23,10 +24,12 @@ public class SplittedBlock extends Block {
 	 * Adds a line to the block.
 	 * 
 	 * @param l The line to be added
+	 * @throws StructuredInSplittedException 
 	 * @see data.Block#addLine(data.Line)
 	 */
 	@Override
-	public void addLine(Line l) {
+	public void addLine(Line l) throws StructuredInSplittedException {
+		if (!(l instanceof SplittedLine)) throw new StructuredInSplittedException();
 		lines.add(l);
 	}
 	

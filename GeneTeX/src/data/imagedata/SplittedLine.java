@@ -5,6 +5,7 @@ import java.util.Vector;
 
 import data.Line;
 import data.Symbol;
+import error.split.StructuredInSplittedException;
 
 public class SplittedLine extends Line {
 	
@@ -25,10 +26,12 @@ public class SplittedLine extends Line {
 	 * Adds a symbol to the line.
 	 * 
 	 * @param l The symbol to be added
+	 * @throws StructuredInSplittedException 
 	 * @see data.Line#addSymbol(data.Symbol)
 	 */
 	@Override
-	public void addSymbol(Symbol s) {
+	public void addSymbol(Symbol s) throws StructuredInSplittedException {
+		if (!(s instanceof SplittedSymbol)) throw new StructuredInSplittedException();
 		symbols.add(s);
 	}
 	
@@ -43,6 +46,14 @@ public class SplittedLine extends Line {
 		return symbols.iterator();
 	}
 	
+	/* ************************************************************************
+	 *                             CONSTRUCTORS                               * 
+	 ************************************************************************ */
+	
+	public SplittedLine(int firstPixelLine, int lastPixelLine) {
+		this.firstPixelLine = firstPixelLine;
+		this.lastPixelLine = lastPixelLine;
+	}
 	
 	/* ************************************************************************
 	 *                               MUTATORS                                 * 
