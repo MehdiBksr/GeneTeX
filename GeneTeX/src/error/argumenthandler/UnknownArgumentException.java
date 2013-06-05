@@ -1,9 +1,9 @@
-package error;
+package error.argumenthandler;
 
 import java.text.MessageFormat;
 
 @SuppressWarnings("serial")
-public class InvalidDestinationException extends Exception {
+public class UnknownArgumentException extends Exception {
 	
     /* ************************************************************************
      *                              ATTRIBUTES                                * 
@@ -13,8 +13,8 @@ public class InvalidDestinationException extends Exception {
      *                              CONSTRUCTORS                              * 
      ************************************************************************ */
 	
-	public InvalidDestinationException(String argument) {
-		super(MessageFormat.format(CommandLineError.INVALID_DESTINATION_MESSAGE, 
+	public UnknownArgumentException(String argument) {
+		super(MessageFormat.format(CommandLineError.UNKNOWN_ARGUMENT_MESSAGE, 
 				argument));
 	}
     

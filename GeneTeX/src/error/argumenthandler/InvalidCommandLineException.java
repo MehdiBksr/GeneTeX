@@ -1,9 +1,9 @@
-package error;
+package error.argumenthandler;
 
 import java.text.MessageFormat;
 
 @SuppressWarnings("serial")
-public class UnknownArgumentException extends Exception {
+public class InvalidCommandLineException extends Exception {
 	
     /* ************************************************************************
      *                              ATTRIBUTES                                * 
@@ -13,9 +13,8 @@ public class UnknownArgumentException extends Exception {
      *                              CONSTRUCTORS                              * 
      ************************************************************************ */
 	
-	public UnknownArgumentException(String argument) {
-		super(MessageFormat.format(CommandLineError.UNKNOWN_ARGUMENT_MESSAGE, 
-				argument));
+	public InvalidCommandLineException() {
+		super(CommandLineError.INVALID_COMMAND_LINE_MESSAGE);
 	}
     
     /* ************************************************************************

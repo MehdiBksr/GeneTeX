@@ -1,4 +1,4 @@
-package error;
+package error.argumenthandler;
 
 import java.text.MessageFormat;
 

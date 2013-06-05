@@ -4,8 +4,8 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import error.InvalidCommandLineException;
-import error.InvalidDestinationException;
+import error.argumenthandler.InvalidCommandLineException;
+import error.argumenthandler.InvalidDestinationException;
 
 public class TestArgumentHandler {
 

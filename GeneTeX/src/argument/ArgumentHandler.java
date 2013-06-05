@@ -3,9 +3,9 @@ package argument;
 import java.text.MessageFormat;
 import java.util.Vector;
 
-import error.InvalidCommandLineException;
-import error.InvalidDestinationException;
-import error.UnknownArgumentException;
+import error.argumenthandler.InvalidCommandLineException;
+import error.argumenthandler.InvalidDestinationException;
+import error.argumenthandler.UnknownArgumentException;
 
 /**
  * Class in form of a singleton storing source and/or destination files as well 
