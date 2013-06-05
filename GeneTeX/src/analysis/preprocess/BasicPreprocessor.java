@@ -29,7 +29,7 @@ public class BasicPreprocessor implements Preprocessor {
      *                          STATIC FUNCTIONS                              * 
      ************************************************************************ */
 	
-	public static boolean[][] binarise(BufferedImage image) {
+	public boolean[][] binarise(BufferedImage image) {
 		boolean[][] bin = new boolean[image.getWidth()][image.getHeight()];
 		
 		for (int i = 0; i < bin.length; i++) {

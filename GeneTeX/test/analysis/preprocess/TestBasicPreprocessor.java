@@ -42,7 +42,8 @@ public class TestBasicPreprocessor {
 		       Logger.getLogger(TestImageLoader.class.getName()).log(
 		       		Level.SEVERE, null, ex);
 		   }
-		   bufferedImage = toBI(BasicPreprocessor.binarise(bufferedImage));
+		   Preprocessor proc = new BasicPreprocessor();
+		   bufferedImage = toBI(proc.binarise(bufferedImage));
 		   JLabel jLabel = new JLabel(new ImageIcon(bufferedImage));
 		    
 		   JPanel jPanel = new JPanel();
