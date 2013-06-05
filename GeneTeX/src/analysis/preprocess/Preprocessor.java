@@ -2,8 +2,10 @@ package analysis.preprocess;
 
 import java.awt.image.BufferedImage;
 
+import data.PreprocessedImage;
+
 public interface Preprocessor {
 
-	public boolean[][] binarise(BufferedImage image);
+	public PreprocessedImage binarise(BufferedImage image);
 	
 }

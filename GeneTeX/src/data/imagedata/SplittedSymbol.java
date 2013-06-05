@@ -3,8 +3,16 @@ package data.imagedata;
 import data.Symbol;
 
 public class SplittedSymbol extends Symbol {
+	
+    /* ************************************************************************
+     *                               ATTRIBUTES                               * 
+     ************************************************************************ */
 
 	private boolean[][] binary;
+	
+    /* ************************************************************************
+     *                              CONSTRUCTORS                              * 
+     ************************************************************************ */
 	
 	/**
 	 * Creates a symbol, given an array of boolean values. 
@@ -14,7 +22,23 @@ public class SplittedSymbol extends Symbol {
 	 * @param binaryImage The image as an array of boolean
 	 */
 	public SplittedSymbol(boolean[][] binaryImage) {
-		this.binary = binaryImage;
+		this.setBinary(binaryImage);
+	}
+	
+    /* ************************************************************************
+     *                                ACCESSORS                               * 
+     ************************************************************************ */
+
+	public boolean[][] getBinary() {
+		return binary;
+	}
+	
+    /* ************************************************************************
+     *                                MUTATORS                              * 
+     ************************************************************************ */
+
+	public void setBinary(boolean[][] binary) {
+		this.binary = binary;
 	}
 	
 	/**
