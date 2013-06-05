@@ -1,5 +1,9 @@
 package filegenerator;
 
+import java.util.Collection;
+import data.Page;
+import error.filegenerator.BadFileNameException;
+
 public interface FileGenerator {
 	
 	/* ************************************************************************
@@ -13,6 +17,9 @@ public interface FileGenerator {
     /* ************************************************************************
      *                              METHODS                                   * 
      ************************************************************************ */
+	
+	public abstract void generate(Collection<Page> c, String destinationFileName)
+			throws BadFileNameException;
     
     /* ************************************************************************
      *                          STATIC FUNCTIONS                              * 

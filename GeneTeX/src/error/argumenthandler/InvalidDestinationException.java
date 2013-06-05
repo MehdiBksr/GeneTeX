@@ -14,7 +14,7 @@ public class InvalidDestinationException extends Exception {
      ************************************************************************ */
 	
 	public InvalidDestinationException(String argument) {
-		super(MessageFormat.format(CommandLineError.INVALID_DESTINATION_MESSAGE, 
+		super(MessageFormat.format(CommandLineErrorMessages.INVALID_DESTINATION_MESSAGE, 
 				argument));
 	}
     
