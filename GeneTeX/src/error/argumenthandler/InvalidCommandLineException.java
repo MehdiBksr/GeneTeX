@@ -1,6 +1,5 @@
 package error.argumenthandler;
 
-import java.text.MessageFormat;
 
 @SuppressWarnings("serial")
 public class InvalidCommandLineException extends Exception {
@@ -14,19 +13,7 @@ public class InvalidCommandLineException extends Exception {
      ************************************************************************ */
 	
 	public InvalidCommandLineException() {
-		super(CommandLineError.INVALID_COMMAND_LINE_MESSAGE);
+		super(CommandLineErrorMessages.INVALID_COMMAND_LINE_MESSAGE);
 	}
-    
-    /* ************************************************************************
-     *                              METHODS                                   * 
-     ************************************************************************ */
-    
-    /* ************************************************************************
-     *                          PRIVATE FUNCTIONS                             * 
-     ************************************************************************ */
-    
-    /* ************************************************************************
-     *                              ACCESSORS                                 * 
-     ************************************************************************ */
 
 }

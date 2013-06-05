@@ -14,7 +14,7 @@ public class UnknownArgumentException extends Exception {
      ************************************************************************ */
 	
 	public UnknownArgumentException(String argument) {
-		super(MessageFormat.format(CommandLineError.UNKNOWN_ARGUMENT_MESSAGE, 
+		super(MessageFormat.format(CommandLineErrorMessages.UNKNOWN_ARGUMENT_MESSAGE, 
 				argument));
 	}
     
