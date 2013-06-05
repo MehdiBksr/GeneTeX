@@ -1,6 +1,6 @@
 package analysis.recognition.neuralnetwork;
 
-public class NeuralNetwork {
+public interface Layer {
 	
 	/* ************************************************************************
      *                              ATTRIBUTES                                * 
@@ -21,5 +21,6 @@ public class NeuralNetwork {
     /* ************************************************************************
      *                              ACCESSORS                                 * 
      ************************************************************************ */
+
 
 }
