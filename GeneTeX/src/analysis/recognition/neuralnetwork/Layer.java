@@ -27,7 +27,13 @@ public interface Layer {
 	 */
 	public float getValue(int index);
 	
-    /* ************************************************************************
+	/**
+	 * Resets all values that the network computed
+	 * Does not change the parameters (synaptic weights, nonlinear parameters...).
+	 */
+	public void resetValues();
+
+	/* ************************************************************************
      *                          PRIVATE FUNCTIONS                             * 
      ************************************************************************ */
     
