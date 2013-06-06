@@ -12,7 +12,8 @@ public class BasicSplitter implements Splitter {
      *                              METHODS                                   * 
      ************************************************************************ */
 	
-	public SplittedPage primarySegmentation(PreprocessedImage preprocessedPage) {
+
+	public SplittedPage primarySegmentation(PreprocessedImage preprocessedPage) throws StructuredInSplittedException {
 		SplittedPage page = new SplittedPage();
 		Vector<SplittedBlock> blocks = splitInBlocks(preprocessedPage);
 		// Our image has only one block here
