@@ -1,7 +1,9 @@
 package filegenerator;
 
+import java.io.IOException;
 import java.util.Collection;
 import data.Page;
+import error.data.BadInstanceException;
 import error.filegenerator.BadFileNameException;
 
 public interface FileGenerator {
@@ -19,7 +21,7 @@ public interface FileGenerator {
      ************************************************************************ */
 	
 	public abstract void generate(Collection<Page> c, String destinationFileName)
-			throws BadFileNameException;
+			throws BadFileNameException, IOException, BadInstanceException;
     
     /* ************************************************************************
      *                          STATIC FUNCTIONS                              * 
