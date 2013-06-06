@@ -16,7 +16,7 @@ public class Primitive implements Layer {
      *                              ATTRIBUTES                                * 
      ************************************************************************ */
 
-	private final int standardSize = 32;
+	public static final int standardSize = 32;
 	
 	
 	
@@ -45,11 +45,11 @@ public class Primitive implements Layer {
 		super();
 		this.standardisationCoefficientX = 0;
 		this.standardisationCoefficientY = 0;
-		this.upOutline = new float[this.standardSize];
-		this.downOutline = new float[this.standardSize];
-		this.rightOutline = new float[this.standardSize];
-		this.leftOutline = new float[this.standardSize];
-		for (int i = 0; i<this.standardSize; i++) {
+		this.upOutline = new float[standardSize];
+		this.downOutline = new float[standardSize];
+		this.rightOutline = new float[standardSize];
+		this.leftOutline = new float[standardSize];
+		for (int i = 0; i<standardSize; i++) {
 			this.upOutline[i] = 0;
 			this.downOutline[i] = 0;
 			this.rightOutline[i] = 0;
@@ -66,7 +66,7 @@ public class Primitive implements Layer {
 	 * @return number of primitives contained in the layer
 	 */
 	public int size() {
-		return 2 + 4*this.standardSize;
+		return 2 + 4*standardSize;
 	}
 
 	/**
@@ -93,13 +93,13 @@ public class Primitive implements Layer {
 		default :
 			switch ((index-2) / 32){
 			case 0 : 
-				return this.upOutline[(index-2) % this.standardSize];
+				return this.upOutline[(index-2) % standardSize];
 			case 1 : 
-				return this.downOutline[(index-2) % this.standardSize];
+				return this.downOutline[(index-2) % standardSize];
 			case 2 : 
-				return this.rightOutline[(index-2) % this.standardSize];
+				return this.rightOutline[(index-2) % standardSize];
 			case 3 : 
-				return this.leftOutline[(index-2) % this.standardSize];
+				return this.leftOutline[(index-2) % standardSize];
 			}
 		}
 		return 0;
@@ -109,11 +109,11 @@ public class Primitive implements Layer {
 	public void resetValues() {
 		this.standardisationCoefficientX = 0;
 		this.standardisationCoefficientY = 0;
-		this.upOutline = new float[this.standardSize];
-		this.downOutline = new float[this.standardSize];
-		this.rightOutline = new float[this.standardSize];
-		this.leftOutline = new float[this.standardSize];
-		for (int i = 0; i<this.standardSize; i++) {
+		this.upOutline = new float[standardSize];
+		this.downOutline = new float[standardSize];
+		this.rightOutline = new float[standardSize];
+		this.leftOutline = new float[standardSize];
+		for (int i = 0; i<standardSize; i++) {
 			this.upOutline[i] = 0;
 			this.downOutline[i] = 0;
 			this.rightOutline[i] = 0;
@@ -134,22 +134,22 @@ public class Primitive implements Layer {
      *                          PRIVATE FUNCTIONS                             * 
      ************************************************************************ */
 
-	public SplittedSymbol standardisation(SplittedSymbol img){
+	private SplittedSymbol standardisation(SplittedSymbol img){
 		// TODO Auto-generated method stub
 		return null;
 	}
     
-	public void computeUpOutline(SplittedSymbol img){
+	private void computeUpOutline(SplittedSymbol img){
 		// TODO Auto-generated method stub
 	}
 	
-	public void computeDownOutline(SplittedSymbol img){
+	private void computeDownOutline(SplittedSymbol img){
 		// TODO Auto-generated method stub
 	}
-	public void computeRightOutline(SplittedSymbol img){
+	private void computeRightOutline(SplittedSymbol img){
 		// TODO Auto-generated method stub
 	}
-	public void computeLeftOutline(SplittedSymbol img){
+	private void computeLeftOutline(SplittedSymbol img){
 		// TODO Auto-generated method stub
 	}
 
