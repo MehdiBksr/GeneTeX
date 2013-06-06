@@ -4,7 +4,7 @@ import java.util.Vector;
 
 import data.PreprocessedImage;
 import data.imagedata.*;
-import error.split.StructuredInSplittedException;
+import error.data.BadInstanceException;
 
 public class BasicSplitter implements Splitter {
     
@@ -12,24 +12,18 @@ public class BasicSplitter implements Splitter {
      *                              METHODS                                   * 
      ************************************************************************ */
 	
-
-	public SplittedPage primarySegmentation(PreprocessedImage preprocessedPage) throws StructuredInSplittedException {
+	public SplittedPage primarySegmentation(boolean[][] preprocessedPage) throws BadInstanceException {
 		SplittedPage page = new SplittedPage();
 		Vector<SplittedBlock> blocks = splitInBlocks(preprocessedPage);
 		// Our image has only one block here
-		try {
-			page.addBlock(blocks.get(0));
-		} catch (StructuredInSplittedException e) {
-			
-			e.printStackTrace();
-		}
+		page.addBlock(blocks.get(0));
 		// We look for the lines in the page		
 		
 		
 		return page;		
 	}
 	
-	public Vector<SplittedBlock> splitInBlocks(PreprocessedImage preprocessedPage) {
+	public Vector<SplittedBlock> splitInBlocks(boolean[][] preprocessedPage) {
 		Vector<SplittedBlock> blocks = new Vector<SplittedBlock>();
 		SplittedBlock onlyBlock = new SplittedBlock();
 		blocks.add(onlyBlock);

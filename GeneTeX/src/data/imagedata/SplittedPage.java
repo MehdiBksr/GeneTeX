@@ -6,7 +6,7 @@ import java.util.Vector;
 import data.Block;
 import data.Page;
 import data.contentdata.StructuredBlock;
-import error.split.StructuredInSplittedException;
+import error.data.BadInstanceException;
 
 public class SplittedPage extends Page {
 	
@@ -28,8 +28,9 @@ public class SplittedPage extends Page {
 	 * @see data.Page#addBlock(data.Block)
 	 */
 	@Override
-	public void addBlock(Block b) throws StructuredInSplittedException {
-		if (!(b instanceof StructuredBlock)) throw new StructuredInSplittedException();
+	public void addBlock(Block b) throws BadInstanceException {
+		if (!(b instanceof SplittedBlock))
+			throw new BadInstanceException(SplittedBlock.class, b.getClass());
 		blocks.add(b);
 	}
 	
