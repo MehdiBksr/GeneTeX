@@ -5,7 +5,7 @@ import java.util.Vector;
 
 import data.Line;
 import data.Symbol;
-import error.split.StructuredInSplittedException;
+import error.data.BadInstanceException;
 
 public class SplittedLine extends Line {
 	
@@ -30,8 +30,9 @@ public class SplittedLine extends Line {
 	 * @see data.Line#addSymbol(data.Symbol)
 	 */
 	@Override
-	public void addSymbol(Symbol s) throws StructuredInSplittedException {
-		if (!(s instanceof SplittedSymbol)) throw new StructuredInSplittedException();
+	public void addSymbol(Symbol s) throws BadInstanceException {
+		if (!(s instanceof SplittedSymbol)) 
+			throw new BadInstanceException(SplittedSymbol.class, s.getClass());
 		symbols.add(s);
 	}
 	

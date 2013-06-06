@@ -6,7 +6,7 @@ import java.util.Vector;
 import data.Block;
 import data.Line;
 
-import error.split.SplittedInStructuredException;
+import error.data.BadInstanceException;
 
 
 public class StructuredBlock extends Block {
@@ -17,12 +17,13 @@ public class StructuredBlock extends Block {
 	 * Adds a line to the block.
 	 * 
 	 * @param l The line to be added
-	 * @throws SplittedInStructuredException 
+	 * @throws BadInstanceException 
 	 * @see data.Block#addLine(data.Line)
 	 */
 	@Override
-	public void addLine(Line l) throws SplittedInStructuredException {
-		if (!(l instanceof StructuredLine)) throw new SplittedInStructuredException();
+	public void addLine(Line l) throws BadInstanceException {
+		if (!(l instanceof StructuredLine)) 
+			throw new BadInstanceException(StructuredLine.class, l.getClass());
 		lines.add(l);
 	}
 	

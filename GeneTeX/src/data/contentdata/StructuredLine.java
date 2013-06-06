@@ -5,7 +5,7 @@ import java.util.Vector;
 
 import data.Line;
 import data.Symbol;
-import error.split.SplittedInStructuredException;
+import error.data.BadInstanceException;
 
 public class StructuredLine extends Line {
 	
@@ -15,12 +15,13 @@ public class StructuredLine extends Line {
 	 * Adds a symbol to the line.
 	 * 
 	 * @param l The symbol to be added
-	 * @throws SplittedInStructuredException 
+	 * @throws BadInstanceException 
 	 * @see data.Line#addSymbol(data.Symbol)
 	 */
 	@Override
-	public void addSymbol(Symbol s) throws SplittedInStructuredException {
-		if (!(s instanceof StructuredSymbol)) throw new SplittedInStructuredException();
+	public void addSymbol(Symbol s) throws BadInstanceException {
+		if (!(s instanceof StructuredSymbol)) 
+			throw new BadInstanceException(StructuredSymbol.class, s.getClass());
 		symbols.add(s);
 	}
 	

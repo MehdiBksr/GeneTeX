@@ -3,7 +3,7 @@ package analysis.split;
 import java.util.Vector;
 
 import data.imagedata.*;
-import error.split.StructuredInSplittedException;
+import error.data.BadInstanceException;
 
 public class BasicSplitter implements Splitter {
     
@@ -11,7 +11,7 @@ public class BasicSplitter implements Splitter {
      *                              METHODS                                   * 
      ************************************************************************ */
 	
-	public SplittedPage primarySegmentation(boolean[][] preprocessedPage) throws StructuredInSplittedException {
+	public SplittedPage primarySegmentation(boolean[][] preprocessedPage) throws BadInstanceException {
 		SplittedPage page = new SplittedPage();
 		Vector<SplittedBlock> blocks = splitInBlocks(preprocessedPage);
 		// Our image has only one block here

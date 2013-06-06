@@ -5,7 +5,7 @@ import java.util.Vector;
 
 import data.Block;
 import data.Line;
-import error.split.StructuredInSplittedException;
+import error.data.BadInstanceException;
 
 public class SplittedBlock extends Block {
 	
@@ -28,8 +28,9 @@ public class SplittedBlock extends Block {
 	 * @see data.Block#addLine(data.Line)
 	 */
 	@Override
-	public void addLine(Line l) throws StructuredInSplittedException {
-		if (!(l instanceof SplittedLine)) throw new StructuredInSplittedException();
+	public void addLine(Line l) throws BadInstanceException {
+		if (!(l instanceof SplittedLine)) 
+			throw new BadInstanceException(SplittedLine.class, l.getClass());
 		lines.add(l);
 	}
 	
