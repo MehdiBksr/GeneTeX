@@ -16,14 +16,14 @@ import data.contentdata.StructuredSymbol;
 import error.data.BadInstanceException;
 import error.filegenerator.BadFileNameException;
 
-public class LaTeXGenerator implements FileGenerator {
+public class LatexGenerator implements FileGenerator {
 	
 	/* ************************************************************************
      *                              ATTRIBUTES                                * 
      ************************************************************************ */
 	
 	/** Unique instance. */
-	private static final LaTeXGenerator instance = new LaTeXGenerator();
+	private static final LatexGenerator instance = new LatexGenerator();
 	/** BufferedWriter allowing to write in the output tex file */
 	private BufferedWriter out;
 	
@@ -33,7 +33,7 @@ public class LaTeXGenerator implements FileGenerator {
      *                              CONSTRUCTORS                              * 
      ************************************************************************ */
 	
-	private LaTeXGenerator() {}
+	private LatexGenerator() {}
     
     /* ************************************************************************
      *                              METHODS                                   * 
@@ -62,7 +62,7 @@ public class LaTeXGenerator implements FileGenerator {
      *                          STATIC FUNCTIONS                              * 
      ************************************************************************ */
     
-	public static LaTeXGenerator getInstance() {
+	public static LatexGenerator getInstance() {
 		return instance;
 	}
 	
@@ -87,19 +87,25 @@ public class LaTeXGenerator implements FileGenerator {
 	}
 	
 	private void writeHeader() throws IOException {
-		out.write(LB + "\\begin{document}");
+		out.write("\\documentclass[11pt, a4paper, oneside]{report}" + LB + LB);
+		out.write("\\usepackage[french]{babel}" + LB);
+		out.write("\\usepackage[utf8]{inputenc}" + LB + LB);
+		out.write("\\begin{document}" + LB + LB);
 	}
 	
 	private void writeFooter() throws IOException {
-		out.write(LB + "\\end{document}");
+		out.write("\\end{document}");
 	}
 	
-	private void writePages(Collection<Page> c) throws IOException, BadInstanceException {
+	private void writePages(Collection<Page> c) 
+			throws IOException, BadInstanceException {
+		
 		Iterator<Page> pages = c.iterator();
 		while (pages.hasNext()) {
 			Page p = pages.next();
 			writeBlocks(p);
-			out.write(LB + "\newpage");
+			if (pages.hasNext())
+				out.write("\\newpage" + LB + LB);
 		}
 	}
 	
@@ -108,9 +114,9 @@ public class LaTeXGenerator implements FileGenerator {
 		
 		while (blocks.hasNext()) {
 			Block b = blocks.next();
-			out.write(LB + "\\section{");
+			out.write("\\paragraph*{}" + LB + LB);
 			writeLines(b);
-			out.write(LB + "}");
+			out.write(LB);
 		}
 	}
 	
@@ -119,20 +125,32 @@ public class LaTeXGenerator implements FileGenerator {
 		
 		while (lines.hasNext()) {
 			Line l = lines.next();
-			out.write(LB);
 			writeSymbols(l);
+			if (lines.hasNext())
+				out.write("\\\\");
+			out.write(LB);
 		}
 	}
 	
 	private void writeSymbols(Line l) throws IOException, BadInstanceException {
 		Iterator<Symbol> symbols = l.getIterator();
+		Symbol s;
 		
 		while (symbols.hasNext()) {
-			if (!(symbols.next() instanceof StructuredSymbol)) 
+			s = symbols.next();
+			
+			if (!(s instanceof StructuredSymbol))
+				// bad input collection
 				throw new BadInstanceException(symbols.next().getClass(), 
 						StructuredSymbol.class);
-			StructuredSymbol s = (StructuredSymbol) symbols.next();
-			out.write(s.getToken().toLatex());
+			
+			StructuredSymbol current = (StructuredSymbol) s;
+			if (current.getMath())
+				// mathematical expression: should be put between dollars
+				out.write("$" + current.getToken().toLatex() + "$");
+			else
+				// should not be put between dollars
+				out.write(current.getToken().toLatex());
 		}
 	}
     

@@ -142,6 +142,7 @@ public enum Token {
      *                         PUNCTUATION MARK                               * 
      ************************************************************************ */
 	
+	SPACE(" "),
 	ASTERISK("*"),
 	COLON(":"),
 	COMMA(","),
