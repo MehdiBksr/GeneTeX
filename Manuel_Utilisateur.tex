@@ -1,0 +1,517 @@
+\documentclass[12pt]{article}
+
+\usepackage[french]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{graphicx}
+\usepackage{verbatim}
+\usepackage{amsmath}
+
+\usepackage{listings}
+\lstset{
+  sensitive=f,
+  morecomment=[l]--,
+  morestring=[d]",
+  showstringspaces=false,
+  basicstyle=\small\ttfamily,
+  keywordstyle=\bf\small,
+  commentstyle=\itshape,
+  stringstyle=\sf,
+  extendedchars=true,
+  columns=[c]fixed
+}
+
+
+% CI-DESSOUS: conversion des caractères accentués UTF-8 
+% en caractères TeX dans les listings...
+\lstset{
+  literate=%
+  {À}{{\`A}}1 {Â}{{\^A}}1 {Ç}{{\c{C}}}1%
+  {à}{{\`a}}1 {â}{{\^a}}1 {ç}{{\c{c}}}1%
+  {É}{{\'E}}1 {È}{{\`E}}1 {Ê}{{\^E}}1 {Ë}{{\"E}}1% 
+  {é}{{\'e}}1 {è}{{\`e}}1 {ê}{{\^e}}1 {ë}{{\"e}}1%
+  {Ï}{{\"I}}1 {Î}{{\^I}}1 {Ô}{{\^O}}1%
+  {ï}{{\"i}}1 {î}{{\^i}}1 {ô}{{\^o}}1%
+  {Ù}{{\`U}}1 {Û}{{\^U}}1 {Ü}{{\"U}}1%
+  {ù}{{\`u}}1 {û}{{\^u}}1 {ü}{{\"u}}1%
+}
+
+%%%%%%%%%%
+% TAILLE DES PAGES (A4 serré)
+
+\setlength{\parindent}{0cm}
+\setlength{\parskip}{1ex}
+\setlength{\textwidth}{17cm}
+\setlength{\textheight}{24cm}
+\setlength{\oddsidemargin}{-.7cm}
+\setlength{\evensidemargin}{-.7cm}
+\setlength{\topmargin}{-.5in}
+
+%%%%%%%%%%
+% EN-TÊTES ET PIED DE PAGES
+
+\pagestyle{fancyplain}
+\renewcommand{\headrulewidth}{0pt}
+\addtolength{\headheight}{1.6pt}
+\addtolength{\headheight}{2.6pt}
+\lfoot{}
+\cfoot{}
+\rfoot{\footnotesize\sf \thepage/\pageref{LastPage}} % numero de page
+\lhead{\footnotesize\sf Projet Génie Logiciel} % en-tete Gauche
+\rhead{\footnotesize\sf Équipe GL36} % en-tete Droit
+
+%%%%%%%%%%
+% TITRE DU DOCUMENT
+
+\title{\textbf{Decac\\
+  Manuel Utilisateur}}
+
+\author{Mehdi \textsc{Bouksara} - Étienne \textsc{Delaporte} - Hugues \textsc{De Lassus Saint-Geniès} \\
+  Théo \textsc{Merle} - Morgane \textsc{Sanfins}}
+
+\date{Janvier 2013}
+
+
+%%%%%%%
+
+\begin{document}
+
+\maketitle
+~\\
+\begin{center}
+\includegraphics[width=10cm]{coffee.eps}
+\end{center}
+
+\newpage
+\section{Introduction}
+
+Decac est un compilateur pour le langage Deca (langage inspiré de Java).\\
+Pour compiler un fichier .deca, il faut utiliser la syntaxe suivante :\\
+\lstinline{$decac <options> <fichier_source.deca>}\\%$
+où les options possibles sont décrites dans la section \textit{Options} de ce manuel.\\
+
+Si le programme source ne contient pas d'erreurs,\\
+\lstinline{$decac [repertoire/]fichier_source.deca}\\ %$
+ne produit aucune sortie et crée un fichier fichier\_source.ass dans le
+répertoire depuis lequel la commande est lancée, interprétable par une machine
+abstraite.\\
+Sinon, decac affiche sur la sortie standard les erreurs à corriger présentées 
+dans la section \textit{Messages d'erreurs} de ce manuel.
+
+
+% \subsection{Package \lstinline!Code!}
+
+\section{Options}
+
+\subsection{Synopsis}
+\lstinline{$decac [[-p | -v] [-n] [-r X] [-x] [-w] [repertoire/]nom_fichier_source.deca] | [-b]}\\ %$
+
+\subsection{Tags}
+\begin{itemize}
+       \item[] \lstinline!-b! (banner)\\
+         Affiche la bannière de Decac indiquant notre nom d'équipe. 
+         S'utilise sans aucun autre argument.
+       \item[] \lstinline!-p! (parse)\\
+         Arrête decac après l'étape de construction de
+         l'arbre, et affiche la décompilation de ce dernier.
+         Cette option n'est pas compatible avec l'option \lstinline!-v!.
+       \item[]\lstinline!-v! (verification)\\
+         decac s'arrête après l'étape de vérifications contextuelles 
+         (ne produit aucune sortie en l'absence d'erreur).
+         Cette option n'est pas compatible avec l'option \lstinline!-p!.
+       \item[]\lstinline!-n! (no check)\\
+         Supprime les tests de débordement à l'exécution : 
+         \begin{itemize}
+           \item débordement arithmétique
+           \item débordement mémoire
+           \item déréférencement de null
+         \end{itemize}
+       \item[]\lstinline!-r X! (registers)\\
+         Limite les registres banalisés disponibles à R0, ..., R\{X-1\}, avec
+         $4 \leq X \leq 16$.
+       \item[]\lstinline!-x (heXadecimal)!\\
+         Passe l'affichage des flottants en hexadécimal (décimal par défaut)
+       \item[]\lstinline!-w! (warnings)\\
+         Autorise l'affichage de messages d'avertissement en cours de compilation
+\end{itemize}
+
+\section{Types et fonctions prédéfinis}
+\subsection{Types et classes}
+Le compilateur Decac reconnaît par défaut les types suivants :\\
+\\- void : type vide, utilisé pour déclarer des méthodes ne renvoyant aucune valeur.\\
+\\- boolean : type booléen, utilisé dans les expressions boolean. Peut prendre deux valeurs (true ou
+false).\\
+\\- float : type flottant, ces nombres doivent comporter un . ($3.1$,$5.0$...),
+ils peuvent comporter une puissance de 10 ($5.1E-5$, $3.2e21$...) et peuvent
+être écrits au format hexadécimal($0x1.312Fa$)
+avec une puissance de 2 ($0x1.312F1p+12$).\\
+\\- int : type entier, ils ne peuvent pas commencer par le chiffre '0' (sauf le nombre 0 lui-même), ils ne doivent pas contenir de ., leurs bornes sont indiquées dans la section Limitations.\\
+\\- Object : classe mère objet, toutes les classes que l'on déclarera dans un fichier .deca en hériteront. Cette classe est détaillée dans la section Fonctions et méthodes.\\
+\\- Math : classe dédiée aux calculs mathématiques, elle est munie de quatre méthodes détaillées dans la section Fonctions et méthodes.\\
+\\
+Les chaînes de caractères peuvent être imprimées via la fonction prédéfinie print, mais il n'existe pas de type prédéfini permettant de stocker
+des chaînes de caractères en mémoire.
+\subsection{Fonctions et méthodes}
+Les opérations classiques de comparaison arithmétiques sont accessibles (\verb?<?, \verb?>?, \verb?<=?, \verb?>=?) elles doivent comparer des flottants 
+ou des entiers.Dans le cas où les deux opérandes sont de type différent, la conversion de l'entier en flottant se fait de manière implicite.\\
+Les opérations \verb?==? et \verb?!=? acceptent en opérandes des booléens, des entiers, des flottants, ou des objets de classe quelconque. Cependant, on ne peut 
+comparer que deux variables de même type prédéfini (sauf int et float) ou deux objets.
+Attention cependant, s'il s'agit d'objets, ces opérations ne comparent que les adresses en mémoire. Pour comparer deux objets de façon différente, il est nécessaire de 
+redéfinir la méthode equals de la classe Object.\\
+\\
+Les opérations classiques sur les booléens sont aussi accessibles (\verb?||?, \verb?&&?, \verb?!?). Les opérations booléennes s'effectuent avec les règles de priorité classiques.\\
+
+Enfin, les opérations de différence (\verb?-?), d'addition (\verb?+?), de multiplication (\verb?*?) et de division (\verb?/?)
+sont autorisées entre entiers ou flottants (avec encore une conversion implicite pour une opération mixte). Le modulo (\verb?%?) est autorisé entre entiers.\\
+
+Les autres fonctions ou méthodes prédéfinies sont les suivantes :\\
+\\- print : permet d'afficher sur la sortie standard des entiers, flottants ou chaînes de caractère. Cette fonction prend autant d'arguments qu'il le faut, séparés par des virgules.\\ print() est équivalent à l'instruction vide.
+\\- println : même fonction que print, mais celle-ci saute une ligne à la fin de l'affichage.\\ println() est équivalent à un saut de ligne sur la sortie standard.
+\\- readInt : cette fonction est interactive, elle attend que l'utilisateur entre un entier et le renvoie.\\ Le programme lèvera une erreur à l'exécution si un flottant ou une chaîne de caractères quelconques est entrée.
+\\- readFloat : cette fonction est semblable à readInt mais attend un flottant. Attention, le programme lèvera une erreur à l'exécution si un entier ou une chaîne de caractères quelconque est entrée, ainsi que pour des flottants entrés en écriture hexadécimale.
+\\- cast : le cast s'utilise ainsi : \verb?cast<type>(expression)? et renvoie \verb?expression? convertie pour avoir le type \verb?type?. La conversion n'est possible que si : \\
+\begin{itemize}
+     \item \verb?expression? est de type float et \verb?type? vaut int
+     \item \verb?expression? est de type int et \verb?type? vaut float
+     \item \verb?type? est un type de classe A quelconque et \verb?expression? est d'un type de classe héritée de \verb?type?
+\end{itemize}
+
+~\\
+Attention, une conversion d'un objet vers une classe héritée ne provoquera pas d'erreur de compilation, mais le programme généré lèvera une erreur à l'exécution.
+\\\\Il faut également porter une attention particulière sur le fait qu'une conversion \verb?b = cast<B>(a)? donnera accès aux champs et méthodes de la classe B, mais les champs et méthodes de la classe d'origine de l'objet a ne seront pas accessibles à B.
+\\- instanceof : l'expression instance of s'utilise ainsi : \verb?a? \verb?instanceof? \verb?B? où a est un objet (ou l'expression null) et B un type de classe. L'expression vaut \verb?true? si la classe de a hérite de B, et \verb?false? sinon.
+\\- equals : cette méthode de la classe Object est équivalent à l'opérateur \verb?==?, mais il est possible de la redéfinir lors de la déclaration d'une classe.\\
+\\- sin : cette méthode de la classe Math renvoie le sinus du nombre donné en argument (entier ou flottant) en radians. Une précision d'au moins $7$ chiffres significatifs
+sera obtenue entre -100 et 100 radians, au-delà, on peut s'attendre à une perte de précision.\\
+\\- cos : cette méthode de la classe Math renvoie le cosinus du nombre donné en argument (entier ou flottant) en radians. La précision est semblable à celle de sin.\\
+\\- asin : cette méthode de la classe Math renvoie l'arcsinus du nombre donné en argument (entier ou flottant), qui doit se trouver dans l'intervalle [-1, 1]. 
+Les calculs sont précis à $7$ chiffres significatifs.\\
+\\- atan : cette méthode de la classe Math renvoie l'arctangente du nombre donné en argument, une précision de $7$ chiffres significatifs sera obtenue sur tout 
+l'intervalle de définition des flottants.\\
+
+\subsection{Autres mots réservés du langage}
+Le langage Deca comporte également d'autres mots réservés. Ces mots ne peuvent pas être utilisés pour déclarer une variable, un objet ou une classe : \\
+\begin{itemize}
+\item if : permet de commencer un branchement conditionnel.
+\item elsif : permet de donner une alternative dans un branchement conditionnel.
+\item else : permet de donner une alternative par défaut dans un branchement conditionnel.
+\item extends : permet de déclarer une classe en spécifiant son extension.
+\item true : désigne le booléen valant vrai.
+\item false : désigne le booléen valant faux.
+\item class : permet de déclarer une classe.
+\item protected : permet de déclarer un champ de classe protégé, qui ne sera accessible que dans une classe héritant de la classe dans laquelle il est défini.
+\item return : permet de spécifier une valeur de retour pour une méthode de classe de type différent de void.
+\item this : expression représentant l'objet manipulé dans une classe.
+\item while : permet de commencer une boucle.
+\item null : représente l'absence d'adresse. Ne peut être affecté qu'à un objet. le type de null est considéré comme héritant de n'importe quel type de classe défini.
+\item new : permet d'instancier un objet.
+\end{itemize}
+\section{Limitations et erreurs recensées}
+
+\subsection{Limitations}
+La taille maximale d'une chaîne de caractères est 1024 caractères, guillemets 
+compris. Si une chaîne est trop grande, une erreur lexicale de débordement 
+sera levée. Pour afficher une telle chaîne, il suffit de la séparer
+en plusieurs arguments séparés par des virgules.
+
+La compilation de plus d'une centaine d'expressions imbriquées est susceptible
+de lever une erreur syntaxique de débordement.
+
+Les nombres manipulés doivent être compris entre $-2147483648$ et $2147483647$, sinon,
+une erreur lexicale de débordement sera levée.
+
+Les flottants sont compris entre $-3.40282346 \times 10^{38}$ et $3.40282346
+\times 10^{38}$, avec 7 chiffres significatifs.
+Le plus petit nombre au dessus de zéro se situe autour de $1.4 \times 10^{-45}$.
+
+La présence du caractère null dans un fichier lève une erreur lexicale, mais
+le numéro de ligne de l'erreur n'apparaît pas.
+
+Une opération de conversion d'un objet vers une classe héritée de la classe de cet objet sera acceptée par le compilateur,
+mais une erreur à l'exécution sera levée.
+
+Une opération arithmétique sur les entiers provoquant un dépassement de la capacité de représentation de la machine abstraite
+ne provoquera pas d'erreur à l'exécution, mais les valeurs obtenues seront erronées.
+\subsection{Erreurs recensées}
+
+Aucune erreur interne au compilateur n'a été recensée durant le développement de celui-ci. L'existence de telles erreurs 
+n'est cependant pas exclue.
+
+\section{Messages d'erreurs retournés}
+
+Cette section détaille les messages d'erreurs pouvant être retournés à 
+l'utilisateur, ainsi que les configurations qui les provoquent.
+\subsection{Erreurs d'usage du compilateur}
+Les erreurs qui suivent proviennent d'une utilisation de la commande decac ne correspondant pas au format attendu.\\
+\lstinline!decac: options non compatibles!\\
+Provoquée par une utilisation de decac non conforme aux spécifications.\\
+Par exemple : \lstinline!decac -p -v fichier.deca!\\
+
+\lstinline!decac: fichier X.deca inexistant! ou\\
+\lstinline!decac: extension.deca manquante! ou\\
+\lstinline!decac: un seul fichier autorisé!\\
+Le chemin vers le fichier à compiler doit être correct.\\
+Decac ne compile que les fichiers .deca, un par un.
+
+\lstinline!decac: valeur incorrecte pour l'option -r : X!\\
+\lstinline!decac: mauvais usage de l'option -r!\\
+L'option \lstinline!-r! attend un argument entier compris entre 4 et 16.\\
+
+\lstinline!decac: flag invalide : -XXX!\\
+Provoquée par l'utilisation d'une option inexistante. Les seules options 
+possibles sont listées dans la section Options.
+
+\subsection{Erreurs de lexicographie}
+Ces erreurs proviennent du fichier donné en argument à Decac. Le nombre qui apparaît
+correspond au numéro de la ligne qui provoque une erreur.
+
+\lstinline!Ligne X : Erreur lexicale, débordement!\\
+Un entier hors des limites
+précisées dans Limitations ou une chaîne de plus de
+1024 caractères a été repéré dans le fichier .deca.\\
+
+\lstinline!Ligne ? : Erreur lexicale, le caractère null est présent quelque part dans le fichier.!\\
+Le caractère null est présent dans le fichier
+donné à compiler, il ne s'agit probablement pas d'un fichier Deca correct.\\
+
+\lstinline!Ligne X : Erreur lexicale, caractère Y inattendu ou manquant!\\
+On trouve un caractère invalide (caractère
+non imprimable, caractères non acceptés dans les identifiants...)
+ou lorsqu'une chaîne est mal terminée.\\
+
+\subsection{Erreurs de syntaxe}
+Le message suivant apparaît lorsqu'il existe un problème de syntaxe à la ligne X,
+le fichier .decac est probablement mal écrit, il n'est pas correct pour ce langage.\\
+
+\lstinline!Ligne X : Erreur syntaxique, problème de syntaxe aux alentours de 'Y'!\\
+Il existe un problème de syntaxe dans le fichier
+(parenthèse manquante, instruction ou déclaration inattendue à cet endroit...)
+la chaîne Y permet de déterminer plus précisément l'endroit de l'erreur dans
+le fichier, cependant s'il s'agit d'un caractère manquant et non en trop, la
+chaine peut être vide.\\
+
+\subsection{Erreurs de vérification contextuelle}
+Les messages d'erreur suivants correspondent à des erreurs contextuelles, c'est à dire que
+les actions du programme ne sont pas autorisées bien qu'il soit correctement écrit. X indique
+le numéro de la ligne où l'erreur apparaît.\\
+\\
+\lstinline!Ligne X : Impossible d'hériter d'une super classe non déclarée auparavant.!\\
+Une classe tente d'hériter d'une classe non encore déclarée.
+L'héritage ne peut se faire que si la superclasse est déclarée avant la classe héritée.
+ La suite du message indique le nom des classes concernées.\\
+
+\lstinline!Ligne X : Impossible de déclarer une classe deux fois.!\\
+La classe déclarée à la ligne X l'a déjà été, il est impossible
+de redéfinir une classe. La suite du message indique la classe concernée.\\
+
+\lstinline!Ligne X : Impossible de faire de la surcharge de méthode.!\\
+Ce cas de figure correspond à une tentative de redéfinition d'une méthode d'une super classe, mais
+avec des paramètres différents. La surcharge de méthode n'est pas autorisée dans le langage Deca.
+La suite du message indique le nom de la classe concernée.\\
+
+\lstinline!Ligne X : La méthode héritée n'a pas le bon type de retour.!\\
+Lors de la redéfinition d'une méthode de la superclasse, le type
+de retour de la nouvelle méthode n'est pas un sous-type de celui de la méthode héritée. La suite
+du message indique de quelle méthode il s'agit.\\
+
+\lstinline!Ligne X : Le champ Y existe déjà !
+\lstinline!dans une super classe et n'est pas un champ.!\\
+Un champ Y est déclaré dans une classe alors qu'une méthode nommée Y existe
+déjà dans une de ses super-classes.\\
+
+\lstinline!Ligne X : Cette méthode existe déjà.!\\
+La méthode définie existe déjà dans cette classe.
+La suite du message indique le nom de cette méthode.\\
+
+\lstinline!Ligne X : Ce champ existe déjà.!\\
+Le champ défini existe déjà dans cette classe.
+La suite du message indique le nom de ce champ.\\
+
+\lstinline!Ligne X : Type non autorisé.!\\
+Le programme tente d'effectuer une opération sur une variable d'un
+type sur lequel on ne peut pas l'appliquer (comparaison d'infériorité sur un booléen ...).
+La suite du message indiquera s'il s'agit de l'opérande de droite ou de gauche.\\
+
+\lstinline!Ligne X : Opération impossible.!\\
+Le programme Deca cherche à effectuer une opération (comparaison...)
+entre deux variables de types incompatibles pour cette opération.
+La suite du message indique de quels types il
+s'agit.\\
+
+\lstinline!Ligne X : Type inexistant.!\\
+Le type auquel le programme fait référence n'existe pas. La suite du message indique le nom
+du type concerné.\\
+
+\lstinline!Ligne X : Conversion impossible entre ces deux types.!\\
+Le programme tente d'effectuer une conversion d'une expression ne correspondant pas aux conversions autorisées par le langage.\\
+
+\lstinline!Ligne X : Types incompatibles pour l'affectation.!\\
+Le programme cherche à effectuer une affectation entre deux variables ou objets de types incompatibles.
+ Les types des deux variables sont précisés dans la suite.\\
+
+\lstinline!Ligne X : Impossible de créer cette variable.!\\
+La variable déclarée existe déjà, son nom est précisé dans la suite du message.\\
+
+\lstinline!Ligne X : Cette variable n'est pas définie.!\\
+La variable utilisée n'existe pas, son nom est précisé
+dans la suite du message.\\
+
+\lstinline!Ligne X : L'identifiant devrait être une classe.!\\
+Un objet est instancié à l'aide du mot réservé new, mais le constructeur utilisé n'est pas celui d'une classe existante.
+ L'identifiant concerné est précisé dans le reste du message.\\
+
+\lstinline!Ligne X : Cette méthode n'existe pas.!\\
+La méthode appelée n'existe pas pour la classe de l'objet sur
+lequel elle est appelée. La suite du message indique le nom de la méthode concernée.\\
+
+\lstinline!Ligne X : Un champ protégé ! \lstinline!n'est pas atteignable hors!
+\lstinline!de la classe où! \lstinline! il est défini.!\\
+Le champ utilisé est protégé et l'accès à ce champ ne se fait pas dans un cadre autorisé,
+c'est-à-dire à l'intérieur de la classe ou dans une classe en héritant.
+ Le nom de ce champ apparaît dans la suite du message.\\
+
+\lstinline!Ligne X : Ce champ n'existe pas.!\\
+Le champ utilisé n'existe pas pour la classe de l'objet sur
+lequel il est appelé. La suite du message indique le nom du champ concerné.\\
+
+\lstinline!Ligne X : Le mot clé! \lstinline! 'this' ne doit pas être appelé!
+\lstinline!dans le bloc principal.!\\
+L'expression \verb?this? est présente dans le bloc principal du programme. \verb?this? fait référence à la classe
+dans laquelle il se trouve et doit donc être utilisé dans le corps d'une classe.\\
+
+\lstinline!Ligne X : Le mot clé!\lstinline! 'return' ne doit pas être appelé!
+\lstinline!dans le bloc principal.!\\
+Le mot réservé \verb?return? est présent dans le bloc principal du programme. \verb?return? ne doit être utilisé qu'à
+l'intérieur d'une méthode supposée retourner n'importe quel autre type que void, et en particulier
+jamais dans le bloc principal.\\
+
+\lstinline!Ligne X : Paramètres incorrects.!\\
+Lors de l'appel à une méthode, il n'y a pas le bon nombre de paramètres.\\
+
+\subsubsection{Autres Erreurs}
+\lstinline!Ligne X : Warning.!\\
+Si les avertissements sont demandés, signale que le programme effectue une action
+susceptible de provoquer un comportement différent de celui voulu à l'exécution, mais
+qui ne provoque pas d'erreur de compilation.\\
+
+\lstinline!Ligne X : Erreur inconnue.!\\
+Ceci indique que le compilateur a rencontré une erreur interne.\\
+
+\subsection{Erreurs à l'exécution}
+Cette catégorie rassemble les erreurs susceptibles d'être levées à l'exécution du programme assembleur généré.\\
+Attention, certaines erreurs de programmation, en particulier l'accès à une variable non
+initialisée, peuvent provoquer un comportement indéfini.\\
+
+\lstinline!Erreur : pile_pleine!\\
+La pile est remplie au maximum, ceci peut arriver par exemple si trop d'opérations sont demandées avant de pouvoir évaluer un résultat.\\
+
+\lstinline!Erreur : tas_plein!\\
+Le tas est plein, ceci peut arriver si trop d'objets sont instanciés ou s'ils sont trop volumineux.\\
+
+\lstinline!Erreur : asin_argument_incorrect!\\
+L'argument passé en paramètre de la fonction asin ne se trouve pas entre -1 et 1.\\
+
+\lstinline!Erreur : division_par_zero!\\
+Le programme tente de diviser par zéro ou par un nombre suffisamment petit pour être approximé à zéro.\\
+
+\lstinline!Erreur : debordement_flottant!\\
+Un des flottants manipulés par le programme n'est pas représentable par la norme IEEE754 en 32 bits (flottants en simple précision).\\
+
+\lstinline!Erreur : pas_de_return_rencontre!\\
+Une des méthodes supposée retourner autre chose qu'un type \verb?void? ne comporte pas d'instruction \verb?return?.\\
+
+\lstinline!Erreur : erreur_conversion_classe!\\
+Tentative de conversion d'un objet en un sous-type de son type actuel, ceci est correct contextuellement mais impossible.\\
+
+\lstinline!Erreur : debordement_conversion_entier!\\
+Un des entiers manipulés par le programme dépasse les bornes des entiers acceptés.\\
+
+\section{Exemples d'utilisation}
+
+Voici un fichier source cond0.deca et le fichier cond0.ass généré avec
+\lstinline!decac -n cond0.deca! (on a volontairement omis de recopier le code
+des classes Object et Math pour la lisibilité)
+\begin{verbatim}
+cond0.deca :
+// Description:
+//    tests conditionnelle
+//
+// Resultats:
+//    ok
+// 
+// Cree le 01/01/2013
+
+{
+   if (1 >= 0) {
+      println("ok"); 
+   } else { 
+      println("erreur");
+   }
+}
+
+cond0.ass
+Programme_principal :
+     ADDSP #8                          ; Réservation de l'espace mémoire pour la table des méthodes et les variables globales
+; Initialisation de la table des méthodes de Object
+     LOAD #null, R0
+     STORE R0, 1 (GB)
+     LOAD code.Object.equals, R0
+     STORE R0, 2 (GB)
+; Initialisation de la table des méthodes de Math
+     LEA 1 (GB), R0
+     STORE R0, 3 (GB)
+     LOAD code.Object.equals, R0
+     STORE R0, 4 (GB)
+     LOAD code.Math.cos, R0
+     STORE R0, 5 (GB)
+     LOAD code.Math.sin, R0
+     STORE R0, 6 (GB)
+     LOAD code.Math.asin, R0
+     STORE R0, 7 (GB)
+     LOAD code.Math.atan, R0
+     STORE R0, 8 (GB)
+; Partie principale du code assembleur.
+; Déclaration des variables globales.
+; Bloc d'instructions principal
+; Ligne  10 : if
+; Ligne  10 : début de >= 
+     LOAD #1, R2
+     LOAD #0, R1
+     CMP R1, R2
+     BLT Sinon.2
+; Ligne  10 : fin de comparaison 
+     WSTR "ok"                         ; Ligne  11 : Print
+     WNL
+     BRA fin_if.1
+Sinon.2 :
+     WSTR "erreur"                     ; Ligne  13 : Print
+     WNL
+fin_if.1 :
+     HALT
+Erreurs :
+asin_argument_incorrect :
+     WSTR "Erreur : asin_argument_incorrect"
+     WNL
+     ERROR
+pas_de_return_rencontre :
+     WSTR "Erreur : pas_de_return_rencontre"
+     WNL
+     ERROR
+Classes :
+; ----------------------------------------------------------
+; ----------- Classe Object
+; ----------------------------------------------------------
+
+; Code de la classe Object
+
+; ----------------------------------------------------------
+; ----------- Classe Math
+; ----------------------------------------------------------
+
+; Code de la classe Math
+
+\end{verbatim}
+
+\end{document}
