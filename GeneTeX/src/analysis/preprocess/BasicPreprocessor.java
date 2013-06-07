@@ -20,7 +20,7 @@ public class BasicPreprocessor implements Preprocessor {
 	
 	/** Threshold above which a pixel is considered as colourful (blue). */
 	private static final int BLUE_THRESHOLD = 255;
-    
+
     /* ************************************************************************
      *                              CONSTRUCTORS   
      *                                                         * 
