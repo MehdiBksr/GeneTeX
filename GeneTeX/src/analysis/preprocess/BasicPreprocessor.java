@@ -10,9 +10,6 @@ public class BasicPreprocessor implements Preprocessor {
      *                              ATTRIBUTES                                * 
      ************************************************************************ */
 	
-	/** Unique instance. */
-	private static final BasicPreprocessor instance = new BasicPreprocessor();
-	
 	/** Threshold above which a pixel is considered as colourful (red). */
 	private static final int RED_THRESHOLD = 128;
 	
@@ -26,7 +23,7 @@ public class BasicPreprocessor implements Preprocessor {
      *                              CONSTRUCTORS                              * 
      ************************************************************************ */
 	
-	private BasicPreprocessor() {}
+	public BasicPreprocessor() {}
     
     /* ************************************************************************
      *                              METHODS                                   * 
@@ -50,20 +47,4 @@ public class BasicPreprocessor implements Preprocessor {
 		
 		return new PreprocessedImage(bin);
 	}
-    
-    /* ************************************************************************
-     *                          STATIC FUNCTIONS                              * 
-     ************************************************************************ */
-	
-	public static BasicPreprocessor getInstance() {
-		return instance;
-	}
-    
-    /* ************************************************************************
-     *                          PRIVATE FUNCTIONS                             * 
-     ************************************************************************ */
-    
-    /* ************************************************************************
-     *                              ACCESSORS                                 * 
-     ************************************************************************ */
 }

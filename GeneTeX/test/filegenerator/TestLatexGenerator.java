@@ -44,7 +44,7 @@ public class TestLatexGenerator {
 		pages.add(p);
 		pages.add(p);
 		
-		LatexGenerator.getInstance().generate(pages, "output.tex");
+		(new LatexGenerator()).generate(pages, "output.tex");
 	}
 
 }

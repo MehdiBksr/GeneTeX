@@ -22,18 +22,16 @@ public class LatexGenerator implements FileGenerator {
      *                              ATTRIBUTES                                * 
      ************************************************************************ */
 	
-	/** Unique instance. */
-	private static final LatexGenerator instance = new LatexGenerator();
 	/** BufferedWriter allowing to write in the output tex file */
 	private StringBuilder output = new StringBuilder();
-	
+	/** Line break (new line) constant */
 	private static final String LB = System.lineSeparator();
     
     /* ************************************************************************
      *                              CONSTRUCTORS                              * 
      ************************************************************************ */
 	
-	private LatexGenerator() {}
+	public LatexGenerator() {}
     
     /* ************************************************************************
      *                              METHODS                                   * 
@@ -62,14 +60,6 @@ public class LatexGenerator implements FileGenerator {
 		out.close();
 	}
     
-    /* ************************************************************************
-     *                          STATIC FUNCTIONS                              * 
-     ************************************************************************ */
-    
-	public static LatexGenerator getInstance() {
-		return instance;
-	}
-	
     /* ************************************************************************
      *                          PRIVATE FUNCTIONS                             * 
      ************************************************************************ */
@@ -167,8 +157,4 @@ public class LatexGenerator implements FileGenerator {
 		}
 	}
     
-    /* ************************************************************************
-     *                              ACCESSORS                                 * 
-     ************************************************************************ */
-
 }
