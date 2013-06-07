@@ -140,18 +140,35 @@ public class ArgumentHandler {
      *                              ACCESSORS                                 * 
      ************************************************************************ */
 	
+	/** Returns the name of the destination file *
+	 * 
+	 * @return the name of the destination file.
+	 */
 	public String getDestinationFile() {
 		return this.destinationFile;
 	}
 	
+	/** Returns the boolean saying if the verbose option is enabled *
+	 * 
+	 * @return the verbose boolean
+	 */
 	public boolean getVerbose() {
 		return this.verbose;
 	}
 	
+	/** Returns the boolean saying if the help option is enabled *
+	 * 
+	 * @return the help boolean
+	 */
 	public boolean getHelp() {
 		return this.help;
 	}
 	
+	/** Returns a vector containing the names of the source files, in the same order
+	 * than the order they have been specified in the command line.
+	 * 
+	 * @return a vector of String containing the names of the source files
+	 */
 	public Vector<String> getSourceFiles() {
 		return this.sourceFiles;
 	}

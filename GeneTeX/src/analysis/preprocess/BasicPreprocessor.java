@@ -56,7 +56,7 @@ public class BasicPreprocessor implements Preprocessor {
 				int r = (rgb >> 16) & 0xFF;
 				int g = (rgb >>  8) & 0xFF;
 				int b = (rgb      ) & 0xFF;
-				// whether or not this pixel is black (colourful)
+				// whether or not this pixel is black (colorful)
 				bin[i][j] =  (r < RED_THRESHOLD || g < GREEN_THRESHOLD 
 						|| b < BLUE_THRESHOLD);
 			}
