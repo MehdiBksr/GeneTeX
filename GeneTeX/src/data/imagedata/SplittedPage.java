@@ -5,7 +5,6 @@ import java.util.Vector;
 
 import data.Block;
 import data.Page;
-import data.contentdata.StructuredBlock;
 import error.data.BadInstanceException;
 
 public class SplittedPage extends Page {

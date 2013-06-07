@@ -21,7 +21,7 @@ import analysis.preprocess.Preprocessor;
 @SuppressWarnings("serial")
 public class JFrameBinarisedFile extends JFrame {
  
-	public JFrameBinarisedFile() {
+	public JFrameBinarisedFile(String fileName) {
 	   this.setTitle("java-buddy.blogspot.com");
 	   this.setSize(300, 200);
 	   this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -29,12 +29,12 @@ public class JFrameBinarisedFile extends JFrame {
 	   BufferedImage bufferedImage = null;
 	   try {
 	       bufferedImage = ImageLoader
-	       		.load("images\\ClassesDiagram.png");
+	       		.load(fileName);
 	   } catch (IOException ex) {
 	       Logger.getLogger(TestImageLoader.class.getName()).log(
 	       		Level.SEVERE, null, ex);
 	   }
-	   Preprocessor proc = BasicPreprocessor.getInstance();
+	   Preprocessor proc = new BasicPreprocessor();
 	   bufferedImage = toBI(proc.binarise(bufferedImage));
 	   JLabel jLabel = new JLabel(new ImageIcon(bufferedImage));
 	    
