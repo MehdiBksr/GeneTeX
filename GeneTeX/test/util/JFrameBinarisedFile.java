@@ -34,7 +34,7 @@ public class JFrameBinarisedFile extends JFrame {
 	       Logger.getLogger(TestImageLoader.class.getName()).log(
 	       		Level.SEVERE, null, ex);
 	   }
-	   Preprocessor proc = BasicPreprocessor.getInstance();
+	   Preprocessor proc = new BasicPreprocessor();
 	   bufferedImage = toBI(proc.binarise(bufferedImage));
 	   JLabel jLabel = new JLabel(new ImageIcon(bufferedImage));
 	    
