@@ -17,6 +17,9 @@ public class TestLatexGenerator {
 		StructuredBlock b 	= new StructuredBlock();
 		StructuredLine l 	= new StructuredLine();
 
+		l.addSymbol(new StructuredSymbol(Token.LOWER_CASE_PI, true));
+		l.addSymbol(new StructuredSymbol(Token.LOWER_CASE_RHO, true));
+		l.addSymbol(new StructuredSymbol(Token.LOWER_CASE_SIGMA, true));
 		l.addSymbol(new StructuredSymbol(Token.ZERO, false));
 		l.addSymbol(new StructuredSymbol(Token.ONE, false));
 		l.addSymbol(new StructuredSymbol(Token.TWO, false));
@@ -29,9 +32,7 @@ public class TestLatexGenerator {
 		l.addSymbol(new StructuredSymbol(Token.NINE, false));
 		l.addSymbol(new StructuredSymbol(Token.SPACE, false));
 		l.addSymbol(new StructuredSymbol(Token.LOWER_CASE_PI, true));
-		l.addSymbol(new StructuredSymbol(Token.SPACE, false));
 		l.addSymbol(new StructuredSymbol(Token.LOWER_CASE_RHO, true));
-		l.addSymbol(new StructuredSymbol(Token.SPACE, false));
 		l.addSymbol(new StructuredSymbol(Token.LOWER_CASE_SIGMA, true));
 
 		b.addLine(l);

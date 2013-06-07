@@ -25,7 +25,7 @@ public class LatexGenerator implements FileGenerator {
 	/** Unique instance. */
 	private static final LatexGenerator instance = new LatexGenerator();
 	/** BufferedWriter allowing to write in the output tex file */
-	private BufferedWriter out;
+	private StringBuilder output = new StringBuilder();
 	
 	private static final String LB = System.lineSeparator();
     
@@ -50,11 +50,15 @@ public class LatexGenerator implements FileGenerator {
 	public void generate(Collection<Page> pages, String destinationFileName) 
 			throws BadFileNameException, IOException, BadInstanceException {
 		
-		openOutputFile(destinationFileName);
+		BufferedWriter out = openFile(destinationFileName);
 		writeHeader();
 		writePages(pages);
 		writeFooter();
-		
+		// post-process the text to be written
+		replaceOccurrences("$$", "");
+		// put the content of the StringBuilder attribute into the dest. file
+		out.write(output.toString());
+		// flush and close
 		out.close();
 	}
     
@@ -70,7 +74,7 @@ public class LatexGenerator implements FileGenerator {
      *                          PRIVATE FUNCTIONS                             * 
      ************************************************************************ */
 	
-	private void openOutputFile(String destinationFileName) 
+	private BufferedWriter openFile(String destinationFileName) 
 			throws BadFileNameException {
 		
 		File f = new File(destinationFileName);
@@ -80,21 +84,21 @@ public class LatexGenerator implements FileGenerator {
 		}
 		
 		try {
-			out = new BufferedWriter(new FileWriter(f));
+			return new BufferedWriter(new FileWriter(f));
 		} catch (IOException e) {
 			throw new BadFileNameException(destinationFileName);
 		}
 	}
 	
 	private void writeHeader() throws IOException {
-		out.write("\\documentclass[11pt, a4paper, oneside]{report}" + LB + LB);
-		out.write("\\usepackage[french]{babel}" + LB);
-		out.write("\\usepackage[utf8]{inputenc}" + LB + LB);
-		out.write("\\begin{document}" + LB + LB);
+		output.append("\\documentclass[11pt, a4paper]{report}" + LB + LB);
+		output.append("\\usepackage[french]{babel}" + LB);
+		output.append("\\usepackage[utf8]{inputenc}" + LB + LB);
+		output.append("\\begin{document}" + LB + LB);
 	}
 	
 	private void writeFooter() throws IOException {
-		out.write("\\end{document}");
+		output.append("\\end{document}");
 	}
 	
 	private void writePages(Collection<Page> c) 
@@ -105,7 +109,7 @@ public class LatexGenerator implements FileGenerator {
 			Page p = pages.next();
 			writeBlocks(p);
 			if (pages.hasNext())
-				out.write("\\newpage" + LB + LB);
+				output.append("\\newpage" + LB + LB);
 		}
 	}
 	
@@ -114,9 +118,9 @@ public class LatexGenerator implements FileGenerator {
 		
 		while (blocks.hasNext()) {
 			Block b = blocks.next();
-			out.write("\\paragraph*{}" + LB + LB);
+			output.append("\\paragraph*{}" + LB + LB);
 			writeLines(b);
-			out.write(LB);
+			output.append(LB);
 		}
 	}
 	
@@ -127,8 +131,8 @@ public class LatexGenerator implements FileGenerator {
 			Line l = lines.next();
 			writeSymbols(l);
 			if (lines.hasNext())
-				out.write("\\\\");
-			out.write(LB);
+				output.append("\\\\");
+			output.append(LB);
 		}
 	}
 	
@@ -147,10 +151,19 @@ public class LatexGenerator implements FileGenerator {
 			StructuredSymbol current = (StructuredSymbol) s;
 			if (current.getMath())
 				// mathematical expression: should be put between dollars
-				out.write("$" + current.getToken().toLatex() + "$");
+				output.append("$" + current.getToken().toLatex() + "$");
 			else
 				// should not be put between dollars
-				out.write(current.getToken().toLatex());
+				output.append(current.getToken().toLatex());
+		}
+	}
+	
+	private void replaceOccurrences(String src, String replacement) {
+		int i = output.indexOf(src);
+
+		while (i != -1) {
+			output.replace(i, i + src.length(), replacement);
+			i = output.indexOf(src, i);
 		}
 	}
     
