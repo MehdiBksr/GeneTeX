@@ -1,11 +1,17 @@
 package data;
 
+/**
+ * This class represents an image after it has been treated by the preprocessor.
+ * 
+ * @author Marceau Thalgott
+ *
+ */
 public class PreprocessedImage {
 	
     /* ************************************************************************
      *                               ATTRIBUTES                               * 
      ************************************************************************ */
-	
+	/** The array representing the image */
 	private boolean[][] pixels;
 	
     /* ************************************************************************

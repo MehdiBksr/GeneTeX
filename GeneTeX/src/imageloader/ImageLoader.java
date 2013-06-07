@@ -6,6 +6,10 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+/** Simple class encapsulating the loading image methods given by Java.
+ * 
+ * @author Marceau Thalgott
+ *  */
 public class ImageLoader {
     
     /* ************************************************************************

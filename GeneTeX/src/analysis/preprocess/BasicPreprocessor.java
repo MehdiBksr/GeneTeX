@@ -4,6 +4,13 @@ import java.awt.image.BufferedImage;
 
 import data.PreprocessedImage;
 
+/** The preprocessor's role is to prepare the input image to be analyzed by the recognition system.
+ * In this basic version, it simply translates the image into a binary version : a pixel is colored (true) or
+ * empty (false). The conversion uses a threshold system, if the RGB values of a given pixel are under
+ * a given value, it will be converted to a colored pixel in the binarized version.
+ * @author Marceau Thalgott
+ *
+ */
 public class BasicPreprocessor implements Preprocessor {
 	
 	/* ************************************************************************
@@ -32,6 +39,13 @@ public class BasicPreprocessor implements Preprocessor {
      *                              METHODS                                   * 
      ************************************************************************ */
 	
+	/** This method turns a BufferedImage, which contains an array of pixels (using their
+	 * RGB values) into an array of booleans of the same dimensions. A pixel of the binarized image
+	 * will be colored (true) if its equivalent in the BufferedImage satisfies the given conditions.
+	 * 
+	 *  @param image The image to be converted.
+	 *  @return	a structure containing the array of booleans representing the image.
+	 */
 	public PreprocessedImage binarise(BufferedImage image) {
 		boolean[][] bin = new boolean[image.getWidth()][image.getHeight()];
 		

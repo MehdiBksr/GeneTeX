@@ -16,6 +16,13 @@ import data.contentdata.StructuredSymbol;
 import error.data.BadInstanceException;
 import error.filegenerator.BadFileNameException;
 
+/** The LaTeX file generator. It parses a StructuredPage and generates a LaTeX file
+ * which can be compiled and which contains a editable version of the text contained in the 
+ * input image.
+ * 
+ * @author Marceau Thalgott
+ *
+ */
 public class LatexGenerator implements FileGenerator {
 	
 	/* ************************************************************************
@@ -37,6 +44,7 @@ public class LatexGenerator implements FileGenerator {
      *                              METHODS                                   * 
      ************************************************************************ */
 	
+	/** Generates a LaTeX file for a single structured page. */
 	public void generate(Page p, String destinationFileName) 
 			throws BadFileNameException, IOException, BadInstanceException {
 		
@@ -45,6 +53,7 @@ public class LatexGenerator implements FileGenerator {
 		generate(v, destinationFileName);
 	}
 	
+	/** Generates a LaTeX file for a collection of structured pages, in the same order */
 	public void generate(Collection<Page> pages, String destinationFileName) 
 			throws BadFileNameException, IOException, BadInstanceException {
 		

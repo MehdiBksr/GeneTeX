@@ -10,6 +10,8 @@ import error.argumenthandler.UnknownArgumentException;
 /**
  * Class in form of a singleton storing source and/or destination files as well 
  * as options specified in the command line.
+ * 
+ * @author Marceau Thalgott
  */
 public class ArgumentHandler {
 	
