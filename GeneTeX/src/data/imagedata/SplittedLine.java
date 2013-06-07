@@ -13,8 +13,8 @@ public class SplittedLine extends Line {
 	 *                              ATTRIBUTES                                * 
 	 ************************************************************************ */
 	
-	private int firstPixelLine;
-	private int lastPixelLine;
+	private int firstPixelY;
+	private int lastPixelY;
 	
 	/* ************************************************************************
 	 *                              METHODS                                   * 
@@ -51,9 +51,14 @@ public class SplittedLine extends Line {
 	 *                             CONSTRUCTORS                               * 
 	 ************************************************************************ */
 	
+	public SplittedLine() { 
+		this.firstPixelY 	= 0;
+		this.lastPixelY 	= 0;
+	}
+	
 	public SplittedLine(int firstPixelLine, int lastPixelLine) {
-		this.firstPixelLine = firstPixelLine;
-		this.lastPixelLine = lastPixelLine;
+		this.firstPixelY 	= firstPixelLine;
+		this.lastPixelY 	= lastPixelLine;
 	}
 	
 	/* ************************************************************************
@@ -61,11 +66,11 @@ public class SplittedLine extends Line {
 	 ************************************************************************ */
 
 	public void setFirstPixelLine(int firstPixelLine) {
-		this.firstPixelLine = firstPixelLine;
+		this.firstPixelY = firstPixelLine;
 	}
 	
 	public void setLastPixelLine(int lastPixelLine) {
-		this.lastPixelLine = lastPixelLine;
+		this.lastPixelY = lastPixelLine;
 	}
 	
 	/* ************************************************************************
@@ -73,11 +78,11 @@ public class SplittedLine extends Line {
 	 ************************************************************************ */
 
 	public int getLastPixelLine() {
-		return lastPixelLine;
+		return lastPixelY;
 	}
 	
 	public int getFirstPixelLine() {
-		return firstPixelLine;
+		return firstPixelY;
 	}
 
 }

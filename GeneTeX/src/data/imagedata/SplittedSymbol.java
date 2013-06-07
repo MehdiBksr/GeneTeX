@@ -10,6 +10,9 @@ public class SplittedSymbol extends Symbol {
 
 	private boolean[][] binary;
 	
+	private int firstPixelX;
+	private int firstPixelY;
+	
     /* ************************************************************************
      *                              CONSTRUCTORS                              * 
      ************************************************************************ */
@@ -23,6 +26,12 @@ public class SplittedSymbol extends Symbol {
 	 */
 	public SplittedSymbol(boolean[][] binaryImage) {
 		this.setBinary(binaryImage);
+	}
+	
+	public SplittedSymbol(boolean[][] binaryImage, int x, int y) {
+		this.binary 		= binaryImage;
+		this.firstPixelX 	= x;
+		this.firstPixelY 	= y;
 	}
 	
     /* ************************************************************************
@@ -39,13 +48,25 @@ public class SplittedSymbol extends Symbol {
 	public boolean[][] getBinary() {
 		return binary;
 	}
-	
-    /* ************************************************************************
-     *                                MUTATORS                              * 
-     ************************************************************************ */
 
 	public void setBinary(boolean[][] binary) {
 		this.binary = binary;
+	}
+
+	public int getFirstPixelX() {
+		return firstPixelX;
+	}
+
+	public void setFirstPixelX(int firstPixelX) {
+		this.firstPixelX = firstPixelX;
+	}
+
+	public int getLastPixelX() {
+		return firstPixelY;
+	}
+
+	public void setLastPixelX(int lastPixelX) {
+		this.firstPixelY = lastPixelX;
 	}
 }
 	
