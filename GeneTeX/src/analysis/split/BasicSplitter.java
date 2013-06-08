@@ -125,7 +125,7 @@ public class BasicSplitter implements Splitter {
 		
 		System.out.println("getNextSymbol - x = " + x);
 		//look for the first non-empty column
-		while ((start_x < line[0].length) && columnEmpty(line, start_x)) {
+		while ((start_x < line.length) && columnEmpty(line, start_x)) {
 			
 			start_x++;
 		}
@@ -133,7 +133,7 @@ public class BasicSplitter implements Splitter {
 		System.out.println("getNextSymbol - start_x = " + start_x);
 		
 		//no column found, there is no more symbol in the line
-		if (start_x >= line[0].length) return null; 
+		if (start_x >= line.length) return null; 
 		
 		firstPixelX = start_x;
 		firstPixelY = 0;
