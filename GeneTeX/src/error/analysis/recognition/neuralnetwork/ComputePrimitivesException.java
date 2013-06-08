@@ -14,6 +14,6 @@ public class ComputePrimitivesException extends Exception {
 	
 	public ComputePrimitivesException(String mess) {
 		super(MessageFormat.format("{0}{1}",
-				ComputePrimitivesErrorMessages.NULL_ARGUMENT_MESSAGE, mess));
+				ComputePrimitivesErrorMessages.COMPUTE_PRIMITIVES_MESSAGE, mess));
 	}
 }

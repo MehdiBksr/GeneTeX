@@ -201,21 +201,23 @@ public class TestPrimitive {
 
 		for (int i=0; i<Primitive.standardSize; i++) {
 			float forwardExpectedValue = Primitive.standardSize;
-			float backwardExpectedValue = 0;
+			float backwardExpectedValue = -1;
 			//forwardExpectedValue = min(firstNewPixel(oldY)) for oldY in firstOldPixel(i)..lastOldPixel(i)
 			//backwardExpectedValue = max(lastNewPixel(oldY)) for oldY in firstOldPixel(i)..lastOldPixel(i)
 			int firstOldPixelX = (xSize*i)/Primitive.standardSize;
 			int lastOldPixelX = (int) Math.min(xSize,
 					Math.ceil((xSize*(i+1)) / (double)Primitive.standardSize)) - 1;
-			for (int oldY = firstOldPixelX; oldY <= lastOldPixelX; oldY++){
-				forwardExpectedValue = Math.min(forwardExpectedValue,
-						(Primitive.standardSize * oldY)/ySize);
-				backwardExpectedValue = Math.max(backwardExpectedValue,
-						(int) Math.min(Primitive.standardSize,
-								Math.ceil((Primitive.standardSize*(oldY+1)) / (double)ySize)) - 1);
+			if(firstOldPixelX<ySize){
+				for (int oldY = firstOldPixelX; oldY <= lastOldPixelX; oldY++){
+					forwardExpectedValue = Math.min(forwardExpectedValue,
+							(Primitive.standardSize * oldY)/ySize);
+					backwardExpectedValue = Math.max(backwardExpectedValue,
+							(int) Math.min(Primitive.standardSize,
+									Math.ceil((Primitive.standardSize*(oldY+1)) / (double)ySize)) - 1);
+				}
 			}
 			backwardExpectedValue = Primitive.standardSize - 1 - backwardExpectedValue;
-			
+
 			//downOutline
 			float val = p.getValue(initDown + i);
 			if (val != forwardExpectedValue){
@@ -231,23 +233,26 @@ public class TestPrimitive {
 						backwardExpectedValue + ".");
 			}
 
-			
-			
+
+
 			forwardExpectedValue = Primitive.standardSize;
-			backwardExpectedValue = 0;
+			backwardExpectedValue = -1;
 			//forwardExpectedValue = min(firstNewPixel(oldY)) for oldY in firstOldPixel(i)..lastOldPixel(i)
 			//backwardExpectedValue = max(lastNewPixel(oldY)) for oldY in firstOldPixel(i)..lastOldPixel(i)
 			int firstOldPixelY = (ySize*i)/Primitive.standardSize;
 			int lastOldPixelY = (int) Math.min(ySize,
 					Math.ceil((ySize*(i+1)) / (double)Primitive.standardSize)) - 1;
-			for (int oldX = firstOldPixelY; oldX <= lastOldPixelY; oldX++){
-				forwardExpectedValue = Math.min(forwardExpectedValue,
-						(Primitive.standardSize * oldX)/xSize);
-				backwardExpectedValue = Math.max(backwardExpectedValue,
-						(int) Math.min(Primitive.standardSize,
-								Math.ceil((Primitive.standardSize*(oldX+1)) / (double)xSize)) - 1);
+			if(firstOldPixelY<xSize){
+				for (int oldX = firstOldPixelY; oldX <= lastOldPixelY; oldX++){
+					forwardExpectedValue = Math.min(forwardExpectedValue,
+							(Primitive.standardSize * oldX)/xSize);
+					backwardExpectedValue = Math.max(backwardExpectedValue,
+							(int) Math.min(Primitive.standardSize,
+									Math.ceil((Primitive.standardSize*(oldX+1)) / (double)xSize)) - 1);
+				}
 			}
 			backwardExpectedValue = Primitive.standardSize - 1 - backwardExpectedValue;
+
 			//rightOutline
 			val = p.getValue(initRight + i);
 			if (val != forwardExpectedValue){
@@ -274,7 +279,6 @@ public class TestPrimitive {
 				pixels[i][j] = b;
 			}
 		}
-		//printBinaryImage(pixels);
 		return new SplittedSymbol(pixels);
 	}
 
@@ -291,7 +295,6 @@ public class TestPrimitive {
 			pixels[i][0] = b;
 			pixels[i][ySize-1] = b;
 		}
-		//printBinaryImage(pixels);
 		return new SplittedSymbol(pixels);
 	}
 
@@ -299,26 +302,30 @@ public class TestPrimitive {
 		boolean pixels[][] = new boolean[xSize][ySize];
 		for (int i=0; i<xSize;i++){
 			for (int j=0; j<ySize;j++){
+				if (i==j){
+					pixels[i][j] = b;
+				} else {
 				pixels[i][j] = !b;
+				}
 			}
-			pixels[i][i] = b;
 		}
-		//printBinaryImage(pixels);
 		return new SplittedSymbol(pixels);
 	}
 
-	
-	private void printBinaryImage(boolean img[][]){
-		for (int i=0; i<img.length; i++) {
-			for (int j=0; j<img.length; j++) {
-				if (img[i][j]) {
-					System.out.print("b");
-				} else {
-					System.out.print("w");
-				}
-			}
-			System.out.println();
-		}
-		System.out.println();
-	}
+
+/*
+ * 	private void printBinaryImage(boolean img[][]){
+ *		for (int i=0; i<img.length; i++) {
+ *			for (int j=0; j<img.length; j++) {
+ *				if (img[i][j]) {
+ *					System.out.print("b");
+ *				} else {
+ *					System.out.print("w");
+ *				}
+ *			}
+ *			System.out.println();
+ *		}
+ *		System.out.println();
+ *	}
+**/
 }

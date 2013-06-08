@@ -25,13 +25,13 @@ public class Primitive implements Layer {
 		return 2;
 	}
 	public static int getDownOutlineIndex(){
-		return 34;
+		return 2+Primitive.standardSize;
 	}
 	public static int getRightOutlineIndex(){
-		return 66;
+		return 2+2*Primitive.standardSize;
 	}
 	public static int getLeftOutlineIndex(){
-		return 98;
+		return 2+3*Primitive.standardSize;
 	}
 
 	public static String nameOfPrimitive(int index){
@@ -198,27 +198,13 @@ public class Primitive implements Layer {
 					" empty");
 		}
 
-		printBinaryImage(img.getBinary());
 		SplittedSymbol standardisedImage = this.standardisation(img);
-		printBinaryImage(standardisedImage.getBinary());
 		this.computeUpOutline(standardisedImage);
 		this.computeDownOutline(standardisedImage);
 		this.computeRightOutline(standardisedImage);
 		this.computeLeftOutline(standardisedImage);
 	}
-	private void printBinaryImage(boolean img[][]){
-		for (int i=0; i<img.length; i++) {
-			for (int j=0; j<img.length; j++) {
-				if (img[i][j]) {
-					System.out.print("b");
-				} else {
-					System.out.print("w");
-				}
-			}
-			System.out.println();
-		}
-		System.out.println();
-	}
+	
 	/* ************************************************************************
 	 *                          PRIVATE FUNCTIONS                             * 
 	 ************************************************************************ */
@@ -250,7 +236,7 @@ public class Primitive implements Layer {
 		for (int oldPixelX = firstOldPixelX; oldPixelX <= lastOldPixelX;
 				oldPixelX++) {
 
-			int firstOldPixelY = (oldImg.length * newPixelY)/Primitive.standardSize;
+			int firstOldPixelY = (oldImg[oldPixelX].length * newPixelY)/Primitive.standardSize;
 			int lastOldPixelY = (int) Math.min(oldImg[oldPixelX].length,
 					Math.ceil((oldImg[oldPixelX].length*(newPixelY+1)) /
 							(double)Primitive.standardSize)) - 1;
@@ -314,6 +300,21 @@ public class Primitive implements Layer {
 		}
 	}
 
+//	private void printBinaryImage(boolean img[][]){
+//	for (int i=0; i<img.length; i++) {
+//		for (int j=0; j<img[i].length; j++) {
+//			if (img[i][j]) {
+//				System.out.print("b");
+//			} else {
+//				System.out.print("w");
+//			}
+//		}
+//		System.out.println();
+//	}
+//	System.out.println();
+//}
+
+	
 	/* ************************************************************************
 	 *                              ACCESSORS                                 * 
 	 ************************************************************************ */
