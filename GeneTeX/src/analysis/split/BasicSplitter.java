@@ -75,7 +75,7 @@ public class BasicSplitter implements Splitter {
 		
 		
 		// no new line in the page
-		if (start_y == page[0].length) return null;
+		if (start_y >= page[0].length) return null;
 		
 		while ((length_y + start_y < page[0].length) && !lineEmpty(page, length_y + start_y))
 			length_y++;
