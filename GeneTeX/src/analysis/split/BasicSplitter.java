@@ -125,26 +125,35 @@ public class BasicSplitter implements Splitter {
 		
 		System.out.println("getNextSymbol - x = " + x);
 		//look for the first non-empty column
-		while (columnEmpty(line, start_x) && (x < line[0].length)) start_x++;
+		while ((start_x < line[0].length) && columnEmpty(line, start_x)) {
+			
+			start_x++;
+		}
 		
 		System.out.println("getNextSymbol - start_x = " + start_x);
 		
 		//no column found, there is no more symbol in the line
-		if (x == line[0].length) return null; 
+		if (x >= line[0].length) return null; 
 		
 		firstPixelX = start_x;
 		firstPixelY = 0;
 		
 		//finding the end of the column
-		while (!columnEmpty(line, start_x + length_x) && (start_x + length_x < line[0].length))
+		while (!columnEmpty(line, start_x + length_x) && (start_x + length_x < line.length))
 			length_x++;
 		
-		if (length_x == 0) return null;
+		System.out.println("getNextSymbol - length_x = " + length_x);
+
+		
+		if (length_x == 0) {
+			System.out.println("DUH");
+			return null;
+		}
 		
 		//copying the sub-array containing the symbol
 		boolean[][] symbol = new boolean[length_x][line[0].length];
 		for (int i = 0; i < symbol.length; i++) {
-			System.arraycopy(line[start_x+i], 0, symbol[i], 0, line[0].length - 1);
+			System.arraycopy(line[start_x+i], 0, symbol[i], 0, line[0].length);
 		}
 		
 		SplittedSymbol s = new SplittedSymbol(symbol, firstPixelX, firstPixelY);
