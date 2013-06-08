@@ -21,9 +21,7 @@ public class BasicSplitter implements Splitter {
 		
 		int y = 0;
 		SplittedBlock b = new SplittedBlock();
-		System.out.println("getNextLine begin");
 		SplittedLine l 	= getNextLine(preprocessedPage.getPixels(), y);
-		System.out.println("getNextLine end");
 		SplittedPage p 	= new SplittedPage();
 		
 		while (l != null) {			
@@ -40,7 +38,6 @@ public class BasicSplitter implements Splitter {
 		try {
 			p.addBlock(b);
 		} catch (BadInstanceException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -64,24 +61,14 @@ public class BasicSplitter implements Splitter {
 		// true length of the line (from the starting position) 
 		int length_y = 0;
 		
-		System.out.println("start_y before = " + start_y);
-
 		// get the length and starting y position of the current line
 		while (start_y < page[0].length && lineEmpty(page, start_y))
 			start_y++;
-		
-		System.out.println("start_y after = " + start_y);
-
-		
-		
-		// no new line in the page
+		// end of the page: no new line in the page
 		if (start_y >= page[0].length) return null;
 		
 		while ((length_y + start_y < page[0].length) && !lineEmpty(page, length_y + start_y))
 			length_y++;
-		
-		System.out.println("length_y = " + length_y);
-
 		
 		if (length_y == 0)
 			// no new exploitable line, end of the page
@@ -95,22 +82,19 @@ public class BasicSplitter implements Splitter {
 			System.arraycopy(page[i], start_y, line[i], 0, length_y - 1);
 		}
 		
-		System.out.println("end of sub-array loop");
-
-		System.out.println("getNextSymbol start");
 		s = getNextSymbol(line, x);
-		System.out.println("getNextSymbol end");
+		s.setFirstPixelY(start_y);
 		while (s != null) {
 			
 			try {
 				l.addSymbol(s);
 			} catch (BadInstanceException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
 			x = s.getLastPixelX() + 2;
 			s = getNextSymbol(line, x);
+			s.setFirstPixelY(start_y);
 		}
 		
 		return l;
@@ -120,33 +104,18 @@ public class BasicSplitter implements Splitter {
 		
 		int start_x = x;
 		int length_x = 0;
-		int firstPixelX;
-		int firstPixelY;
 		
-		System.out.println("getNextSymbol - x = " + x);
 		//look for the first non-empty column
-		while ((start_x < line.length) && columnEmpty(line, start_x)) {
-			
+		while ((start_x < line.length) && columnEmpty(line, start_x))
 			start_x++;
-		}
-		
-		System.out.println("getNextSymbol - start_x = " + start_x);
-		
-		//no column found, there is no more symbol in the line
+		// end of the line: no new symbol in the line
 		if (start_x >= line.length) return null; 
-		
-		firstPixelX = start_x;
-		firstPixelY = 0;
 		
 		//finding the end of the column
 		while ((start_x + length_x < line.length) && !columnEmpty(line, start_x + length_x))
 			length_x++;
 		
-		System.out.println("getNextSymbol - length_x = " + length_x);
-
-		
 		if (length_x == 0) {
-			System.out.println("DUH");
 			return null;
 		}
 		
@@ -156,7 +125,7 @@ public class BasicSplitter implements Splitter {
 			System.arraycopy(line[start_x+i], 0, symbol[i], 0, line[0].length);
 		}
 		
-		SplittedSymbol s = new SplittedSymbol(symbol, firstPixelX, firstPixelY);
+		SplittedSymbol s = new SplittedSymbol(symbol, start_x, 0);
 		return s;
 	}
 
