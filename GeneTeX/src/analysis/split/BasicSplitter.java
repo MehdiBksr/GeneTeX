@@ -144,6 +144,36 @@ public class BasicSplitter implements Splitter {
 		}
 		return true;
 	}
+	
+	/**
+	 * Removes blank lines or columns at top, bottom, left and right sides of 
+	 * the binary table representing the current symbol.
+	 */
+	public void removeMargins(boolean[][] pixels) {
+		int start_x = 0, length_x = 0;
+		int start_y = 0, length_y = 0;
+		boolean[][] symbol;
+		
+		while (columnEmpty(pixels, start_x))
+			start_x++;
+		
+		while (start_x + length_x < pixels.length && 
+				!columnEmpty(pixels, start_x + length_x))
+			length_x++;
+		
+		while (lineEmpty(pixels, start_y))
+			start_y++;
+		
+		while (start_y + length_y < pixels[0].length &&
+				!lineEmpty(pixels, start_y + length_y))
+			length_y++;
+		
+		//copying the sub-array containing the symbol
+		symbol = new boolean[length_x][pixels[0].length];
+		for (int i = 0; i < symbol.length; i++) {
+			System.arraycopy(pixels[start_x + i], 0, symbol[i], start_y, length_y);
+		}
+	}
 
 }
 
