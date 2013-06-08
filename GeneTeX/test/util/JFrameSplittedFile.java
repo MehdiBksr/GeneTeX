@@ -53,8 +53,9 @@ public class JFrameSplittedFile extends JFrame {
 			while (itLine.hasNext()) {
 				Line currentLine = itLine.next();
 				Iterator<Symbol> itSymbol = currentLine.getIterator();
-				if (itSymbol.hasNext()) {
+				while (itSymbol.hasNext()) {
 					SplittedSymbol symbol = (SplittedSymbol)itSymbol.next();
+					symbol = (SplittedSymbol)itSymbol.next();
 					PreprocessedImage symbolArray = new PreprocessedImage(symbol.getBinary());
 					bufferedImage = toBI(symbolArray);
 					JLabel jLabel = new JLabel(new ImageIcon(bufferedImage));
@@ -62,9 +63,7 @@ public class JFrameSplittedFile extends JFrame {
 					JPanel jPanel = new JPanel();
 					jPanel.add(jLabel);
 					this.add(jPanel);
-				} else {
-					System.out.println("No symbol !");
-				}
+				} 
 			}
 		}
 		

@@ -100,7 +100,7 @@ public class BasicSplitter implements Splitter {
 		System.out.println("getNextSymbol start");
 		s = getNextSymbol(line, x);
 		System.out.println("getNextSymbol end");
-		//while (s != null) {
+		while (s != null) {
 			
 			try {
 				l.addSymbol(s);
@@ -110,10 +110,8 @@ public class BasicSplitter implements Splitter {
 			}
 			
 			x = s.getLastPixelX() + 2;
-			System.out.println("getNextSymbol start, x = " + x);
-			//s = getNextSymbol(line, x);
-			System.out.println("getNextSymbol end, x = " + x);
-		//}
+			s = getNextSymbol(line, x);
+		}
 		
 		return l;
 	}
