@@ -2,6 +2,7 @@ package error.analysis.recognition.neuralnetwork;
 
 import java.text.MessageFormat;
 
+@SuppressWarnings("serial")
 public class NeuronException extends Exception {
 
 	/* ************************************************************************

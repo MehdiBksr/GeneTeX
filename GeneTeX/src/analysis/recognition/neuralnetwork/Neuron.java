@@ -30,8 +30,10 @@ public class Neuron {
 
 	public Neuron(float synapticWeights[]) throws NeuronException{
 		this.value = 0;
-		if (synapticWeights.length == 0){
-			throw new NeuronException("In call to the constructor of Neuron(float[]), the");
+		if (synapticWeights==null || synapticWeights.length==0){
+			throw new NeuronException("In call to the constructor of " +
+					"Neuron(float[] synapticsWeights), the parameter is null" +
+					" or of size 0.");
 		}
 		this.synapticWeights = synapticWeights;
 	}
@@ -40,7 +42,16 @@ public class Neuron {
      *                              METHODS                                   * 
      ************************************************************************ */
 
-	public void computeValue(Layer previousLayer){
+	public void computeValue(Layer previousLayer) throws NeuronException{
+		if (previousLayer == null) {
+			throw new NeuronException("In call to function" +
+					" neuron.computeValue(Layer), the parameter is null.");
+		}
+		if (previousLayer.size() + 1 != this.synapticWeights.length){
+			throw new NeuronException("In call to function" +
+					" neuron.computeValue(Layer), the parameter is not " +
+					"synapticWeights.length - 1.");
+		}
 		this.value = this.activationFunction(
 				this.cartesianProduct(previousLayer));
 	}
@@ -62,8 +73,11 @@ public class Neuron {
 	}
 	
 	private float cartesianProduct(Layer previousLayer){
-		float res = 0;
-		// TODO Auto-generated method stub
+		int size = previousLayer.size();
+		float res = -this.synapticWeights[size];
+		for (int i=0; i<size; i++) {
+			res += this.synapticWeights[i]*previousLayer.getValue(i);
+		}
 		return res;
 	}
     /* ************************************************************************
