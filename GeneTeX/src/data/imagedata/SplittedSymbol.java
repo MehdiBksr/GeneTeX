@@ -41,12 +41,12 @@ public class SplittedSymbol extends Symbol {
 	/**
 	 * Returns the image of the symbol as an array of boolean values.
 	 * The array represents the image of the symbol. A boolean value is true if
-	 * the pixel is colorful, false if it is in the background color (white).
+	 * the pixel is colourful, false if it is in the background colour (white).
 	 * 
 	 * @return The image as an array of boolean
 	 */
 	public boolean[][] getBinary() {
-		return binary;
+		return this.binary;
 	}
 
 	public void setBinary(boolean[][] binary) {
@@ -54,15 +54,31 @@ public class SplittedSymbol extends Symbol {
 	}
 
 	public int getFirstPixelX() {
-		return firstPixelX;
+		return this.firstPixelX;
 	}
 
-	public void setFirstPixelX(int firstPixelX) {
-		this.firstPixelX = firstPixelX;
+	public void setFirstPixelX(int x) {
+		this.firstPixelX = x;
 	}
+	
+	public int getFirstPixelY() {
+		return this.firstPixelY;
+	}
+    
+	public void setFirstPixelY(int y) {
+		this.firstPixelY = y;
+	}
+	
+    /* ************************************************************************
+     *                              METHODS                                   * 
+     ************************************************************************ */
 
 	public int getLastPixelX() {
-		return firstPixelX + binary.length - 1;
+		return this.firstPixelX + this.binary.length - 1;
+	}
+	
+	public int setLastPixelY() {
+		return this.firstPixelY + this.binary[0].length - 1;
 	}
 }
 	
