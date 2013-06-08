@@ -53,7 +53,7 @@ public class JFrameSplittedFile extends JFrame {
 			while (itLine.hasNext()) {
 				Line currentLine = itLine.next();
 				Iterator<Symbol> itSymbol = currentLine.getIterator();
-				while (itSymbol.hasNext()) {
+				if (itSymbol.hasNext()) {
 					SplittedSymbol symbol = (SplittedSymbol)itSymbol.next();
 					symbol = (SplittedSymbol)itSymbol.next();
 					PreprocessedImage symbolArray = new PreprocessedImage(symbol.getBinary());

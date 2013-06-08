@@ -62,7 +62,7 @@ public class SplittedSymbol extends Symbol {
 	}
 
 	public int getLastPixelX() {
-		return firstPixelY;
+		return firstPixelX + binary.length;
 	}
 
 	public void setLastPixelX(int lastPixelX) {
