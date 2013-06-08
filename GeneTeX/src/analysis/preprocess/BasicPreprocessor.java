@@ -20,13 +20,13 @@ public class BasicPreprocessor implements Preprocessor {
 	// To increase sensitivity, raise the threshold
 	
 	/** Threshold above which a pixel is considered as colourful (red). */
-	private static final int RED_THRESHOLD = 255;
+	private static final int RED_THRESHOLD = 128;
 	
 	/** Threshold above which a pixel is considered as colourful (green). */
-	private static final int GREEN_THRESHOLD = 255;
+	private static final int GREEN_THRESHOLD = 128;
 	
 	/** Threshold above which a pixel is considered as colourful (blue). */
-	private static final int BLUE_THRESHOLD = 255;
+	private static final int BLUE_THRESHOLD = 128;
 
     /* ************************************************************************
      *                              CONSTRUCTORS   

@@ -21,7 +21,7 @@ public class TestBasicSplitter {
 		    @Override
 		    public void run() {
 		        try {
-					jFrameSrc = new JFrameSplittedFile("images\\abc.png");
+					jFrameSrc = new JFrameSplittedFile("images\\testglobal.png");
 					jFrameSrc.setVisible(true);
 				} catch (BadInstanceException e) {
 					// TODO Auto-generated catch block

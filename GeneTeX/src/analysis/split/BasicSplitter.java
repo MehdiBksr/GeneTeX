@@ -83,7 +83,12 @@ public class BasicSplitter implements Splitter {
 		}
 		
 		s = getNextSymbol(line, x);
-		s.setFirstPixelY(start_y);
+		if (s != null) {
+			s.setFirstPixelY(start_y);
+			boolean[][] removedMargins = removeMargins(s.getBinary());
+			s.setBinary(removedMargins);
+		}
+		
 		while (s != null) {
 			
 			try {
@@ -94,7 +99,11 @@ public class BasicSplitter implements Splitter {
 			
 			x = s.getLastPixelX() + 2;
 			s = getNextSymbol(line, x);
-			s.setFirstPixelY(start_y);
+			if (s != null) {
+				s.setFirstPixelY(start_y);
+				boolean[][] removedMargins = removeMargins(s.getBinary());
+				s.setBinary(removedMargins);
+			}
 		}
 		
 		return l;
@@ -149,7 +158,7 @@ public class BasicSplitter implements Splitter {
 	 * Removes blank lines or columns at top, bottom, left and right sides of 
 	 * the binary table representing the current symbol.
 	 */
-	public void removeMargins(boolean[][] pixels) {
+	private boolean[][] removeMargins(boolean[][] pixels) {
 		int start_x = 0, length_x = 0;
 		int start_y = 0, length_y = 0;
 		boolean[][] symbol;
@@ -169,10 +178,12 @@ public class BasicSplitter implements Splitter {
 			length_y++;
 		
 		//copying the sub-array containing the symbol
-		symbol = new boolean[length_x][pixels[0].length];
+		symbol = new boolean[length_x][length_y];
 		for (int i = 0; i < symbol.length; i++) {
-			System.arraycopy(pixels[start_x + i], 0, symbol[i], start_y, length_y);
+			System.arraycopy(pixels[i], start_y, symbol[i], 0, length_y);
 		}
+		
+		return symbol;
 	}
 
 }

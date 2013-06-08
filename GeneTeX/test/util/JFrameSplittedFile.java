@@ -50,12 +50,11 @@ public class JFrameSplittedFile extends JFrame {
 		while (itBlock.hasNext()) {
 			Block currentBlock = itBlock.next();
 			Iterator<Line> itLine = currentBlock.getIterator();
-			while (itLine.hasNext()) {
+			if (itLine.hasNext()) {
 				Line currentLine = itLine.next();
 				Iterator<Symbol> itSymbol = currentLine.getIterator();
 				if (itSymbol.hasNext()) {
 					SplittedSymbol symbol = (SplittedSymbol)itSymbol.next();
-					symbol = (SplittedSymbol)itSymbol.next();
 					PreprocessedImage symbolArray = new PreprocessedImage(symbol.getBinary());
 					bufferedImage = toBI(symbolArray);
 					JLabel jLabel = new JLabel(new ImageIcon(bufferedImage));
