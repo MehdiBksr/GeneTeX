@@ -21,11 +21,12 @@ public class BasicSplitter implements Splitter {
 		
 		int y = 0;
 		SplittedBlock b = new SplittedBlock();
+		System.out.println("getNextLine begin");
 		SplittedLine l 	= getNextLine(preprocessedPage.getPixels(), y);
+		System.out.println("getNextLine end");
 		SplittedPage p 	= new SplittedPage();
 		
-		while (l != null) {
-			
+		while (l != null) {			
 			try {
 				b.addLine(l);
 			} catch (BadInstanceException e) {
@@ -63,12 +64,24 @@ public class BasicSplitter implements Splitter {
 		// true length of the line (from the starting position) 
 		int length_y = 0;
 		
+		System.out.println("start_y before = " + start_y);
+
 		// get the length and starting y position of the current line
-		while (lineEmpty(page, start_y))
+		while (lineEmpty(page, start_y) && start_y < page[0].length)
 			start_y++;
 		
-		while (!lineEmpty(page, length_y))
+		System.out.println("start_y after = " + start_y);
+
+		
+		
+		// no new line in the page
+		if (start_y == page[0].length) return null;
+		
+		while (!lineEmpty(page, length_y + start_y) && (length_y + start_y < page[0].length))
 			length_y++;
+		
+		System.out.println("length_y = " + length_y);
+
 		
 		if (length_y == 0)
 			// no new exploitable line, end of the page
@@ -77,11 +90,17 @@ public class BasicSplitter implements Splitter {
 		l = new SplittedLine(start_y, start_y + length_y - 1);
 		
 		// generate a sub-array containing the current line only
-		for (int i = 0; i < page.length; i++)
-			System.arraycopy(page[i], start_y, line[i], 0, i + length_y);
+		for (int i = 0; i < page.length; i++) {
+			line[i] = new boolean[length_y];
+			System.arraycopy(page[i], start_y, line[i], 0, length_y - 1);
+		}
 		
+		System.out.println("end of sub-array loop");
+
+		System.out.println("getNextSymbol start");
 		s = getNextSymbol(line, x);
-		while (s != null) {
+		System.out.println("getNextSymbol end");
+		//while (s != null) {
 			
 			try {
 				l.addSymbol(s);
@@ -91,15 +110,47 @@ public class BasicSplitter implements Splitter {
 			}
 			
 			x = s.getLastPixelX() + 2;
-			s = getNextSymbol(line, x);
-		}
+			System.out.println("getNextSymbol start, x = " + x);
+			//s = getNextSymbol(line, x);
+			System.out.println("getNextSymbol end, x = " + x);
+		//}
 		
 		return l;
 	}
 	
 	private SplittedSymbol getNextSymbol(boolean[][] line, int x) {
-		SplittedSymbol s;
-		return null;
+		
+		int start_x = x;
+		int length_x = 0;
+		int firstPixelX;
+		int firstPixelY;
+		
+		System.out.println("getNextSymbol - x = " + x);
+		//look for the first non-empty column
+		while (columnEmpty(line, start_x) && (x < line[0].length)) start_x++;
+		
+		System.out.println("getNextSymbol - start_x = " + start_x);
+		
+		//no column found, there is no more symbol in the line
+		if (x == line[0].length) return null; 
+		
+		firstPixelX = start_x;
+		firstPixelY = 0;
+		
+		//finding the end of the column
+		while (!columnEmpty(line, start_x + length_x) && (start_x + length_x < line[0].length))
+			length_x++;
+		
+		if (length_x == 0) return null;
+		
+		//copying the sub-array containing the symbol
+		boolean[][] symbol = new boolean[length_x][line[0].length];
+		for (int i = 0; i < symbol.length; i++) {
+			System.arraycopy(line[start_x+i], 0, symbol[i], 0, line[0].length - 1);
+		}
+		
+		SplittedSymbol s = new SplittedSymbol(symbol, firstPixelX, firstPixelY);
+		return s;
 	}
 
 	private boolean lineEmpty(boolean[][] pixels, int y) {
