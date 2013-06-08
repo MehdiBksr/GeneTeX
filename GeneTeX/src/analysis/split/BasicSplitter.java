@@ -67,7 +67,7 @@ public class BasicSplitter implements Splitter {
 		System.out.println("start_y before = " + start_y);
 
 		// get the length and starting y position of the current line
-		while (lineEmpty(page, start_y) && start_y < page[0].length)
+		while (start_y < page[0].length && lineEmpty(page, start_y))
 			start_y++;
 		
 		System.out.println("start_y after = " + start_y);
@@ -77,7 +77,7 @@ public class BasicSplitter implements Splitter {
 		// no new line in the page
 		if (start_y == page[0].length) return null;
 		
-		while (!lineEmpty(page, length_y + start_y) && (length_y + start_y < page[0].length))
+		while ((length_y + start_y < page[0].length) && !lineEmpty(page, length_y + start_y))
 			length_y++;
 		
 		System.out.println("length_y = " + length_y);
