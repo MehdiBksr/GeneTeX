@@ -1,6 +1,9 @@
 package analysis.recognition.neuralnetwork;
 
+import java.util.Iterator;
 import java.util.Vector;
+
+import error.analysis.recognition.neuralnetwork.NeuronException;
 
 public class NeuronLayer implements Layer {
 
@@ -20,11 +23,17 @@ public class NeuronLayer implements Layer {
 		this.neurons = new Vector<Neuron>();
 	}
 	
-    /* ************************************************************************
+	public NeuronLayer(Vector<Neuron> neurons) {
+		super();
+		this.neurons = neurons;
+	}
+
+	/* ************************************************************************
      *                              METHODS                                   * 
      ************************************************************************ */
 
 	/* structure modifications ************************************************/
+
 
 	public void addNeuron(Neuron n){
 		this.neurons.add(n);
@@ -38,8 +47,7 @@ public class NeuronLayer implements Layer {
 	 * @return number of neurons contained in the layer
 	 */
 	public int size() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.neurons.size();
 	}
 
 	/**
@@ -49,18 +57,26 @@ public class NeuronLayer implements Layer {
 	 * @return      value of the selected element (0 by default).
 	 */
 	public float getValue(int index) {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.neurons.get(index).getValue();
 	}
 	
 	@Override
 	public void resetValues() {
-		// TODO Auto-generated method stub
+		Iterator<Neuron> it = this.neurons.iterator();
+		while (it.hasNext()) {
+			it.next().resetValue();
+		}
 	}
 
-
-	public void computeNeuralValues(Layer l){
-		// TODO Auto-generated method stub
+	public void computeNeuralValues(Layer l) throws NeuronException{
+		if (l == null){
+			throw new NeuronException("In call to function" +
+					" layer.computeValues(Layer), the parameter is null.");
+		}
+		Iterator<Neuron> it = this.neurons.iterator();
+		while (it.hasNext()) {
+			it.next().computeValue(l);
+		}
 	}
 
 
