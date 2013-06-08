@@ -133,13 +133,13 @@ public class BasicSplitter implements Splitter {
 		System.out.println("getNextSymbol - start_x = " + start_x);
 		
 		//no column found, there is no more symbol in the line
-		if (x >= line[0].length) return null; 
+		if (start_x >= line[0].length) return null; 
 		
 		firstPixelX = start_x;
 		firstPixelY = 0;
 		
 		//finding the end of the column
-		while (!columnEmpty(line, start_x + length_x) && (start_x + length_x < line.length))
+		while ((start_x + length_x < line.length) && !columnEmpty(line, start_x + length_x))
 			length_x++;
 		
 		System.out.println("getNextSymbol - length_x = " + length_x);
