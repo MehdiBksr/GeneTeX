@@ -6,16 +6,13 @@ public class StructuredSymbol extends Symbol {
 	
 	/** The token this symbol represents. */
 	private Token t;
-	/** Whether this symbol is a mathematical symbol. */
-	private boolean math;
 	
 	public StructuredSymbol() {
 		super();
 	}
 	
-	public StructuredSymbol(Token t, boolean math) {
+	public StructuredSymbol(Token t) {
 		this.t 		= t;
-		this.math 	= math;
 	}
 	
 	public void setToken(Token t) {
@@ -26,12 +23,4 @@ public class StructuredSymbol extends Symbol {
 		return this.t;
 	}
 	
-	public void setMath(boolean math) {
-		this.math = math;
-	}
-	
-	public boolean getMath() {
-		return this.math;
-	}
-
 }

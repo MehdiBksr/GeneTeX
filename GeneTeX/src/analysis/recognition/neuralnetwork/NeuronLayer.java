@@ -60,6 +60,16 @@ public class NeuronLayer implements Layer {
 		return this.neurons.get(index).getValue();
 	}
 	
+	/**
+	 * Return the index-th neuron. If no element
+	 * corresponds to index, it throws an exception.
+	 * @param index an integer corresponding to an element.
+	 * @return      value of the selected element (0 by default).
+	 */
+	public Neuron getNeuron(int index) {
+		return this.neurons.get(index);
+	}
+
 	@Override
 	public void resetValues() {
 		Iterator<Neuron> it = this.neurons.iterator();
