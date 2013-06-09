@@ -53,7 +53,7 @@ public class Neuron {
 					"synapticWeights.length - 1.");
 		}
 		this.value = this.activationFunction(
-				this.cartesianProduct(previousLayer));
+				this.scalarProduct(previousLayer));
 	}
 
 	public void resetValue(){
@@ -68,14 +68,13 @@ public class Neuron {
 	private float activationFunction(float x){
 		// sigmoidal function of parameter beta > 0
 		double beta = 1.0;
-		beta = Math.max(Float.MIN_VALUE, beta);
 		return (float)(1.0/(1.0+Math.exp(-beta*x)));
 	}
 	
-	private float cartesianProduct(Layer previousLayer){
+	private float scalarProduct(Layer previousLayer){
 		int size = previousLayer.size();
 		float res = -this.synapticWeights[size];
-		for (int i=0; i<size; i++) {
+		for (int i = 0; i < size; i++) {
 			res += this.synapticWeights[i]*previousLayer.getValue(i);
 		}
 		return res;
