@@ -1,6 +1,3 @@
-/**
- * 
- */
 package error.analysis.recognition.neuralnetwork;
 
 import java.text.MessageFormat;
