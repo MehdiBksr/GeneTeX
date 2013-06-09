@@ -1,12 +1,10 @@
-/**
- * 
- */
 package error.analysis.recognition.neuralnetwork;
 
 import java.text.MessageFormat;
 
-/**
- * @author merlet
+/** Exception raised when an error occurs with the neural network.
+ * 
+ * @author Théo Merle
  *
  */
 @SuppressWarnings("serial")
