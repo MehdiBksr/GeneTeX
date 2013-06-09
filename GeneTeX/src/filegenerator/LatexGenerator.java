@@ -148,7 +148,7 @@ public class LatexGenerator implements FileGenerator {
 						StructuredSymbol.class);
 			
 			StructuredSymbol current = (StructuredSymbol) s;
-			if (current.getMath())
+			if (current.getToken().isMath())
 				// mathematical expression: should be put between dollars
 				output.append("$" + current.getToken().toLatex() + "$");
 			else

@@ -11,6 +11,7 @@ import error.analysis.recognition.neuralnetwork.NeuronException;
  * @author Théo Merle
  *
  */
+@SuppressWarnings("serial")
 public class NeuronLayer implements Layer {
 
 
@@ -60,16 +61,21 @@ public class NeuronLayer implements Layer {
 		return this.neurons.size();
 	}
 
-	/**
-	 * Return the value of the index-th neuron computed. If no element
-	 * corresponds to index, it returns 0.
-	 * @param index an integer corresponding to an element.
-	 * @return      value of the selected element (0 by default).
-	 */
+	
 	public float getValue(int index) {
 		return this.neurons.get(index).getValue();
 	}
 	
+	/**
+	 * Return the index-th neuron. If no element
+	 * corresponds to index, it throws an exception.
+	 * @param index an integer corresponding to an element.
+	 * @return      value of the selected element (0 by default).
+	 */
+	public Neuron getNeuron(int index) {
+		return this.neurons.get(index);
+	}
+
 	/** Resets the values of all the neurons in the layer, putting them
 	 * to 0.
 	 */

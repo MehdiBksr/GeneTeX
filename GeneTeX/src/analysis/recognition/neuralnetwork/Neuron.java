@@ -1,5 +1,6 @@
 package analysis.recognition.neuralnetwork;
 
+import java.io.Serializable;
 import java.util.Random;
 
 import error.analysis.recognition.neuralnetwork.NeuronException;
@@ -10,7 +11,10 @@ import error.analysis.recognition.neuralnetwork.NeuronException;
  * @author Théo Merle
  *
  */
-public class Neuron {
+
+@SuppressWarnings("serial")
+public class Neuron implements Serializable {
+
 	
 	/* ************************************************************************
      *                              ATTRIBUTES                                * 
@@ -40,6 +44,7 @@ public class Neuron {
 
 	public Neuron(float synapticWeights[]) throws NeuronException{
 		this.value = 0;
+		
 		if (synapticWeights==null || synapticWeights.length==0){
 			throw new NeuronException("In call to the constructor of " +
 					"Neuron(float[] synapticsWeights), the parameter is null" +

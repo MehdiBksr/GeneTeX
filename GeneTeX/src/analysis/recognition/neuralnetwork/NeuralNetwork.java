@@ -1,13 +1,18 @@
 package analysis.recognition.neuralnetwork;
 
+import java.io.Serializable;
+import java.util.Iterator;
 import java.util.Vector;
 
 import data.contentdata.StructuredSymbol;
 import data.contentdata.Token;
 import data.imagedata.SplittedSymbol;
+import error.analysis.recognition.neuralnetwork.ComputePrimitivesException;
 import error.analysis.recognition.neuralnetwork.NeuralNetworkException;
+import error.analysis.recognition.neuralnetwork.NeuronException;
 
-public class NeuralNetwork {
+@SuppressWarnings("serial")
+public class NeuralNetwork implements Serializable {
 	
 	/* ************************************************************************
      *                              ATTRIBUTES                                * 
@@ -54,9 +59,25 @@ public class NeuralNetwork {
 				new Neuron(this.primitives.size()));
 	}
 	
-	public StructuredSymbol recognise(SplittedSymbol symbol) {
-		// TODO Auto-generated method stub
-		return null;
+	public StructuredSymbol recognise(SplittedSymbol symbol)
+			throws ComputePrimitivesException, NeuronException {
+		this.primitives.computePrimitives(symbol);
+		Iterator<NeuronLayer> it = this.neuronLayers.iterator();
+		Layer previousLayer = this.primitives;
+		while (it.hasNext()) {
+			NeuronLayer currentLayer = it.next();
+			currentLayer.computeNeuralValues(previousLayer);
+			previousLayer = currentLayer;
+		}
+		this.outputLayer.computeNeuralValues(previousLayer);
+		OutputNeuron chosenNeuron = (OutputNeuron) this.outputLayer.getNeuron(0);
+		for (int i=1; i<this.outputLayer.size(); i++) {
+			Neuron currentNeuron = this.outputLayer.getNeuron(i);
+			if (currentNeuron.getValue() > chosenNeuron.getValue()) {
+				chosenNeuron = (OutputNeuron) currentNeuron;
+			}
+		}
+		return new StructuredSymbol(chosenNeuron.getToken());
 	}
 	
     /* ************************************************************************
