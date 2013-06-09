@@ -3,6 +3,7 @@ package analysis.recognition.neuralnetwork;
 import java.util.Vector;
 
 import data.contentdata.StructuredSymbol;
+import data.contentdata.Token;
 import data.imagedata.SplittedSymbol;
 import error.analysis.recognition.neuralnetwork.NeuralNetworkException;
 
@@ -16,15 +17,28 @@ public class NeuralNetwork {
 	
 	private Vector<NeuronLayer> neuronLayers;
 	
+	private NeuronLayer outputLayer;
+	
     /* ************************************************************************
      *                              CONSTRUCTORS                              * 
      ************************************************************************ */
     
-	public NeuralNetwork() {
+	public NeuralNetwork(int s) {
 		this.primitives = new Primitive();
 		this.neuronLayers = new Vector<NeuronLayer>();
-		this.neuronLayers.add(new NeuronLayer());
-		this.neuronLayers.add(new NeuronLayer());
+		
+		// hidden layer
+		NeuronLayer l = new NeuronLayer();
+		for (int i=0; i<s; i++) {
+			l.addNeuron(new Neuron(this.primitives.size()));
+		}
+		this.neuronLayers.add(l);
+
+		//filling of the output layer
+		this.outputLayer = new NeuronLayer();
+		for (Token t : Token.values()){
+			this.outputLayer.addNeuron(new OutputNeuron(s, t));
+		}
 	}
 	
     /* ************************************************************************
@@ -36,7 +50,8 @@ public class NeuralNetwork {
 			throw new NeuralNetworkException("In call to NeuralNetwork." +
 					"addNewNeuron(layerIndex), layerIndex is out of bound");
 		}
-//		this.neuronLayers.get(layerIndex).addNeuron(new Neuron(130));
+		this.neuronLayers.get(layerIndex).addNeuron(
+				new Neuron(this.primitives.size()));
 	}
 	
 	public StructuredSymbol recognise(SplittedSymbol symbol) {
