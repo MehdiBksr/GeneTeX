@@ -5,6 +5,7 @@ import java.util.Vector;
 
 import error.analysis.recognition.neuralnetwork.NeuronException;
 
+@SuppressWarnings("serial")
 public class NeuronLayer implements Layer {
 
 

@@ -1,10 +1,12 @@
 package analysis.recognition.neuralnetwork;
 
+import java.io.Serializable;
 import java.util.Random;
 
 import error.analysis.recognition.neuralnetwork.NeuronException;
 
-public class Neuron {
+@SuppressWarnings("serial")
+public class Neuron implements Serializable {
 	
 	/* ************************************************************************
      *                              ATTRIBUTES                                * 

@@ -1,5 +1,6 @@
 package analysis.recognition.neuralnetwork;
 
+import java.io.Serializable;
 import java.util.Iterator;
 import java.util.Vector;
 
@@ -10,7 +11,8 @@ import error.analysis.recognition.neuralnetwork.ComputePrimitivesException;
 import error.analysis.recognition.neuralnetwork.NeuralNetworkException;
 import error.analysis.recognition.neuralnetwork.NeuronException;
 
-public class NeuralNetwork {
+@SuppressWarnings("serial")
+public class NeuralNetwork implements Serializable {
 	
 	/* ************************************************************************
      *                              ATTRIBUTES                                * 

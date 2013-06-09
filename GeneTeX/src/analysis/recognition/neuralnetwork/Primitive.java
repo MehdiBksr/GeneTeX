@@ -11,6 +11,8 @@ import error.analysis.recognition.neuralnetwork.ComputePrimitivesException;
  * @author Mehdi Bouksara
  * @author Théo Merle
  */
+
+@SuppressWarnings("serial")
 public class Primitive implements Layer {
 
 	/* ************************************************************************

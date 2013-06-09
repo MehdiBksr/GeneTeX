@@ -3,6 +3,7 @@ package analysis.recognition.neuralnetwork;
 import data.contentdata.Token;
 import error.analysis.recognition.neuralnetwork.NeuronException;
 
+@SuppressWarnings("serial")
 public class OutputNeuron extends Neuron {
 
 	/* ************************************************************************

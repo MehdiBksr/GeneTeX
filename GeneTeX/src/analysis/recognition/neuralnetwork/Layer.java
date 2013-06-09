@@ -1,5 +1,7 @@
 package analysis.recognition.neuralnetwork;
 
+import java.io.Serializable;
+
 /**
  * The neural network is composed of layer. Each layer contains some elements.
  * 
@@ -7,7 +9,7 @@ package analysis.recognition.neuralnetwork;
  * @author Mehdi Bouksara
  * @author Théo Merle
  */
-public interface Layer {
+public interface Layer extends Serializable{
 	    
     /* ************************************************************************
      *                              METHODS                                   * 

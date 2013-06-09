@@ -1,6 +1,8 @@
 package data.contentdata;
 
-public enum Token {
+import java.io.Serializable;
+
+public enum Token implements Serializable{
 
     /* ************************************************************************
      *                              FIGURES                                   * 
