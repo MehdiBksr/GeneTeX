@@ -26,7 +26,7 @@ public class Neuron implements Serializable {
 		this.synapticWeights = new float[previousLayerSize + 1];
 		Random randGen = new Random();
 		for (int i=0; i<=previousLayerSize; i++) {
-			this.synapticWeights[i] = Math.abs(randGen.nextFloat());
+			this.synapticWeights[i] = randGen.nextFloat();
 		}
 	}
 
