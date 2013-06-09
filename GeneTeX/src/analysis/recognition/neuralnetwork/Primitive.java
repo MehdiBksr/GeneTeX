@@ -5,11 +5,10 @@ import error.analysis.recognition.neuralnetwork.ComputePrimitivesException;
 
 
 /**
- * This class stores the results of each primitive calculated from a imageData.
+ * This class stores the results of each primitive calculated from a imageData. Those values
+ * are the initial input values of the neural network.
  * 
- * @author Marceau Thalgott 
- * @author Mehdi Bouksara
- * @author ThÃ©o Merle
+ * @author Théo Merle
  */
 public class Primitive implements Layer {
 

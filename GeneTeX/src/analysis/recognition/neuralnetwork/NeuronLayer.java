@@ -5,6 +5,12 @@ import java.util.Vector;
 
 import error.analysis.recognition.neuralnetwork.NeuronException;
 
+/** This class represents a layer in the neural network. It is composed of a given number of neurons
+ * and can calculate output values using the output values of the previous layer.
+ * 
+ * @author Théo Merle
+ *
+ */
 public class NeuronLayer implements Layer {
 
 
@@ -13,6 +19,7 @@ public class NeuronLayer implements Layer {
      *                              ATTRIBUTES                                * 
      ************************************************************************ */
     
+	/** The neurons composing the layer */
 	private Vector<Neuron> neurons;
 	
     /* ************************************************************************
@@ -34,7 +41,10 @@ public class NeuronLayer implements Layer {
 
 	/* structure modifications ************************************************/
 
-
+/** Adds a neuron to the neuron layer
+ * 
+ * @param n the neuron to be added
+ */
 	public void addNeuron(Neuron n){
 		this.neurons.add(n);
 	}
@@ -60,6 +70,9 @@ public class NeuronLayer implements Layer {
 		return this.neurons.get(index).getValue();
 	}
 	
+	/** Resets the values of all the neurons in the layer, putting them
+	 * to 0.
+	 */
 	@Override
 	public void resetValues() {
 		Iterator<Neuron> it = this.neurons.iterator();
@@ -68,6 +81,12 @@ public class NeuronLayer implements Layer {
 		}
 	}
 
+	/** Calculates the values for the neurons in this layer using the values 
+	 * given by the previous layer.
+	 * 
+	 * @param l The previous layer in the neural network
+	 * @throws NeuronException
+	 */
 	public void computeNeuralValues(Layer l) throws NeuronException{
 		if (l == null){
 			throw new NeuronException("In call to function" +

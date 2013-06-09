@@ -4,14 +4,24 @@ import java.util.Random;
 
 import error.analysis.recognition.neuralnetwork.NeuronException;
 
+/** This class represents the neuron, it is the smallest unit in a neural network.
+ * It is composed of a value and of an array of synaptic weights used for computation of the value.
+ * 
+ * @author Théo Merle
+ *
+ */
 public class Neuron {
 	
 	/* ************************************************************************
      *                              ATTRIBUTES                                * 
      ************************************************************************ */
 
+	/** The value computed by the neuron. When nothing has been computed yet, its
+	 * value is 0.
+	 */
 	private float value;
 	
+	/** The synaptic weights of the neuron. */
 	private float synapticWeights[];
 	
 	
@@ -42,6 +52,12 @@ public class Neuron {
      *                              METHODS                                   * 
      ************************************************************************ */
 
+	/** Computes the value of the neuron using the values of the layer before the
+	 * one containing this neuron.
+	 * 
+	 * @param previousLayer The previous layer in the neural network.
+	 * @throws NeuronException
+	 */
 	public void computeValue(Layer previousLayer) throws NeuronException{
 		if (previousLayer == null) {
 			throw new NeuronException("In call to function" +
@@ -56,6 +72,7 @@ public class Neuron {
 				this.scalarProduct(previousLayer));
 	}
 
+	/** Resets the value of this neuron by putting it back to 0. */
 	public void resetValue(){
 		this.value = 0;
 	}
@@ -65,12 +82,23 @@ public class Neuron {
      *                          PRIVATE FUNCTIONS                             * 
      ************************************************************************ */
 
+	/** The activation function, allowing to get a non-linear measure on the input
+	 * image.
+	 * 
+	 * @param x The input value of the neuron
+	 * @return the value of the activation function for x
+	 */
 	private float activationFunction(float x){
 		// sigmoidal function of parameter beta > 0
 		double beta = 1.0;
 		return (float)(1.0/(1.0+Math.exp(-beta*x)));
 	}
 	
+	/** Calculates the linear combination of all the output values of
+	 * the previous layer.
+	 * @param previousLayer The previous layer in the neural network. 
+	 * @return The scalar product of those values.
+	 */
 	private float scalarProduct(Layer previousLayer){
 		int size = previousLayer.size();
 		float res = -this.synapticWeights[size];
@@ -82,7 +110,9 @@ public class Neuron {
     /* ************************************************************************
      *                              ACCESSORS                                 * 
      ************************************************************************ */
-
+	/**	Returns the current value of this neuron.
+	 * 
+	 * @return the value of the neuron. */
 	public float getValue() {
 		return value;
 	}
