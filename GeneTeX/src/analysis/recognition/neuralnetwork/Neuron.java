@@ -127,7 +127,7 @@ public class Neuron implements Serializable {
 	 */
 	private float activationFunction(float x){
 		// sigmoidal function of parameter beta > 0
-		double beta = 1.0;
+		double beta = 0.001;
 		return (float)(1.0/(1.0+Math.exp(-beta*x)));
 	}
 	

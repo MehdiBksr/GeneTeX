@@ -44,23 +44,23 @@
 			float squareGradientSum = 0;
 			float alpha = (float)1.1;
 			while (squareGradientSum >= (1/1000000000)*nbSamplesExamined) {
-				System.out.println("DADA");
+//				System.out.println("DADA");
 				System.out.println("Norme du gradient au carrï¿½ = " + 
 			squareGradientSum + ", seuil = " + 0.000001*nbSamplesExamined);
 				nbSamplesExamined = 0;
 				squareGradientSum = 0;
 				for (Token T : Token.values()) {
 					File dirName = new File("learningdata/" + T.getSampleDirectory());
-					System.out.println("Nom du dossier : " + dirName.getName());
+//					System.out.println("Nom du dossier : " + dirName.getName());
 					File[] samples = dirName.listFiles();
 					if (samples == null) {
-						System.out.println("Dossier inexistant");
+//						System.out.println("Dossier inexistant");
 						continue;
 					}
 					BufferedImage currentSample = null;
 					for (int i = 0; i < samples.length; i++) {
 						nbSamplesExamined++;
-						System.out.println("Nom du fichier : " + samples[i].getAbsolutePath());
+//						System.out.println("Nom du fichier : " + samples[i].getAbsolutePath());
 						currentSample = ImageLoader.load(samples[i].getAbsolutePath());
 						Preprocessor proc = new BasicPreprocessor();
 						PreprocessedImage binarizedSample = proc.binarise(currentSample);
@@ -68,11 +68,12 @@
 						network.recognise(currentSymbol);
 						squareGradientSum +=network.adaptSynapticWeights(T, alpha);
 					}
-					System.out.println("-------------------\n\n-------------------");
-					System.out.println("Nombre d'exemples analysés = " + nbSamplesExamined);
-					System.out.println("Gradient au carré total = " + squareGradientSum);
+//					System.out.println("-------------------\n\n-------------------");
+//					System.out.println("Nombre d'exemples analysï¿½s = " + nbSamplesExamined);
+//					System.out.println("Gradient au carrï¿½ total = " + squareGradientSum);
 					
 				}
+				System.out.println("Gradient au carrï¿½ total = " + squareGradientSum);
 	
 				FileOutputStream saveLearningData = null;
 				ObjectOutputStream saver = null;
