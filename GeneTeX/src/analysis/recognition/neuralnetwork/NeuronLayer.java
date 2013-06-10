@@ -4,11 +4,12 @@ import java.util.Iterator;
 import java.util.Vector;
 
 import error.analysis.recognition.neuralnetwork.NeuronException;
+import error.analysis.recognition.neuralnetwork.NeuronLayerException;
 
 /** This class represents a layer in the neural network. It is composed of a given number of neurons
  * and can calculate output values using the output values of the previous layer.
  * 
- * @author Théo Merle
+ * @author Thï¿½o Merle
  *
  */
 @SuppressWarnings("serial")
@@ -104,6 +105,58 @@ public class NeuronLayer implements Layer {
 		}
 	}
 
+	/** Adapt the synaptic weights of all neurons in this layer depending
+	 * on the values computed in the previous layer, the weighted deltas
+	 * computed by the next layer and the adaptation rate. 
+	 * 
+	 * @param previousLayer           The previous layer in the neural network.
+	 * @param nextLayerWeightedDeltas The weighted deltas from the next layer.
+	 * @param alpha                   The adaptation rate.
+	 * @throws NeuronException
+	 * @throws NeuronLayerException
+	 * @return The weighted deltas computed by this layer.
+	 */
+	public float[] adaptSynapticWeights(Layer previousLayer,
+			float[] nextLayerWeightedDeltas, float alpha) 
+					throws NeuronLayerException, NeuronException {
+		if (previousLayer == null) {
+			throw new NeuronLayerException("In call to" +
+					" neuronLayer.adaptSynapticWeights(previousLayer," +
+					" nextLayerWeightedDeltas, alpha), previousLayer is null.");
+		}
+		if (this.size()!=nextLayerWeightedDeltas.length) {
+			throw new NeuronLayerException("In call to" +
+					" neuronLayer.adaptSynapticWeights(previousLayer," +
+					" nextLayerWeightedDeltas, alpha), the current layer and" +
+					" the weighted deltas comnig from the next layer do not" +
+					" have the same size.");
+		}
+		
+		float weightedDeltas[] = new float[previousLayer.size()];
+		for (int i=0; i< weightedDeltas.length; i++){
+			weightedDeltas[i] = 0;
+		}
+		
+		Iterator<Neuron> it = this.neurons.iterator();
+		int i = 0;
+		while (it.hasNext()) {
+			Neuron currentNeuron = it.next();
+			float [] neuronWeightedDeltas = currentNeuron.adaptSynapticWeigths(
+					previousLayer, nextLayerWeightedDeltas[i], alpha);
+			if (neuronWeightedDeltas.length != weightedDeltas.length) {
+				throw new NeuronLayerException("In call to" +
+						" neuronLayer.adaptSynapticWeights(previousLayer," +
+						" nextLayerWeightedDeltas, alpha), a neuron returned" +
+						" the wrong number of weighted deltas.");
+			}
+			for (int j=0; j< weightedDeltas.length; j++){
+				weightedDeltas[j] += neuronWeightedDeltas[j];
+			}
+			i++;
+		}
+
+		return weightedDeltas;
+	}
 
 	/* ************************************************************************
      *                          PRIVATE FUNCTIONS                             * 

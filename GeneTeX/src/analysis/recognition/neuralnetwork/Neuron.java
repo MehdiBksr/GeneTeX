@@ -8,7 +8,7 @@ import error.analysis.recognition.neuralnetwork.NeuronException;
 /** This class represents the neuron, it is the smallest unit in a neural network.
  * It is composed of a value and of an array of synaptic weights used for computation of the value.
  * 
- * @author Théo Merle
+ * @author Thï¿½o Merle
  *
  */
 
@@ -23,10 +23,10 @@ public class Neuron implements Serializable {
 	/** The value computed by the neuron. When nothing has been computed yet, its
 	 * value is 0.
 	 */
-	private float value;
+	protected float value;
 	
 	/** The synaptic weights of the neuron. */
-	private float synapticWeights[];
+	protected float synapticWeights[];
 	
 	
     /* ************************************************************************
@@ -82,6 +82,33 @@ public class Neuron implements Serializable {
 		this.value = 0;
 	}
 	
+	/** Adapt the synaptic weights of this neuron depending on the input values
+	 *  from the previous layer, the weighted deltas from the next layer and
+	 *  the adaptation rate.
+	 * 
+	 * @param previousLayer          The previous layer in the neural network.
+	 * @param nextLayerWeightedDelta The weighted delta from the next Layer.
+	 * @param alpha                  The adaptation rate.
+	 * @throws NeuronException
+	 * @return The weighted deltas from this neuron.
+	 */
+	public float[] adaptSynapticWeigths(Layer previousLayer,
+			float nextLayerWeightedDelta, float alpha)
+					throws NeuronException{
+		if (this.synapticWeights.length != previousLayer.size() + 1) {
+			throw new NeuronException("In call to " +
+					"neuron.adaptSynapticWeigths, the size of the previous " +
+					"layer is not the number of synaptics weights minus 1.");
+		}
+		float delta = this.value*(1-this.value)*nextLayerWeightedDelta;
+		float[] resultingWeightedDeltas = new float[this.synapticWeights.length-1];
+		for (int i=0; i<resultingWeightedDeltas.length; i++) {
+			this.synapticWeights[i] -= alpha*delta*previousLayer.getValue(i);
+			resultingWeightedDeltas[i] = this.synapticWeights[i]*delta;
+		}
+		this.synapticWeights[this.synapticWeights.length] -= alpha*delta*-1;
+		return resultingWeightedDeltas;
+	}
 	
     /* ************************************************************************
      *                          PRIVATE FUNCTIONS                             * 
