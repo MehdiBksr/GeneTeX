@@ -61,7 +61,7 @@ public enum Token implements Serializable {
 	UPPER_CASE_E(false, "E", "Emaj"),
 	UPPER_CASE_F(false, "F", "Fmaj"),
 	UPPER_CASE_G(false, "G", "Gmaj"),
-	UPPER_CASE_H(false, "H", "Hmak"),
+	UPPER_CASE_H(false, "H", "Hmaj"),
 	UPPER_CASE_I(false, "I", "Imaj"),
 	UPPER_CASE_J(false, "J", "Jmaj"),
 	UPPER_CASE_K(false, "K", "Kmaj"),
