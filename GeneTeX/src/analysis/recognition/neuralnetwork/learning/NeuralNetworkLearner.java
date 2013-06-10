@@ -56,8 +56,8 @@
 					BufferedImage currentSample = null;
 					for (int i = 0; i < samples.length; i++) {
 						nbSamplesExamined++;
-						System.out.println("Nom du fichier : " + dirName + "\\" + samples[i].getName());
-						currentSample = ImageLoader.load(dirName + "\\" + samples[i].getName());
+						System.out.println("Nom du fichier : " + samples[i].getAbsolutePath());
+						currentSample = ImageLoader.load(samples[i].getAbsolutePath());
 						Preprocessor proc = new BasicPreprocessor();
 						PreprocessedImage binarizedSample = proc.binarise(currentSample);
 						SplittedSymbol currentSymbol = new SplittedSymbol(binarizedSample.getPixels(), 0, 0);
