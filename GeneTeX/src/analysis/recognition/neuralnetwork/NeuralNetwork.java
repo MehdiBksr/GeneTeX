@@ -120,7 +120,7 @@ public class NeuralNetwork implements Serializable {
 							outputNeuronIndex)).
 							adaptSynapticWeigths(previousLayer, expectedToken,
 									alpha);
-			if (weightedDeltas.length != neuronWeightedDeltas.length) {
+			if (weightedDeltas.length != neuronWeightedDeltas.length - 1) {
 				throw new NeuralNetworkException("In call to" +
 					" neuralnetwork.adaptSynapticWeights(expectedToken," +
 					" alpha), an output neuron returned the wrong number of " +
@@ -128,7 +128,8 @@ public class NeuralNetwork implements Serializable {
 			}
 			// update the weighted deltas for adaptation of hidden layer and
 			// the gradient norm of the quadratic error.
-			for (int i=0; i<weightedDeltas.length; i++) {
+			gradientNorm += weightedDeltas[weightedDeltas.length];
+			for (int i=0; i<weightedDeltas.length-1; i++) {
 				weightedDeltas[i] += neuronWeightedDeltas[i];
 				gradientNorm += neuronWeightedDeltas[i]*neuronWeightedDeltas[i];
 			}

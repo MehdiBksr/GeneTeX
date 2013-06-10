@@ -132,7 +132,7 @@ public class NeuronLayer implements Layer {
 					" have the same size.");
 		}
 		
-		float weightedDeltas[] = new float[previousLayer.size()];
+		float weightedDeltas[] = new float[previousLayer.size()+1];
 		for (int i=0; i< weightedDeltas.length; i++){
 			weightedDeltas[i] = 0;
 		}
@@ -149,8 +149,10 @@ public class NeuronLayer implements Layer {
 						" nextLayerWeightedDeltas, alpha), a neuron returned" +
 						" the wrong number of weighted deltas.");
 			}
-			for (int j=0; j< weightedDeltas.length; j++){
+			for (int j=0; j< weightedDeltas.length-1; j++){
 				weightedDeltas[j] += neuronWeightedDeltas[j];
+				weightedDeltas[weightedDeltas.length] +=
+						neuronWeightedDeltas[j]*neuronWeightedDeltas[j];
 			}
 			i++;
 		}
