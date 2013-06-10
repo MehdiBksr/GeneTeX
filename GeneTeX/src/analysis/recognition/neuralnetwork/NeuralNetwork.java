@@ -2,7 +2,8 @@ package analysis.recognition.neuralnetwork;
 
 import java.io.Serializable;
 import java.util.Iterator;
-import java.util.Vector;
+import java.util.LinkedList;
+import java.util.ListIterator;
 
 import data.contentdata.StructuredSymbol;
 import data.contentdata.Token;
@@ -10,6 +11,7 @@ import data.imagedata.SplittedSymbol;
 import error.analysis.recognition.neuralnetwork.ComputePrimitivesException;
 import error.analysis.recognition.neuralnetwork.NeuralNetworkException;
 import error.analysis.recognition.neuralnetwork.NeuronException;
+import error.analysis.recognition.neuralnetwork.NeuronLayerException;
 
 @SuppressWarnings("serial")
 public class NeuralNetwork implements Serializable {
@@ -20,7 +22,7 @@ public class NeuralNetwork implements Serializable {
     
 	private Primitive primitives;
 	
-	private Vector<NeuronLayer> neuronLayers;
+	private LinkedList<NeuronLayer> neuronLayers;
 	
 	private NeuronLayer outputLayer;
 	
@@ -30,7 +32,7 @@ public class NeuralNetwork implements Serializable {
     
 	public NeuralNetwork(int s) {
 		this.primitives = new Primitive();
-		this.neuronLayers = new Vector<NeuronLayer>();
+		this.neuronLayers = new LinkedList<NeuronLayer>();
 		
 		// hidden layer
 		NeuronLayer l = new NeuronLayer();
@@ -78,6 +80,76 @@ public class NeuralNetwork implements Serializable {
 			}
 		}
 		return new StructuredSymbol(chosenNeuron.getToken());
+	}
+	
+	/** Adapt the synaptic weights of all neurons in this neural network
+	 *  depending on the token expected and the adaptation rate.
+	 * 
+	 * @param expectedToken           The expected token.
+	 * @param alpha                   The adaptation rate.
+	 * @throws NeuronException
+	 * @throws NeuralNetworkException 
+	 * @throws NeuronLayerException
+	 * @return The squared norm of quadratic error's gradient.
+	 */
+	public float adaptSynapticWeights (Token expectedToken, float alpha)
+			throws NeuronException, NeuralNetworkException, NeuronLayerException {
+
+		// initialisation of gradientNorm, previousLayer and weightedDeltas
+		float gradientNorm = 0;
+		ListIterator<NeuronLayer> it = this.neuronLayers.listIterator();
+		Layer previousLayer;
+		if (it.hasPrevious()) {
+			previousLayer = it.previous();
+		} else {
+			previousLayer = this.primitives;
+		}
+		float weightedDeltas[] =
+				new float[previousLayer.size()];
+		for (int i=0; i< weightedDeltas.length; i++){
+			weightedDeltas[i] = 0;
+		}
+		
+		// adaptation of the output layer.
+		for(int outputNeuronIndex=0; outputNeuronIndex<this.outputLayer.size();
+				outputNeuronIndex++) {
+			//adapt the current output neuron and saves the corresponding
+			// gradient parts
+			float neuronWeightedDeltas[] =
+					((OutputNeuron)this.outputLayer.getNeuron(
+							outputNeuronIndex)).
+							adaptSynapticWeigths(previousLayer, expectedToken,
+									alpha);
+			if (weightedDeltas.length != neuronWeightedDeltas.length) {
+				throw new NeuralNetworkException("In call to" +
+					" neuralnetwork.adaptSynapticWeights(expectedToken," +
+					" alpha), an output neuron returned the wrong number of " +
+					"weighted deltas.");
+			}
+			// update the weighted deltas for adaptation of hidden layer and
+			// the gradient norm of the quadratic error.
+			for (int i=0; i<weightedDeltas.length; i++) {
+				weightedDeltas[i] += neuronWeightedDeltas[i];
+				gradientNorm += neuronWeightedDeltas[i]*neuronWeightedDeltas[i];
+			}
+		}
+
+		//adapt all hidden layer except the one having the primitives as input.
+		while (it.hasPrevious()) {
+			NeuronLayer currentlayer = (NeuronLayer) previousLayer;
+			previousLayer = it.previous();
+			weightedDeltas = currentlayer.adaptSynapticWeights(previousLayer,
+					weightedDeltas, alpha);
+		}
+		
+		//if there was hidden layer, adapt the one having the primitives as
+		// input.
+		if (previousLayer instanceof NeuronLayer) {
+			((NeuronLayer) previousLayer).adaptSynapticWeights(this.primitives,
+					weightedDeltas, alpha);
+		}
+		
+		return gradientNorm;
 	}
 	
     /* ************************************************************************

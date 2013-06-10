@@ -103,8 +103,8 @@ public class Neuron implements Serializable {
 		float delta = this.value*(1-this.value)*nextLayerWeightedDelta;
 		float[] resultingWeightedDeltas = new float[this.synapticWeights.length-1];
 		for (int i=0; i<resultingWeightedDeltas.length; i++) {
-			this.synapticWeights[i] -= alpha*delta*previousLayer.getValue(i);
 			resultingWeightedDeltas[i] = this.synapticWeights[i]*delta;
+			this.synapticWeights[i] -= alpha*delta*previousLayer.getValue(i);
 		}
 		this.synapticWeights[this.synapticWeights.length] -= alpha*delta*-1;
 		return resultingWeightedDeltas;

@@ -55,8 +55,8 @@ public class OutputNeuron extends Neuron {
 		float delta = this.value*(1-this.value)*(this.value - expectedValue);
 		float[] resultingWeightedDeltas = this.synapticWeights.clone();
 		for (int i=0; i<this.synapticWeights.length-1; i++) {
-			this.synapticWeights[i] -= alpha*delta*previousLayer.getValue(i);
 			resultingWeightedDeltas[i] *= delta;
+			this.synapticWeights[i] -= alpha*delta*previousLayer.getValue(i);
 		}
 		this.synapticWeights[this.synapticWeights.length] -= alpha*delta*-1;
 		return resultingWeightedDeltas;
