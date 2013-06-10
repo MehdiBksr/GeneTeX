@@ -101,12 +101,17 @@ public class Neuron implements Serializable {
 					"layer is not the number of synaptics weights minus 1.");
 		}
 		float delta = this.value*(1-this.value)*nextLayerWeightedDelta;
-		float[] resultingWeightedDeltas = new float[this.synapticWeights.length-1];
-		for (int i=0; i<resultingWeightedDeltas.length; i++) {
+		float[] resultingWeightedDeltas = new float[this.synapticWeights.length];
+		for (int i=0; i<resultingWeightedDeltas.length-1; i++) {
 			resultingWeightedDeltas[i] = this.synapticWeights[i]*delta;
+			resultingWeightedDeltas[resultingWeightedDeltas.length-1] =
+					resultingWeightedDeltas[i]*resultingWeightedDeltas[i];
 			this.synapticWeights[i] -= alpha*delta*previousLayer.getValue(i);
 		}
-		this.synapticWeights[this.synapticWeights.length] -= alpha*delta*-1;
+		resultingWeightedDeltas[resultingWeightedDeltas.length-1] =
+				this.synapticWeights[this.synapticWeights.length-1] * 
+				this.synapticWeights[this.synapticWeights.length-1];
+		this.synapticWeights[this.synapticWeights.length-1] -= alpha*delta*-1;
 		return resultingWeightedDeltas;
 	}
 	

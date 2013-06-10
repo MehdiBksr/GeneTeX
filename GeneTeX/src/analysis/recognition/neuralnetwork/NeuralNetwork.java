@@ -97,7 +97,7 @@ public class NeuralNetwork implements Serializable {
 
 		// initialisation of gradientNorm, previousLayer and weightedDeltas
 		float gradientNorm = 0;
-		ListIterator<NeuronLayer> it = this.neuronLayers.listIterator();
+		ListIterator<NeuronLayer> it = this.neuronLayers.listIterator(this.neuronLayers.size());
 		Layer previousLayer;
 		if (it.hasPrevious()) {
 			previousLayer = it.previous();
@@ -128,7 +128,7 @@ public class NeuralNetwork implements Serializable {
 			}
 			// update the weighted deltas for adaptation of hidden layer and
 			// the gradient norm of the quadratic error.
-			gradientNorm += weightedDeltas[weightedDeltas.length];
+			gradientNorm += weightedDeltas[weightedDeltas.length-1];
 			for (int i=0; i<weightedDeltas.length-1; i++) {
 				weightedDeltas[i] += neuronWeightedDeltas[i];
 				gradientNorm += neuronWeightedDeltas[i]*neuronWeightedDeltas[i];
