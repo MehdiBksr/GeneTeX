@@ -58,7 +58,7 @@ public class OutputNeuron extends Neuron {
 			resultingWeightedDeltas[i] *= delta;
 			this.synapticWeights[i] -= alpha*delta*previousLayer.getValue(i);
 		}
-		this.synapticWeights[this.synapticWeights.length] -= alpha*delta*-1;
+		this.synapticWeights[this.synapticWeights.length-1] -= alpha*delta*-1;
 		return resultingWeightedDeltas;
 	}
 	

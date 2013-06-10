@@ -45,19 +45,21 @@
 			float alpha = (float)1.1;
 			while (squareGradientSum >= 0.000001*nbSamplesExamined) {
 				System.out.println("DADA");
-				System.out.println("Norme du gradient au carré = " + 
+				System.out.println("Norme du gradient au carrï¿½ = " + 
 			squareGradientSum + ", seuil = " + 0.000001*nbSamplesExamined);
 				nbSamplesExamined = 0;
 				squareGradientSum = 0;
 				for (Token T : Token.values()) {
-					File dirName = new File("learningdata\\" + T.getSampleDirectory());
+					File dirName = new File("learningdata/" + T.getSampleDirectory());
 					System.out.println("Nom du dossier : " + dirName.getName());
 					File[] samples = dirName.listFiles();
 					BufferedImage currentSample = null;
+					if (samples == null)
+						System.out.println("samples = null");
 					for (int i = 0; i < samples.length; i++) {
 						nbSamplesExamined++;
-						System.out.println("Nom du fichier : " + dirName + "\\" + samples[i].getName());
-						currentSample = ImageLoader.load(dirName + "\\" + samples[i].getName());
+						System.out.println("Nom du fichier : " + dirName + "/" + samples[i].getName());
+						currentSample = ImageLoader.load(dirName + "/" + samples[i].getName());
 						Preprocessor proc = new BasicPreprocessor();
 						PreprocessedImage binarizedSample = proc.binarise(currentSample);
 						SplittedSymbol currentSymbol = new SplittedSymbol(binarizedSample.getPixels(), 0, 0);

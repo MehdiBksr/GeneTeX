@@ -151,9 +151,9 @@ public class NeuronLayer implements Layer {
 			}
 			for (int j=0; j< weightedDeltas.length-1; j++){
 				weightedDeltas[j] += neuronWeightedDeltas[j];
-				weightedDeltas[weightedDeltas.length] +=
-						neuronWeightedDeltas[j]*neuronWeightedDeltas[j];
 			}
+			weightedDeltas[weightedDeltas.length-1] +=
+					neuronWeightedDeltas[weightedDeltas.length-1];
 			i++;
 		}
 
