@@ -17,7 +17,7 @@ public class BasicSplitter implements Splitter {
      *                                METHODS                                 * 
      ************************************************************************ */
 	
-	public SplittedPage primarySegmentation(PreprocessedImage preprocessedPage) {
+	public static SplittedPage primarySegmentation(PreprocessedImage preprocessedPage) {
 		
 		int y = 0;
 		SplittedBlock b = new SplittedBlock();
@@ -48,7 +48,7 @@ public class BasicSplitter implements Splitter {
      *                          PRIVATE FUNCTIONS                             * 
      ************************************************************************ */
 	
-	private SplittedLine getNextLine(boolean[][] page, int y) {
+	private static SplittedLine getNextLine(boolean[][] page, int y) {
 
 		int x = 0;
 		SplittedSymbol s;
@@ -109,7 +109,7 @@ public class BasicSplitter implements Splitter {
 		return l;
 	}
 	
-	private SplittedSymbol getNextSymbol(boolean[][] line, int x) {
+	private static SplittedSymbol getNextSymbol(boolean[][] line, int x) {
 		
 		int start_x = x;
 		int length_x = 0;
@@ -138,7 +138,7 @@ public class BasicSplitter implements Splitter {
 		return s;
 	}
 
-	private boolean lineEmpty(boolean[][] pixels, int y) {
+	private static boolean lineEmpty(boolean[][] pixels, int y) {
 		for (int i = 0; i < pixels.length; i++) {
 			if (pixels[i][y]) 
 				return false;
@@ -146,7 +146,7 @@ public class BasicSplitter implements Splitter {
 		return true;
 	}
 	
-	private boolean columnEmpty(boolean[][] pixels, int x) {
+	private static boolean columnEmpty(boolean[][] pixels, int x) {
 		for (int j = 0; j < pixels[x].length; j++) {
 			if (pixels[x][j])
 				return false;
@@ -158,7 +158,7 @@ public class BasicSplitter implements Splitter {
 	 * Removes blank lines or columns at top, bottom, left and right sides of 
 	 * the binary table representing the current symbol.
 	 */
-	private boolean[][] removeMargins(boolean[][] pixels) {
+	private static boolean[][] removeMargins(boolean[][] pixels) {
 		int start_x = 0, length_x = 0;
 		int start_y = 0, length_y = 0;
 		boolean[][] symbol;
