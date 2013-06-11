@@ -8,7 +8,7 @@ import error.analysis.recognition.neuralnetwork.ComputePrimitivesException;
  * This class stores the results of each primitive calculated from a imageData. Those values
  * are the initial input values of the neural network.
  * 
- * @author Théo Merle
+ * @author Thï¿½o Merle
  */
 
 @SuppressWarnings("serial")
@@ -261,7 +261,7 @@ public class Primitive implements Layer {
 				//		binImg[col][Primitive.standardSize-1-result]);
 				result++;
 			}
-			this.upOutline[col] = result;
+			this.upOutline[col] = result/((float)Primitive.standardSize);
 		}
 	}
 
@@ -273,7 +273,7 @@ public class Primitive implements Layer {
 					!binImg[col][result]){
 				result++;
 			}
-			this.downOutline[col] = result;
+			this.downOutline[col] = result/((float)Primitive.standardSize);
 		}
 	}
 
@@ -285,7 +285,7 @@ public class Primitive implements Layer {
 					!binImg[result][line]){
 				result++;
 			}
-			this.rightOutline[line] = result;
+			this.rightOutline[line] = result/((float)Primitive.standardSize);
 		}
 	}
 
@@ -297,7 +297,7 @@ public class Primitive implements Layer {
 					!binImg[Primitive.standardSize-1-result][line]){
 				result++;
 			}
-			this.leftOutline[line] = result;
+			this.leftOutline[line] = result/((float)Primitive.standardSize);
 		}
 	}
 

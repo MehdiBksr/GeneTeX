@@ -84,7 +84,7 @@ public enum Token implements Serializable {
     /* ************************************************************************
      *                      LOWER CASE GREEK LETTERS                          * 
      ************************************************************************ */
-	
+// the following commented lines do not have learning data.	
 	LOWER_CASE_ALPHA(false, "\\alpha", "alpha"),
 	LOWER_CASE_BETA(false, "\\beta", "beta"),
 	LOWER_CASE_GAMMA(false, "\\gamma", "gamma"),
@@ -93,19 +93,19 @@ public enum Token implements Serializable {
 	LOWER_CASE_ZETA(false, "\\zeta", "zeta"),
 	LOWER_CASE_ETA(false, "\\eta", "eta"),
 	LOWER_CASE_THETA(false, "\\theta", "theta"),
-	LOWER_CASE_IOTA(false, "\\iota", "iota"),
-	LOWER_CASE_KAPPA(false, "\\kappa", "kappa"),
-	LOWER_CASE_LAMBDA(false, "\\lambda", "lambda"),
+//	LOWER_CASE_IOTA(false, "\\iota", "iota"),
+//	LOWER_CASE_KAPPA(false, "\\kappa", "kappa"),
+//	LOWER_CASE_LAMBDA(false, "\\lambda", "lambda"),
 	LOWER_CASE_MU(false, "\\mu", "mu"),
 	LOWER_CASE_NU(false, "\\nu", "nu"),
-	LOWER_CASE_XI(false, "\\xi", "xi"),
-	LOWER_CASE_PI(false, "\\pi", "pi"),
+//	LOWER_CASE_XI(false, "\\xi", "xi"),
+//	LOWER_CASE_PI(false, "\\pi", "pi"),
 	LOWER_CASE_RHO(false, "\\rho", "rho"),
 	LOWER_CASE_SIGMA(false, "\\sigma", "sigma"),
-	LOWER_CASE_(false, "\\tau", "tau"),
-	LOWER_CASE_UPSILON(false, "\\upsilon", "upsilon"),
+//	LOWER_CASE_TAU(false, "\\tau", "tau"),
+//	LOWER_CASE_UPSILON(false, "\\upsilon", "upsilon"),
 	LOWER_CASE_PHI(false, "\\phi", "phi"),
-	LOWER_CASE_CHI(false, "\\chi", "chi"),
+//	LOWER_CASE_CHI(false, "\\chi", "chi"),
 	LOWER_CASE_PSI(false, "\\psi", "psi"),
 	LOWER_CASE_OMEGA(false, "\\omega", "omega"),
 //	LOWER_CASE_OMICRON(false, "\\omicron", "omicron"),
@@ -115,17 +115,17 @@ public enum Token implements Serializable {
      *                      UPPER CASE GREEK LETTERS                          * 
      ************************************************************************ */
 	
-	UPPER_CASE_GAMMA(false, "\\Gamma", "Gammamaj"),
-	UPPER_CASE_DELTA(false, "\\Delta", "Deltamaj"),
-	UPPER_CASE_THETA(false, "\\Theta", "Thetamaj"),
-	UPPER_CASE_LAMBDA(false, "\\Lambda", "LambdaMaj"),
-	UPPER_CASE_XI(false, "\\Xi", "Ximaj"),
-	UPPER_CASE_PI(false, "\\Pi", "Pimaj"),
-	UPPER_CASE_SIGMA(false, "\\Sigma", "Sigmamaj"),
-	UPPER_CASE_UPSILON(false, "\\Upsilon", "Upsilonmaj"),
-	UPPER_CASE_PHI(false, "\\Phi", "Phimaj"),
-	UPPER_CASE_PSI(false, "\\Psi", "Psimaj"),
-	UPPER_CASE_OMEGA(false, "\\Omega", "Omegamaj"),
+//	UPPER_CASE_GAMMA(false, "\\Gamma", "Gammamaj"),
+//	UPPER_CASE_DELTA(false, "\\Delta", "Deltamaj"),
+//	UPPER_CASE_THETA(false, "\\Theta", "Thetamaj"),
+//	UPPER_CASE_LAMBDA(false, "\\Lambda", "LambdaMaj"),
+//	UPPER_CASE_XI(false, "\\Xi", "Ximaj"),
+//	UPPER_CASE_PI(false, "\\Pi", "Pimaj"),
+//	UPPER_CASE_SIGMA(false, "\\Sigma", "Sigmamaj"),
+//	UPPER_CASE_UPSILON(false, "\\Upsilon", "Upsilonmaj"),
+//	UPPER_CASE_PHI(false, "\\Phi", "Phimaj"),
+//	UPPER_CASE_PSI(false, "\\Psi", "Psimaj"),
+//	UPPER_CASE_OMEGA(false, "\\Omega", "Omegamaj"),
 //	UPPER_CASE_ALPHA(false, "\\Alpha", "Alphamaj"),
 //	UPPER_CASE_BETA(false, "\\Beta", "Betamaj"),
 //	UPPER_CASE_EPSILON(false, "\\Epsilon", "Epsilonmaj"),
@@ -144,13 +144,13 @@ public enum Token implements Serializable {
      *                         PUNCTUATION MARK                               * 
      ************************************************************************ */
 	
-	SPACE(false, " ", "space"),
+//	SPACE(false, " ", "space"),
 	ASTERISK(false, "*", "asterisk"),
 	COLON(false, ":", "colon"),
 	COMMA(false, ",", "comma"),
 	DOT(false, ".", "dot"),
 	EXCLAMATION_MARK(false, "!", "exclmark"),
-	HYPHEN(false, "-", "hyphen,"),
+//	HYPHEN(false, "-", "hyphen,"),
 	INTERROGATION_MARK(false, "?", "interrmark"),
 	QUOTE(false, "'", "quote"),
 	SEMICOLON(false, ";", "semicolon"),
@@ -163,52 +163,52 @@ public enum Token implements Serializable {
 
 	OPENING_PARENTHESES(false, "(", "openpar"),
 	CLOSING_PARENTHESES(false, ")", "closepar"),
-	OPENING_SQUARE_BRACKET(false, "[", "opensqbracket"),
-	CLOSING_SQUARE_BRACKET(false, "]", "closesqbracket"),
-	OPENING_BRACE(false, "{", "openbrace"),
-	CLOSING_BRACE(false, "}", "closebrace"),
+//	OPENING_SQUARE_BRACKET(false, "[", "opensqbracket"),
+//	CLOSING_SQUARE_BRACKET(false, "]", "closesqbracket"),
+//	OPENING_BRACE(false, "{", "openbrace"),
+//	CLOSING_BRACE(false, "}", "closebrace"),
 	
 
     /* ************************************************************************
      *                        MATHEMATICAL SYMBOLS                            * 
      ************************************************************************ */
 	
-	PLUS(false, "+", "+"),
+//	PLUS(false, "+", "+"),
 	MINUS(false, "-", "hyphen"),
 	DIVIDE(false, "/", "slash"),
 	MULTIPLY(false, "*", "asterisk"),
 	FOR_ALL(false, "\\forall", "forall"),
-	PART(false, "\\part", "part"),
+//	PART(false, "\\part", "part"),
 	EXISTS(false, "\\exists", "exists"),
-	EMPTY_SET(false, "\\emptyset", "emptyset"),
-	CONTAINED_IN(false, "\\in", "in"),
-	NOT_CONTAINED_IN(false, "\\notin", "notin"),
-	CONTAINS(false, "\\ni", "ni"),
-	PRODUCT(false, "\\prod", "product"),
-	SUM(false, "\\sum", "sum"),
-	SQUARE_ROOT(false, "\\sqrt", "sqrt"),
-	INFINITY(false, "\\infty", "infinity"),
-	AND(false, "\\wedge", "and"),
-	OR(false, "\\vee", "or"),
-	INTERSECTION(false, "\\cap", "intersection"),
-	UNION(false, "\\cup", "union"),
-	INTEGRAL(false, "\\int", "integral"),
-	SIMILAR_TO(false, "\\sim", "similar"),
-	EQUAL(false, "=", "equals"),
-	NOT_EQUAL(false, "\\ne", "notequals"),
-	LOWER(false, "<", "lower"),
-	GREATER(false, ">", "greater"),
-	LOWER_OR_EQUAL(false, "\\le", "lowerequal"),
-	GREATER_OR_EQUAL(false, "\\ge", "greaterequal"),
+//	EMPTY_SET(false, "\\emptyset", "emptyset"),
+	CONTAINED_IN(false, "\\in", "in");
+//	NOT_CONTAINED_IN(false, "\\notin", "notin"),
+//	CONTAINS(false, "\\ni", "ni"),
+//	PRODUCT(false, "\\prod", "product"),
+//	SUM(false, "\\sum", "sum"),
+//	SQUARE_ROOT(false, "\\sqrt", "sqrt"),
+//	INFINITY(false, "\\infty", "infinity"),
+//	AND(false, "\\wedge", "and"),
+//	OR(false, "\\vee", "or"),
+//	INTERSECTION(false, "\\cap", "intersection"),
+//	UNION(false, "\\cup", "union"),
+//	INTEGRAL(false, "\\int", "integral"),
+//	SIMILAR_TO(false, "\\sim", "similar"),
+//	EQUAL(false, "=", "equals"),
+//	NOT_EQUAL(false, "\\ne", "notequals"),
+//	LOWER(false, "<", "lower"),
+//	GREATER(false, ">", "greater"),
+//	LOWER_OR_EQUAL(false, "\\le", "lowerequal"),
+//	GREATER_OR_EQUAL(false, "\\ge", "greaterequal"),
 
     /* ************************************************************************
      *                             ARROWS                                     * 
      ************************************************************************ */
 	
-	LEFT_ARROW(false, "\\leftarrow", "leftarrow"),
-	RIGHT_ARROW(false, "\\rightarrow", "rightarrow"),
-	UP_ARROW(false, "\\uparrow", "uparrow"),
-	DOWN_ARROW(false, "\\downarrow", "downarrow");
+//	LEFT_ARROW(false, "\\leftarrow", "leftarrow"),
+//	RIGHT_ARROW(false, "\\rightarrow", "rightarrow"),
+//	UP_ARROW(false, "\\uparrow", "uparrow"),
+//	DOWN_ARROW(false, "\\downarrow", "downarrow");
 	
 	/* ************************************************************************
      *                              ATTRIBUTES                                * 

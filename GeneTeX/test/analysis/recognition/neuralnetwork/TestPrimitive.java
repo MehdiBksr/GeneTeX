@@ -183,7 +183,7 @@ public class TestPrimitive {
 			float val = p.getValue(i);
 			float expectedValue = 0;
 			if (!black){
-				expectedValue = Primitive.standardSize;
+				expectedValue = 1;
 			}
 			if (val != expectedValue){
 				fail(mess + Primitive.nameOfPrimitive(i) + " has value " + val + ", it should" +
@@ -213,10 +213,15 @@ public class TestPrimitive {
 							(Primitive.standardSize * oldY)/ySize);
 					backwardExpectedValue = Math.max(backwardExpectedValue,
 							(int) Math.min(Primitive.standardSize,
-									Math.ceil((Primitive.standardSize*(oldY+1)) / (double)ySize)) - 1);
+									Math.ceil((Primitive.standardSize*(oldY+1))
+											/ (double)ySize)) - 1);
 				}
 			}
-			backwardExpectedValue = Primitive.standardSize - 1 - backwardExpectedValue;
+			forwardExpectedValue =
+					forwardExpectedValue/((float)Primitive.standardSize);
+			backwardExpectedValue =
+					(Primitive.standardSize - 1 - backwardExpectedValue) /
+					((float)Primitive.standardSize);
 
 			//downOutline
 			float val = p.getValue(initDown + i);
@@ -251,7 +256,11 @@ public class TestPrimitive {
 									Math.ceil((Primitive.standardSize*(oldX+1)) / (double)xSize)) - 1);
 				}
 			}
-			backwardExpectedValue = Primitive.standardSize - 1 - backwardExpectedValue;
+			forwardExpectedValue =
+					forwardExpectedValue/((float)Primitive.standardSize);
+			backwardExpectedValue =
+					(Primitive.standardSize - 1 - backwardExpectedValue) /
+					((float)Primitive.standardSize);
 
 			//rightOutline
 			val = p.getValue(initRight + i);

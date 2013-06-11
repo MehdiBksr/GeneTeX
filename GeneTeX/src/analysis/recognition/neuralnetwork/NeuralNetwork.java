@@ -153,6 +153,27 @@ public class NeuralNetwork implements Serializable {
 		return gradientNorm;
 	}
 	
+	public float quadraticError(Token t) {
+		float res = 0;
+		for (int i=0; i<this.outputLayer.size(); i++) {
+			float diff = this.outputLayer.getValue(i);
+			if (((OutputNeuron)this.outputLayer.getNeuron(i)).getToken() == t) {
+				diff -= 1;
+			}
+			res += (diff*diff)/2.0;
+		}
+		return res;
+	}
+	
+	public void printOutputValues(Token t) {
+		System.out.print("Values for " + t + " : ");
+		for (int i=0; i<this.outputLayer.size()-1; i++) {
+			OutputNeuron output = (OutputNeuron) this.outputLayer.getNeuron(i);
+			System.out.print(output.getToken() + " => " + output.getValue() + ", ");
+		}		
+		OutputNeuron output = (OutputNeuron) this.outputLayer.getNeuron(this.outputLayer.size()-1);
+		System.out.println(output.getToken() + " => " + output.getValue() + ".");
+	}
     /* ************************************************************************
      *                          PRIVATE FUNCTIONS                             * 
      ************************************************************************ */

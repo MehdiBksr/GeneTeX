@@ -37,8 +37,35 @@ public class Neuron implements Serializable {
 		this.value = 0;
 		this.synapticWeights = new float[previousLayerSize + 1];
 		Random randGen = new Random();
+		float n = 10*previousLayerSize;
+//		System.out.println("Initial synaptic weights :");
 		for (int i=0; i<=previousLayerSize; i++) {
-			this.synapticWeights[i] = randGen.nextFloat();
+			this.synapticWeights[i] = ((float)randGen.nextInt((int)n))/n;
+//			System.out.print(" " + this.synapticWeights[i]);
+		}
+		
+		//Standardize the weights, so that the linear sum gives a result between -5
+		// and 5.
+		float max = 0;
+		float min = 0;
+		for (int i=0; i<=previousLayerSize; i++) {
+			if (this.synapticWeights[i]>max) {
+				max = this.synapticWeights[i];
+			} else if (this.synapticWeights[i]<min) {
+				min -= this.synapticWeights[i];
+			}
+		}
+//		System.out.println("Standardised synaptic weights :");
+		for (int i=0; i<=previousLayerSize; i++) {
+			this.synapticWeights[i] =
+					(10*(this.synapticWeights[i]-min)/(max-min) - 5);
+//			System.out.print(" " + (int)this.synapticWeights[i]);
+		}		
+//		System.out.println();
+
+		//Standardize the sum so that sum(abs(synaptic weigth))<=2
+		for (int i=0; i<=previousLayerSize; i++) {
+			this.synapticWeights[i] *= 2.0/(5.0 * (float)(this.synapticWeights.length));	
 		}
 	}
 
@@ -127,7 +154,7 @@ public class Neuron implements Serializable {
 	 */
 	private float activationFunction(float x){
 		// sigmoidal function of parameter beta > 0
-		double beta = 0.001;
+		double beta = 1.0;
 		return (float)(1.0/(1.0+Math.exp(-beta*x)));
 	}
 	
