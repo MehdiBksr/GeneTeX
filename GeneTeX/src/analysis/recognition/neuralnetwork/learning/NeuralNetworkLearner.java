@@ -81,15 +81,12 @@ import error.analysis.recognition.neuralnetwork.NeuronLayerException;
 					BufferedImage currentSample = null;
 					for (int i = 0; i < samples.length; i++) {
 						nbSamplesExamined++;
-//						System.out.println("Nom du fichier : " + samples[i].getAbsolutePath());
 						currentSample = ImageLoader.load(samples[i].getAbsolutePath());
 						Preprocessor proc = new BasicPreprocessor();
 						PreprocessedImage binarizedSample = proc.preprocess(currentSample);
 						SplittedSymbol currentSymbol = new SplittedSymbol(binarizedSample.getPixels(), 0, 0);
 						Token returnedToken = network.recognise(currentSymbol).getToken();
-//						network.printOutputValues(T);
 						if (returnedToken == T) {
-//							System.out.println(T + " is recognised.");
 							nbSuccess++;
 						} else {
 							System.out.println(T + " is not recognised. " + returnedToken + " was returned instead.");
