@@ -21,7 +21,17 @@ import error.analysis.recognition.neuralnetwork.ComputePrimitivesException;
 import error.analysis.recognition.neuralnetwork.NeuralNetworkException;
 import error.analysis.recognition.neuralnetwork.NeuronException;
 import error.analysis.recognition.neuralnetwork.NeuronLayerException;
-	
+
+	/** 
+	 * Class responsible for neural network learning. This class is not
+	 * directly linked to the neural network, but the neural network
+	 * needs the learning module to work correctly.
+	 * This module has a main method, which allows to train the neural network
+	 * and to save its object representation in a file.
+	 * 
+	 * @author Mehdi
+	 *
+	 */
 	public class NeuralNetworkLearner {
 	
 		public static void main(String[] args) throws IOException, 
@@ -29,13 +39,15 @@ import error.analysis.recognition.neuralnetwork.NeuronLayerException;
 	
 			NeuralNetwork network;
 			
+			// trying to load the neural network
 			try {
-			FileInputStream getLearningData = new FileInputStream("learning.object");
+			FileInputStream getLearningData = new FileInputStream("91charOutOf95.save");
 			ObjectInputStream objLearningData = new ObjectInputStream(getLearningData);
 			network = (NeuralNetwork)objLearningData.readObject();
 			objLearningData.close();
 			getLearningData.close();
 			} catch (FileNotFoundException e) {
+				// if no save was found, create a new neural network
 				System.out.println("File learning.object not found, creating new network");
 				network = new NeuralNetwork(150);
 			} 
@@ -43,18 +55,20 @@ import error.analysis.recognition.neuralnetwork.NeuronLayerException;
 			int nbSamplesExamined = 0;
 			float squareGradientSum = 0;
 			float quadraticError = 0;
-			int nbSuccess = 0, nbRecognition = 0;
+			int nbSuccess = 0, nbRecognitions = 0;
 			float alpha = (float)1.1;
-			while (squareGradientSum >= (1/1000000000)*nbSamplesExamined) {
-//				System.out.println("DADA");
-//				System.out.println("Norme du gradient au carr� = " + 
-//			squareGradientSum + ", seuil = " + 0.000001*nbSamplesExamined);
+			// as long as the quadratic error is above a given value
+			while (quadraticError >= (1/1000000000)*nbSamplesExamined) {
+				
 				nbSamplesExamined = 0;
 				squareGradientSum = 0;
 				quadraticError = 0;
 				nbSuccess = 0;
-				nbRecognition = 0;
+				nbRecognitions = 0;
+				
 				for (Token T : Token.values()) {
+					/* getting the name of the directory containing the samples
+					 * for this token */
 					File dirName = new File("learningdata/" + T.getSampleDirectory());
 //					System.out.println("Nom du dossier : " + dirName.getName());
 					File[] samples = dirName.listFiles();
@@ -62,6 +76,8 @@ import error.analysis.recognition.neuralnetwork.NeuronLayerException;
 						System.out.println("Dossier inexistant pour " + T + ".");
 						continue;
 					}
+					
+					// learning for the samples in the directory
 					BufferedImage currentSample = null;
 					for (int i = 0; i < samples.length; i++) {
 						nbSamplesExamined++;
@@ -78,23 +94,22 @@ import error.analysis.recognition.neuralnetwork.NeuronLayerException;
 						} else {
 							System.out.println(T + " is not recognised. " + returnedToken + " was returned instead.");
 						}
-						nbRecognition++;
+						nbRecognitions++;
+						// calculating total squared gradient
 						quadraticError += network.quadraticError(T);
+						// learning according to the results 
 						squareGradientSum +=network.adaptSynapticWeights(T, alpha);
-					}
-//					System.out.println("-------------------\n\n-------------------");
-//					System.out.println("Nombre d'exemples analys�s = " + nbSamplesExamined);
-					
+					}	
 				}
 				System.out.println("Number of successes = " + nbSuccess +
-						", number of recognition = " + nbRecognition);
+						", number of recognition = " + nbRecognitions);
 				System.out.println("Total quadratic error = " + quadraticError +
 						", average quadratic error per output neuron = " + quadraticError/(Token.values().length*Token.values().length));
 				System.out.println("Total squared gradient = " + squareGradientSum);
 	
+				// saving the new network data
 				FileOutputStream saveLearningData = null;
 				ObjectOutputStream saver = null;
-				
 				try {
 					saveLearningData = new FileOutputStream("learning.object");
 					saver = new ObjectOutputStream(saveLearningData);
