@@ -45,7 +45,7 @@ public class NeuralNetworkRecognizer implements Recognizer {
 		// load the trained neural network.
 		try {
 			FileInputStream getLearningData =
-					new FileInputStream("91charOutOf95.save");
+					new FileInputStream("learning.object");
 			ObjectInputStream objLearningData =
 					new ObjectInputStream(getLearningData);
 			network = (NeuralNetwork)objLearningData.readObject();

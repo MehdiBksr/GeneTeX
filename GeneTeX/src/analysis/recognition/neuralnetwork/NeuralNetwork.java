@@ -18,7 +18,7 @@ import error.analysis.recognition.neuralnetwork.NeuronLayerException;
  * structure of the network, recognise a token, or adapt itself given learning
  * data.
  * 
- * @author Mehdi BOUKSARA, ThÃ©o MERLE, Marceau THALGOTT 
+ * @author Mehdi BOUKSARA, Théo MERLE, Marceau THALGOTT 
  */
 @SuppressWarnings("serial")
 public class NeuralNetwork implements Serializable {
@@ -28,7 +28,7 @@ public class NeuralNetwork implements Serializable {
      ************************************************************************ */
     
 	/**
-	 * Contains the caracteristics extracted from a SplitSymbol.
+	 * Contains the characteristics extracted from a SplitSymbol.
 	 */
 	private Primitive primitives;
 	
@@ -47,10 +47,10 @@ public class NeuralNetwork implements Serializable {
      ************************************************************************ */
     
 	/**
-	 * Build a network with one hidden layer of s neurons and an output layer
+	 * Builds a network with one hidden layer of s neurons and an output layer
 	 * containing one OutputNeuron for each Token that can be recognised.
 	 *  
-	 * @param s Number of hidden neurons.
+	 * @param s Number of hidden neurons for the layer.
 	 */
 	public NeuralNetwork(int s) {
 		this.primitives = new Primitive();
@@ -75,12 +75,12 @@ public class NeuralNetwork implements Serializable {
      ************************************************************************ */
     
 	/**
-	 * Use the network to recognise a token
+	 * Uses the neural network to try to recognise a token.
 	 *  
-	 * @param symbol An object containing the caracteristics returned by a
+	 * @param symbol An object containing the characteristics returned by a
 	 * 					splitting
 	 * @return An object containing the token recognised and informations for
-	 * 					the FileGeneration
+	 * 					the file generation
 	 */
 	public StructuredSymbol recognise(SplittedSymbol symbol)
 			throws ComputePrimitivesException, NeuronException {
@@ -97,7 +97,7 @@ public class NeuralNetwork implements Serializable {
 			previousLayer = currentLayer;
 		}
 		
-		// Compute the output values.
+		// Compute the output values
 		this.outputLayer.computeNeuralValues(previousLayer);
 		
 		// Look for the maximal output value and returns the associated token.
@@ -112,7 +112,7 @@ public class NeuralNetwork implements Serializable {
 	}
 	
 	/** 
-	 * Adapt the synaptic weights of all neurons in this neural network
+	 * Adapts the synaptic weights of all neurons in this neural network
 	 * depending on the token expected and the adaptation rate.
 	 * 
 	 * Precondition : Did not reset after a recognition.
@@ -140,8 +140,8 @@ public class NeuralNetwork implements Serializable {
 			previousLayer = this.primitives;
 		}
 		
-		// initialisation of gradient's norm and
-		//     components for the previous layer.
+		/* initialisation of gradient's norm and
+		* components for the previous layer. */
 		float gradientNorm = 0;
 		float weightedDeltas[] =
 				new float[previousLayer.size()];
@@ -197,10 +197,10 @@ public class NeuralNetwork implements Serializable {
 	
 	
 	/**
-	 * Compute the quadratic error after a recognition
+	 * Computes the quadratic error after a recognition
 	 * 
 	 * @param t The token that was expected for the recognition.
-	 * @return The quadratic error.
+	 * @return The quadratic error for this recognition.
 	 */
 	public float quadraticError(Token t) {
 		float res = 0;
@@ -215,7 +215,7 @@ public class NeuralNetwork implements Serializable {
 	}
 	
 	/**
-	 * Print the values computed after a recognition.
+	 * Prints the values computed after a recognition.
 	 * 
 	 * @param t The token that was expected for the recognition.
 	 */

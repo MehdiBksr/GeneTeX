@@ -9,7 +9,7 @@ import error.analysis.recognition.neuralnetwork.NeuronLayerException;
 /** This class represents a layer in the neural network. It is composed of a given number of neurons
  * and can calculate output values using the output values of the previous layer.
  * 
- * @author Mehdi BOUKSARA, ThÃ©o MERLE, Marceau THALGOTT 
+ * @author Mehdi BOUKSARA, Théo MERLE, Marceau THALGOTT 
  *
  */
 @SuppressWarnings("serial")
@@ -22,7 +22,7 @@ public class NeuronLayer implements Layer {
      ************************************************************************ */
     
 	/**
-	 * The neurons composing the layer
+	 * The neurons composing the layer.
 	 */
 	private Vector<Neuron> neurons;
 	
@@ -38,7 +38,7 @@ public class NeuronLayer implements Layer {
 	}
 	
 	/**
-	 * Builds an layer containing the arguments given as argument.
+	 * Builds an layer containing the vector of neurons given as argument.
 	 * 
 	 *  @param aLayer The neuron wanted in the built layer.
 	 */
@@ -64,9 +64,9 @@ public class NeuronLayer implements Layer {
 	/* neurons manipulations ************************************************/
 	
 	/**
-	 * Return the size of the NeuronLayer
+	 * Returns the size of the NeuronLayer.
 	 * 
-	 * @return number of neurons contained in the layer
+	 * @return The number of neurons contained in the layer.
 	 */
 	public int size() {
 		return this.neurons.size();
@@ -75,6 +75,9 @@ public class NeuronLayer implements Layer {
 	/**
 	 * Returns the value of the index-th neuron in the layer. Good execution is
 	 * not ensured if index is not between 0 and this.size()-1, included. 
+	 * 
+	 * @return The value of the index-th neuron of the layer, or 0 if this neuron
+	 * 		   doesn't exist.
 	 */
 	public float getValue(int index) {
 		return this.neurons.get(index).getValue();
@@ -107,7 +110,7 @@ public class NeuronLayer implements Layer {
 	 * Calculates the values for the neurons in this layer using the values 
 	 * given by the previous layer.
 	 * 
-	 * @param l The previous layer in the neural network
+	 * @param l The previous layer in the neural network.
 	 * @throws NeuronException
 	 */
 	public void computeNeuralValues(Layer l) throws NeuronException{
@@ -122,7 +125,7 @@ public class NeuronLayer implements Layer {
 	}
 
 	/**
-	 * Adapt the synaptic weights of all neurons in this layer depending
+	 * Adapts the synaptic weights of all neurons in this layer depending
 	 * on the values computed in the previous layer, the weighted deltas
 	 * computed by the next layer and the adaptation rate. 
 	 * 

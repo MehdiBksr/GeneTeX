@@ -16,7 +16,7 @@ public interface Recognizer {
      ************************************************************************ */
 	
 	/**
-	 * Analyse the content of the data created by the splitter.
+	 * Analyses the content of the data created by the splitter.
 	 * 
 	 * @return The data computed for the FileGenerator.
 	 * @throws Exception 

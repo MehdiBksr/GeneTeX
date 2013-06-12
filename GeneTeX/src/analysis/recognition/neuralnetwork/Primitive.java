@@ -5,10 +5,11 @@ import error.analysis.recognition.neuralnetwork.ComputePrimitivesException;
 
 
 /**
- * This class stores the results of each primitive calculated from a imageData.
+ * This class stores the results of each primitive calculated from a
+ * PreprocessedImage.
  * Those values are the initial input values of the neural network.
  * 
- * @author Mehdi BOUKSARA, ThÃ©o MERLE, Marceau THALGOTT 
+ * @author Mehdi BOUKSARA, Théo MERLE, Marceau THALGOTT 
  */
 @SuppressWarnings("serial")
 public class Primitive implements Layer {
@@ -23,14 +24,14 @@ public class Primitive implements Layer {
 	public static final int standardSize = 32;
 
 	/**
-	 * @return first index of the standardisation coefficients.
+	 * @return The first index of the standardisation coefficients.
 	 */
 	public static int getStandardisationCoefficientIndex(){
 		return 0;
 	}
 
 	/**
-	 * @return first index of the outline's values (up direction).
+	 * @return The first index of the outline's values (up direction).
 	 */
 	public static int getUpOutlineIndex(){
 		return 2;
@@ -58,8 +59,8 @@ public class Primitive implements Layer {
 	}
 
 	/**
-	 * @param index Number of a primitive
-	 * @return its name ("not a primitive" if index is incorrect).
+	 * @param index Index number of a primitive
+	 * @return The name of the primitive ("not a primitive" if index is incorrect).
 	 */
 	public static String nameOfPrimitive(int index){
 		if (index >= 0){
@@ -94,14 +95,14 @@ public class Primitive implements Layer {
 
 	/**
 	 * The coefficients corresponding to the standardisation of the image
-	 * format 
+	 * format.
 	 */
 	private float standardisationCoefficientX, standardisationCoefficientY;
 
 
 	/**
-	 * Those corresponds to the outline of the image depending of the direction
-	 * used to calculate them.
+	 * The outlines of the image depending of the direction used to calculate
+	 * them.
 	 */
 	private float upOutline[], downOutline[], rightOutline[], leftOutline[];
 
@@ -111,7 +112,7 @@ public class Primitive implements Layer {
 
 
 	/**
-	 * create a Primitives with all values to 0
+	 * Creates a Primitive with all values to 0
 	 */
 	public Primitive() {
 		super();
@@ -134,7 +135,7 @@ public class Primitive implements Layer {
 	 ************************************************************************ */
 
 	/**
-	 * Return the number of primitives
+	 * Returns the number of primitives.
 	 * @return number of primitives contained in the layer
 	 */
 	public int size() {
@@ -142,7 +143,7 @@ public class Primitive implements Layer {
 	}
 
 	/**
-	 * Return the value of the index-th primitive computed. If no primitive
+	 * Returns the value of the index-th primitive computed. If no primitive
 	 * corresponds to index, it returns 0.
 	 * <ul>
 	 * <li> index = 0 corresponds to standardisationCoefficientX
@@ -202,7 +203,7 @@ public class Primitive implements Layer {
 	/**
 	 * Compute the values resulting from an image.
 	 * 
-	 * @param img The symbol to  analyse.
+	 * @param img The symbol to analyse.
 	 * @throws ComputePrimitivesException
 	 */
 	public void computePrimitives(SplittedSymbol img)
@@ -252,7 +253,7 @@ public class Primitive implements Layer {
 
 	/**
 	 * Creates a standardised imaged of size Primitive.standardSize by
-	 *     stretching the binarised image given as argument.
+	 * stretching or compressing the binarised image given as argument.
 	 * 
 	 * @param img Symbol to standardise.
 	 * @return The standardised image.
@@ -277,7 +278,7 @@ public class Primitive implements Layer {
 	}
 
 	/**
-	 * Compute the value of the new standardised pixel, given the old image 
+	 * Computes the value of the new standardised pixel, given the old image 
 	 * @param oldImg    Image to standardise.
 	 * @param newPixelX First coordinate of a standardised pixel.
 	 * @param newPixelY Second coordinate of a standardised pixel.
@@ -304,7 +305,7 @@ public class Primitive implements Layer {
 	}
 
 	/**
-	 * Compute the outline by going upward.
+	 * Computes the outline by going upward.
 	 * 
 	 * @param img The image to analyse.
 	 */
@@ -325,7 +326,7 @@ public class Primitive implements Layer {
 	}
 
 	/**
-	 * Compute the outline by going downward.
+	 * Computes the outline by going downward.
 	 * 
 	 * @param img The image to analyse.
 	 */
@@ -342,7 +343,7 @@ public class Primitive implements Layer {
 	}
 
 	/**
-	 * Compute the outline by going from left to right.
+	 * Computes the outline by going from left to right.
 	 * 
 	 * @param img The image to analyse.
 	 */
@@ -359,7 +360,7 @@ public class Primitive implements Layer {
 	}
 
 	/**
-	 * Compute the outline by going from right to left.
+	 * Computes the outline by going from right to left.
 	 * 
 	 * @param img The image to analyse.
 	 */
