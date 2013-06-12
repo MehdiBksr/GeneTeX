@@ -7,9 +7,7 @@
 	/**
 	 * This is an example of class or interface javadoc's comment.
 	 * 
-	 * @author Marceau Thalgott 
-	 * @author Mehdi Bouksara
-	 * @author Théo Merle
+	 * @author Mehdi BOUKSARA, Théo MERLE, Marceau THALGOTT 
 	 */
 	public interface Paté {
 	}
