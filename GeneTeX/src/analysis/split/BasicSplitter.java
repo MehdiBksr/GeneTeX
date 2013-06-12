@@ -7,6 +7,23 @@ import data.imagedata.SplittedPage;
 import data.imagedata.SplittedSymbol;
 import error.data.BadInstanceException;
 
+/** 
+ * This basic implementation of a splitter divides the given image into lines
+ * and then searches for the symbols inside of the line.
+ * 
+ * Line segmentation is done by using a method based on horizontal histograms.
+ * 
+ * Character segmentation is done by searching for empty columns of pixels in
+ * a line, such columns separating characters. 
+ * This separation might not be sufficient and a secondary segmentation is then 
+ * performed, separating overlapping characters which are not connected, and, if 
+ * needed, connected characters using a method based on vertical histograms. 
+ * 
+ * @see Splitter
+ * 
+ * @author Marceau Thalgott, Theo Merle, Mehdi Bouksara 
+ *
+ */
 public class BasicSplitter implements Splitter {
 	
 	/* ************************************************************************
@@ -17,7 +34,7 @@ public class BasicSplitter implements Splitter {
      *                                METHODS                                 * 
      ************************************************************************ */
 	
-	public static SplittedPage primarySegmentation(PreprocessedImage preprocessedPage) {
+	public SplittedPage split(PreprocessedImage preprocessedPage) {
 		
 		int y = 0;
 		SplittedBlock b = new SplittedBlock();
@@ -48,6 +65,14 @@ public class BasicSplitter implements Splitter {
      *                          PRIVATE FUNCTIONS                             * 
      ************************************************************************ */
 	
+	/**
+	 * Get the next line of the currently processed pages. 
+	 *  
+	 * @param page The page being currently split.
+	 * @param y The index of the pixel row starting from which the next line is
+	 * 			to be found.
+	 * @return The line as a <code>SplitLine</code>.
+	 */
 	private static SplittedLine getNextLine(boolean[][] page, int y) {
 
 		int x = 0;
@@ -62,12 +87,12 @@ public class BasicSplitter implements Splitter {
 		int length_y = 0;
 		
 		// get the length and starting y position of the current line
-		while (start_y < page[0].length && lineEmpty(page, start_y))
+		while (start_y < page[0].length && rowEmpty(page, start_y))
 			start_y++;
 		// end of the page: no new line in the page
 		if (start_y >= page[0].length) return null;
 		
-		while ((length_y + start_y < page[0].length) && !lineEmpty(page, length_y + start_y))
+		while ((length_y + start_y < page[0].length) && !rowEmpty(page, length_y + start_y))
 			length_y++;
 		
 		if (length_y == 0)
@@ -109,6 +134,14 @@ public class BasicSplitter implements Splitter {
 		return l;
 	}
 	
+	/**
+	 * Get the next symbol of the currently processed line. 
+	 *  
+	 * @param page The page being currently split.
+	 * @param y The index of the pixel row starting from which the next line is
+	 * 			to be found.
+	 * @return The line as a <code>SplitLine</code>.
+	 */
 	private static SplittedSymbol getNextSymbol(boolean[][] line, int x) {
 		
 		int start_x = x;
@@ -138,14 +171,30 @@ public class BasicSplitter implements Splitter {
 		return s;
 	}
 
-	private static boolean lineEmpty(boolean[][] pixels, int y) {
+	/**
+	 * Returns whether the pixel row specified by the given index y in the given
+	 * array pixels is empty or not.
+	 * 
+	 * @param pixels The two-dimensional array of pixels.
+	 * @param y The index of the row to be checked.
+	 * @return Whether the row is empty.
+	 */
+	private static boolean rowEmpty(boolean[][] pixels, int y) {
 		for (int i = 0; i < pixels.length; i++) {
 			if (pixels[i][y]) 
 				return false;
 		}
 		return true;
 	}
-	
+
+	/**
+	 * Returns whether the pixel column specified by the given index x in the 
+	 * given array pixels is empty or not.
+	 * 
+	 * @param pixels The two-dimensional array of pixels.
+	 * @param x The index of the column to be checked.
+	 * @return Whether the column is empty.
+	 */
 	private static boolean columnEmpty(boolean[][] pixels, int x) {
 		for (int j = 0; j < pixels[x].length; j++) {
 			if (pixels[x][j])
@@ -157,6 +206,10 @@ public class BasicSplitter implements Splitter {
 	/**
 	 * Removes blank lines or columns at top, bottom, left and right sides of 
 	 * the binary table representing the current symbol.
+	 * 
+	 * @param pixels The initial two-dimensional array of pixels.
+	 * 
+	 * @return A trimmed two-dimensional array of pixels.
 	 */
 	private static boolean[][] removeMargins(boolean[][] pixels) {
 		int start_x = 0, length_x = 0;
@@ -170,11 +223,11 @@ public class BasicSplitter implements Splitter {
 				!columnEmpty(pixels, start_x + length_x))
 			length_x++;
 		
-		while (lineEmpty(pixels, start_y))
+		while (rowEmpty(pixels, start_y))
 			start_y++;
 		
 		while (start_y + length_y < pixels[0].length &&
-				!lineEmpty(pixels, start_y + length_y))
+				!rowEmpty(pixels, start_y + length_y))
 			length_y++;
 		
 		//copying the sub-array containing the symbol

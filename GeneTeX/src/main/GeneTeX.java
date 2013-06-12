@@ -44,7 +44,7 @@ public class GeneTeX {
 		printVerbose(" done", true);
 		
 		printVerbose("Segmenting preprocessed image...", false);
-		SplittedPage page = BasicSplitter.primarySegmentation(binaryImage);
+		SplittedPage page = BasicSplitter.split(binaryImage);
 		printVerbose(" done", true);
 
 		printVerbose("Recognizing... ", false);
