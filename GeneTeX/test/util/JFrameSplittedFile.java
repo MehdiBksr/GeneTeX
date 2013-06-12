@@ -43,7 +43,7 @@ public class JFrameSplittedFile extends JFrame {
 					Level.SEVERE, null, ex);
 		}
 		Preprocessor proc = new BasicPreprocessor();
-		PreprocessedImage bin = proc.binarise(bufferedImage);
+		PreprocessedImage bin = proc.preprocess(bufferedImage);
 		BasicSplitter splitter = new BasicSplitter();
 		SplittedPage page = splitter.primarySegmentation(bin);
 		Iterator<Block> itBlock = page.getIterator();

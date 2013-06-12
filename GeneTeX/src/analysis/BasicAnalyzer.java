@@ -25,7 +25,7 @@ public class BasicAnalyzer implements Analyzer {
 		
 		Utility.printVerbose("Preprocessing image...", false);
 		Preprocessor proc = new BasicPreprocessor();
-		PreprocessedImage binaryImage = proc.binarise(image);
+		PreprocessedImage binaryImage = proc.preprocess(image);
 		Utility.printVerbose(" done", true);
 		
 		Utility.printVerbose("Segmenting preprocessed image...", false);

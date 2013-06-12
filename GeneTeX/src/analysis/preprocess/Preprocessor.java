@@ -6,6 +6,6 @@ import data.PreprocessedImage;
 
 public interface Preprocessor {
 
-	public PreprocessedImage binarise(BufferedImage image);
+	public PreprocessedImage preprocess(BufferedImage image);
 	
 }
