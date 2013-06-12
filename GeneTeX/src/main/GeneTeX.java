@@ -1,18 +1,13 @@
 package main;
 
-import imageloader.ImageLoader;
-
-import java.awt.image.BufferedImage;
 import java.util.Vector;
 
-import analysis.preprocess.BasicPreprocessor;
-import analysis.preprocess.Preprocessor;
-import analysis.recognition.NeuralNetworkRecognizer;
-import analysis.split.BasicSplitter;
+import util.Utility;
+
+import analysis.Analyzer;
+import analysis.BasicAnalyzer;
 import argument.ArgumentHandler;
 import data.Page;
-import data.PreprocessedImage;
-import data.imagedata.SplittedPage;
 import error.argumenthandler.InvalidCommandLineException;
 import filegenerator.FileGenerator;
 import filegenerator.LatexGenerator;
@@ -33,34 +28,14 @@ public class GeneTeX {
 			System.out.println(Help.getHelpString());
 			return;
 		}
-
-		printVerbose("Loading image...", false);
-		BufferedImage image = ImageLoader.load(source.get(0));
-		printVerbose(" done", true);
 		
-		printVerbose("Preprocessing image...", false);
-		Preprocessor proc = new BasicPreprocessor();
-		PreprocessedImage binaryImage = proc.preprocess(image);
-		printVerbose(" done", true);
-		
-		printVerbose("Segmenting preprocessed image...", false);
-		SplittedPage page = BasicSplitter.primarySegmentation(binaryImage);
-		printVerbose(" done", true);
+		Analyzer analyser = new BasicAnalyzer();
+		Vector<Page> recognisedPages = new Vector<Page>();
+		recognisedPages.add(analyser.analyse(source.get(0)));
 
-		printVerbose("Recognizing... ", false);
-		Vector<Page> recognizedPages = new Vector<Page>();
-		recognizedPages.add(NeuralNetworkRecognizer.readPage(page));
-		printVerbose(" done", true);
-
-		printVerbose("Generating LaTeX... ", false);
+		Utility.printVerbose("Generating LaTeX... ", false);
 		FileGenerator latexGenerator = new LatexGenerator();
-		latexGenerator.generate(recognizedPages, dest);
-		printVerbose(" done", true);
-	}
-
-	private static void printVerbose(String message, boolean over) {
-		ArgumentHandler options = ArgumentHandler.getInstance();
-		if (options.getVerbose() && over) System.out.println(message);
-		else if (options.getVerbose()) System.out.print(message);
+		latexGenerator.generate(recognisedPages, dest);
+		Utility.printVerbose(" done", true);
 	}
 }

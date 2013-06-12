@@ -57,6 +57,8 @@ public class LatexGenerator implements FileGenerator {
 	public void generate(Collection<Page> pages, String destinationFileName) 
 			throws BadFileNameException, IOException, BadInstanceException {
 		
+		
+		//TODO : check if file already exists
 		BufferedWriter out = openFile(destinationFileName);
 		writeHeader();
 		writePages(pages);

@@ -7,6 +7,11 @@ import org.junit.Test;
 import data.imagedata.SplittedSymbol;
 import error.analysis.recognition.neuralnetwork.ComputePrimitivesException;
 
+/** Class for testing the primitive calculation for the neural network.
+ * 
+ * @author Mehdi BOUKSARA, Théo MERLE, Marceau THALGOTT
+ *
+ */
 public class TestPrimitive {
 
 	@Test
@@ -15,6 +20,10 @@ public class TestPrimitive {
 		testResetValues(p);
 	}
 
+	/** Test for primitive computation.
+	 * 	The test fails if an unexpected exception occurs, if an expected exception
+	 * doesn't, or if an operation doesn't return the expected result.
+	 */
 	@Test
 	public void testFailComputePrimitives() {
 
@@ -120,6 +129,10 @@ public class TestPrimitive {
 
 	/* methods to test resetValues ********************************************/
 
+	/** Tests the resetting method.
+	 * Fails if the resetting didn't work correctly.
+	 * @param p A Primitive.
+	 */
 	private void testResetValues(Primitive p) {
 		int size = p.size();
 
@@ -146,21 +159,28 @@ public class TestPrimitive {
 
 	/* methods to test computePrimitives **************************************/
 
+	/** Testing if the value returned by the method getValue() when called
+	 * with invalid parameters is 0.
+	 * Fails if an invalid call return a different value.
+	 * @param p A Primitive.
+	 * @param mess A message indicating the failing test if a test fails.
+	 * @see 
+	 */
 	private void testNonPrimitive(Primitive p, String mess){
 		float val = p.getValue(p.size());
 		if (val != 0){
 			fail(mess + "call of getValue(i)," +
-					" with i>= number of primitives, returns value " + val +
+					" with i >= number of primitives, returns value " + val +
 					", it should be 0.");
 		}
 
 		val = p.getValue(-10);
-		if (val != 0){
+		if (val != 0) {
 			fail(mess + "call of getValue(i)," +
-					" with i<0, returns value " + val + ", it should be 0.");
+					" with i < 0, returns value " + val + ", it should be 0.");
 		}
 	}
-
+  
 	private void testStandardisation(Primitive p, String mess, int xSize, int ySize){
 		float val = p.getValue(0);
 		float expectedValue = ((float)(Primitive.standardSize))/((float)(xSize));

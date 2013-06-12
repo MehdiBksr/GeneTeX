@@ -1,5 +1,0 @@
-- Ecrire des méthodes de modification des poids synaptiques (public void changeSynapticWeights(EnumMap<Token, float> expectedValues)) d'un neurone selon qu'il s'agisse d'un neurone caché ou d'un neurone de sortie, et les méthodes de généralisation au niveau des couches et du réseau (elle renvoie delta).
-- Ecrire les méthodes de chargement (NeuralNetwork) et de sauvegarde du réseau (NeuralNetworkLearner)
-- Ecrire la méthode de calcul de l'erreur quadratique pour une donnée d'apprentissage (NeuralNetworkLearner)
-- Ecrire la méthode get de la couche de sortie (getOuputLayer -> NeuralNetwork)
-- Ecrire la classe NeuralNetworkRecognizer
