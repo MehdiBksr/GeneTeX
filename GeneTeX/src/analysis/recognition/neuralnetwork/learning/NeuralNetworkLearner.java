@@ -41,7 +41,8 @@ import error.analysis.recognition.neuralnetwork.NeuronLayerException;
 			
 			// trying to load the neural network
 			try {
-			FileInputStream getLearningData = new FileInputStream("91charOutOf95.save");
+//			FileInputStream getLearningData = new FileInputStream("91charOutOf95.save");
+			FileInputStream getLearningData = new FileInputStream("learning.object");
 			ObjectInputStream objLearningData = new ObjectInputStream(getLearningData);
 			network = (NeuralNetwork)objLearningData.readObject();
 			objLearningData.close();
@@ -89,7 +90,7 @@ import error.analysis.recognition.neuralnetwork.NeuronLayerException;
 						if (returnedToken == T) {
 							nbSuccess++;
 						} else {
-							System.out.println(T + " is not recognised. " + returnedToken + " was returned instead.");
+//							System.out.println(T + " is not recognised. " + returnedToken + " was returned instead.");
 						}
 						nbRecognitions++;
 						// calculating total squared gradient
