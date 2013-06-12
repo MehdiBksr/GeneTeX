@@ -3,10 +3,12 @@ package analysis.split;
 import data.PreprocessedImage;
 import data.imagedata.SplittedPage;
 
-/** Interface representing the splitting module. Its role is to find the limits of
- * each text block in the page, each line in the page, and of each symbol in the line.
+/** 
+ * The splitter class finds the characters and symbols of an image of type 
+ * <code>PreprocessedImage</code> and puts them in a <code>SplitPage</code>
+ * instance.
  * 
- * @author Mehdi Bouksara
+ * @author Marceau Thalgott, Theo Merle, Mehdi Bouksara
  *
  */
 public interface Splitter {

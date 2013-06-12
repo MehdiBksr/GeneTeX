@@ -2,6 +2,13 @@ package data.contentdata;
 
 import java.io.Serializable;
 
+/**
+ * This enumeration contains the different symbols that can be recognised and
+ * associates them with strings, each string corresponding to the text which is
+ * to be written in the output for a specific file type (Latex, word, etc.).
+ * 
+ * @author Marceau Thalgott, Theo Merle, Mehdi Bouksara
+ */
 public enum Token implements Serializable {
 
     /* ************************************************************************
@@ -228,6 +235,13 @@ public enum Token implements Serializable {
      *                              CONSTRUCTORS                              * 
      ************************************************************************ */
 	
+ 	/**
+ 	 * Creates a token.
+ 	 * 
+ 	 * @param math Whether the token is only writable in math mode.
+ 	 * @param latexString The string to be written in a latex document.
+ 	 * @param sampleDirectory
+ 	 */
 	private Token(boolean math, String latexString, String sampleDirectory) {
 		this.latex = latexString;
 		this.sampleDirectory = sampleDirectory;
@@ -238,6 +252,11 @@ public enum Token implements Serializable {
      *                              METHODS                                   * 
      ************************************************************************ */
 	
+	/**
+	 * Gets the string representation of this token for a latex document.
+	 * 
+	 * @return The string to be written in a latex document.
+	 */
 	public String toLatex() {
 		return this.latex;
 	}

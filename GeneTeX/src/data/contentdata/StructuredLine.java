@@ -7,9 +7,29 @@ import data.Line;
 import data.Symbol;
 import error.data.BadInstanceException;
 
+/**
+ * This class defines the line component of the structure containing the tokens 
+ * related to the image recognition step.
+ * An instance of <code>StructuredLine</code> is contained in an instance of 
+ * <code>StructuredBlock</code> and contains instances of 
+ * <code>StructuredSymbol</code>.
+ * 
+ * @see {@link Token}, {@link Line}
+ * 
+ * @author Marceau Thalgott, Theo Merle, Mehdi Bouksara
+ */
 public class StructuredLine extends Line {
+
+	/* ************************************************************************
+	 *                              ATTRIBUTES                                * 
+	 ************************************************************************ */
 	
+	/** The symbols contained in the line. */
 	private Vector<Symbol> symbols = new Vector<Symbol>();
+    
+    /* ************************************************************************
+     *                              METHODS                                   * 
+     ************************************************************************ */
 
 	/**
 	 * Adds a symbol to the line.

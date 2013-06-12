@@ -7,12 +7,6 @@ import data.imagedata.SplittedPage;
 import data.imagedata.SplittedSymbol;
 import error.data.BadInstanceException;
 
-/** Basic version of the splitting module. It doesn't detect text blocks,
- * assuming the page is composed of only one paragraph.
- * This version is only able to detect lines and characters 
- * written in script style, which can be easily separated using projection 
- * histograms (it means that characters and lines do not overlap). *
-=======
 /** 
  * This basic implementation of a splitter divides the given image into lines
  * and then searches for the symbols inside of the line.
@@ -32,21 +26,10 @@ import error.data.BadInstanceException;
  */
 public class BasicSplitter implements Splitter {
 
-	/* ************************************************************************
-	 *                              ATTRIBUTES                                * 
-	 ************************************************************************ */
+    /* ************************************************************************
+     *                              METHODS                                   * 
+     ************************************************************************ */
 
-	/* ************************************************************************
-
-	/** The primary segmentation method. It detects lines in the page 
-	 * one after another, and tries to detect symbols in the line immediately.
-	 * When a line (resp. symbol) is detected, the returned structure is
-	 * updated.
-	 * 
-	 * @param page The PreprocessedImage containing the text to be split
-	 * @return The SplittedPage containing the structure of the text and the
-	 * symbols that have been recognised.
-	 */
 	public SplittedPage split(PreprocessedImage preprocessedPage) {
 		
 		int y = 0;
@@ -157,15 +140,6 @@ public class BasicSplitter implements Splitter {
 		return l;
 	}
 
-	/** Gets the next undiscovered symbol in the line, and information
-	 * about it.
-	 * 
-	 * @param line The binary representation of the line
-	 * @param x The first undiscovered pixel column in the line
-	 * @return A SplittedSymbol representing the next symbol in the line,
-	 * or null if there are no undiscovered symbols.
-=======
-	
 	/**
 	 * Get the next symbol of the currently processed line. 
 	 *  
@@ -173,7 +147,6 @@ public class BasicSplitter implements Splitter {
 	 * @param y The index of the pixel row starting from which the next line is
 	 * 			to be found.
 	 * @return The line as a <code>SplitLine</code>.
->>>>>>> dbf278ff7f718c348fe799539efc046503162e9f:GeneTeX/src/analysis/split/BasicSplitter.java
 	 */
 	private static SplittedSymbol getNextSymbol(boolean[][] line, int x) {
 

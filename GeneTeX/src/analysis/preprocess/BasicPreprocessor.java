@@ -10,7 +10,7 @@ import data.PreprocessedImage;
  * pixels represented as boolean values, such value being true when the pixel is 
  * coloured, and false when the pixel is at background colour.
  * 
- * @see PreprocessedImage, Preprocessor
+ * @see {@link PreprocessedImage}, {@link Preprocessor}
  * 
  * @author Marceau Thalgott, Theo Merle, Mehdi Bouksara 
  */

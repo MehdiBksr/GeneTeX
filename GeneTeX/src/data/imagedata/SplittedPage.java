@@ -7,12 +7,23 @@ import data.Block;
 import data.Page;
 import error.data.BadInstanceException;
 
+/**
+ * This class defines the page component of the structure containing the 
+ * image chunks related to the splitting step.
+ * An instance of <code>SplitPage</code> contains instances of 
+ * <code>SplitBlock</code>.
+ * 
+ * @see {@link Page}
+ * 
+ * @author Marceau Thalgott, Theo Merle, Mehdi Bouksara
+ */
 public class SplittedPage extends Page {
 	
     /* ************************************************************************
      *                              ATTRIBUTES                                * 
      ************************************************************************ */
 	
+	/** The blocks contained in the page. */
 	private Vector<Block> blocks = new Vector<Block>();
 
     /* ************************************************************************
@@ -48,6 +59,12 @@ public class SplittedPage extends Page {
      *                               ACCESSORS                                * 
      ************************************************************************ */
 	
+	/**
+	 * Gets the block contained in the page at the specified position.
+	 * 
+	 * @param index The position of the block to be returned.
+	 * @return The block at the specified position.
+	 */
 	public Block getBlock(int index) {
 		return blocks.get(index);
 	}	

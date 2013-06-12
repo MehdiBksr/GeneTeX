@@ -8,10 +8,10 @@ import error.argumenthandler.InvalidDestinationException;
 import error.argumenthandler.UnknownArgumentException;
 
 /**
- * Class in form of a singleton storing source and/or destination files as well 
- * as options specified in the command line.
+ * The argument handler is a singleton storing source and/or destination files 
+ * as well as options specified in the command line.
  * 
- * @author Marceau Thalgott
+ * @author Marceau Thalgott, Theo Merle, Mehdi Bouksara
  */
 public class ArgumentHandler {
 	
@@ -133,14 +133,11 @@ public class ArgumentHandler {
 	}
     
     /* ************************************************************************
-     *                          PRIVATE FUNCTIONS                             * 
-     ************************************************************************ */
-    
-    /* ************************************************************************
      *                              ACCESSORS                                 * 
      ************************************************************************ */
 	
-	/** Returns the name of the destination file *
+	/** 
+	 * Returns the name of the destination file
 	 * 
 	 * @return the name of the destination file.
 	 */
@@ -148,7 +145,8 @@ public class ArgumentHandler {
 		return this.destinationFile;
 	}
 	
-	/** Returns the boolean saying if the verbose option is enabled *
+	/** 
+	 * Returns the boolean saying if the verbose option is enabled
 	 * 
 	 * @return the verbose boolean
 	 */
@@ -156,7 +154,8 @@ public class ArgumentHandler {
 		return this.verbose;
 	}
 	
-	/** Returns the boolean saying if the help option is enabled *
+	/** 
+	 * Returns the boolean saying if the help option is enabled
 	 * 
 	 * @return the help boolean
 	 */
@@ -164,8 +163,9 @@ public class ArgumentHandler {
 		return this.help;
 	}
 	
-	/** Returns a vector containing the names of the source files, in the same order
-	 * than the order they have been specified in the command line.
+	/** 
+	 * Returns a vector containing the names of the source files, in the same 
+	 * order as the initial order.
 	 * 
 	 * @return a vector of String containing the names of the source files
 	 */

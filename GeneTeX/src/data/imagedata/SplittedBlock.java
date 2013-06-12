@@ -7,26 +7,30 @@ import data.Block;
 import data.Line;
 import error.data.BadInstanceException;
 
+/**
+ * This class defines the block component of the structure containing the 
+ * image chunks related to the splitting step.
+ * An instance of <code>SplitBlock</code> is contained in an instance of
+ * <code>SplitPage</code> and contains instances of 
+ * <code>SplitLine</code>.
+ * 
+ * @see {@link Block}
+ * 
+ * @author Marceau Thalgott, Theo Merle, Mehdi Bouksara
+ */
 public class SplittedBlock extends Block {
 	
     /* ************************************************************************
      *                                ATTRIBUTES                              * 
      ************************************************************************ */
 	
+	/** The lines contained in the block. */
 	private Vector<Line> lines = new Vector<Line>();
-
 	
     /* ************************************************************************
      *                                  METHODS                               * 
      ************************************************************************ */
 	
-	/**
-	 * Adds a line to the block.
-	 * 
-	 * @param l The line to be added
-	 * @throws StructuredInSplittedException 
-	 * @see data.Block#addLine(data.Line)
-	 */
 	@Override
 	public void addLine(Line l) throws BadInstanceException {
 		if (!(l instanceof SplittedLine)) 
@@ -34,12 +38,6 @@ public class SplittedBlock extends Block {
 		lines.add(l);
 	}
 	
-	/** 
-	 * Returns an iterator over the lines contained in the current block.
-	 * 
-	 * @return An iterator over the lines contained in the current block
-	 * @see data.Block#getIterator()
-	 */
 	@Override
 	public Iterator<Line> getIterator() {
 		return lines.iterator();

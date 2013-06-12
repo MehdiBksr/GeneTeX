@@ -7,20 +7,33 @@ import data.Line;
 import data.Symbol;
 import error.data.BadInstanceException;
 
+/**
+ * This class defines the line component of the structure containing the 
+ * image chunks related to the splitting step.
+ * An instance of <code>SplitLine</code> is contained in an instance of
+ * <code>SplitBlock</code> and contains instances of 
+ * <code>SplitSymbol</code>.
+ * 
+ * @see {@link Line}
+ * 
+ * @author Marceau Thalgott, Theo Merle, Mehdi Bouksara
+ */
 public class SplittedLine extends Line {
 	
 	/* ************************************************************************
 	 *                              ATTRIBUTES                                * 
 	 ************************************************************************ */
 	
+	/** Index of the first pixel row of this line in the page. */
 	private int firstPixelY;
+	/** Index of the last pixel row of this line in the page. */
 	private int lastPixelY;
+	/** The symbols contained in the line. */
+	private Vector<Symbol> symbols = new Vector<Symbol>();
 	
 	/* ************************************************************************
 	 *                              METHODS                                   * 
 	 ************************************************************************ */
-	
-	private Vector<Symbol> symbols = new Vector<Symbol>();
 
 	/**
 	 * Adds a symbol to the line.
@@ -51,38 +64,64 @@ public class SplittedLine extends Line {
 	 *                             CONSTRUCTORS                               * 
 	 ************************************************************************ */
 	
+	/**
+	 * Creates a line.
+	 */
 	public SplittedLine() { 
 		this.firstPixelY 	= 0;
 		this.lastPixelY 	= 0;
 	}
 	
+	/**
+	 * Creates a line, given the index of the first pixel row of this line in 
+	 * the page and the index of the last pixel row of this line in the page.
+	 * 
+	 * @param firstPixelLine Index of the first pixel row.
+	 * @param lastPixelLine Index of the last pixel row.
+	 */
 	public SplittedLine(int firstPixelLine, int lastPixelLine) {
 		this.firstPixelY 	= firstPixelLine;
 		this.lastPixelY 	= lastPixelLine;
 	}
-	
-	/* ************************************************************************
-	 *                               MUTATORS                                 * 
-	 ************************************************************************ */
 
-	public void setFirstPixelLine(int firstPixelLine) {
-		this.firstPixelY = firstPixelLine;
-	}
-	
-	public void setLastPixelLine(int lastPixelLine) {
-		this.lastPixelY = lastPixelLine;
-	}
-	
 	/* ************************************************************************
 	 *                               ACCESSORS                                * 
 	 ************************************************************************ */
 
+	/**
+	 * Get the index of the first pixel row of this line in the page.
+	 * 
+	 * @return The index of the first pixel row.
+	 */
 	public int getLastPixelLine() {
 		return lastPixelY;
 	}
 	
+	/**
+	 * Set the index of the first pixel row of this line in the page.
+	 * 
+	 * @param y The index of the first pixel row.
+	 */
+	public void setFirstPixelRow(int y) {
+		this.firstPixelY = y;
+	}
+	
+	/**
+	 * Get the index of the last pixel row of this line in the page.
+	 * 
+	 * @return The index of the last pixel row.
+	 */
 	public int getFirstPixelLine() {
 		return firstPixelY;
+	}
+	
+	/**
+	 * Set the index of the last pixel row of this line in the page.
+	 * 
+	 * @param y THe index of the last pixel row.
+	 */
+	public void setLastPixelRow(int y) {
+		this.lastPixelY = y;
 	}
 
 }
