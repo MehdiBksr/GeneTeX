@@ -4,12 +4,16 @@ import java.awt.image.BufferedImage;
 
 import data.PreprocessedImage;
 
-/** The preprocessor's role is to prepare the input image to be analyzed by the recognition system.
- * In this basic version, it simply translates the image into a binary version : a pixel is colored (true) or
- * empty (false). The conversion uses a threshold system, if the RGB values of a given pixel are under
- * a given value, it will be converted to a colored pixel in the binarized version.
- * @author Marceau Thalgott
- *
+/** 
+ * This basic implementation of a preprocessor only transforms the input image
+ * into a <code>PreprocessedImage</code>, i.e. a two-dimensional array of 
+ * boolean values.
+ * When such a value is true, the pixel is coloured, when it is false the pixel
+ * is at background colour.
+ * 
+ * @see PreprocessedImage, Preprocessor
+ * 
+ * @author Marceau Thalgott, Theo Merle, Mehdi Bouksara 
  */
 public class BasicPreprocessor implements Preprocessor {
 	
@@ -29,8 +33,7 @@ public class BasicPreprocessor implements Preprocessor {
 	private static final int BLUE_THRESHOLD = 128;
 
     /* ************************************************************************
-     *                              CONSTRUCTORS   
-     *                                                         * 
+     *                              CONSTRUCTORS   						      *                                                         * 
      ************************************************************************ */
 	
 	public BasicPreprocessor() {}
@@ -39,14 +42,19 @@ public class BasicPreprocessor implements Preprocessor {
      *                              METHODS                                   * 
      ************************************************************************ */
 	
-	/** This method turns a BufferedImage, which contains an array of pixels (using their
+	public PreprocessedImage preprocess(BufferedImage image) {
+		return this.binarise(image);
+	}
+	
+	/** 
+	 * This method turns a BufferedImage, which contains an array of pixels (using their
 	 * RGB values) into an array of booleans of the same dimensions. A pixel of the binarized image
 	 * will be colored (true) if its equivalent in the BufferedImage satisfies the given conditions.
 	 * 
 	 *  @param image The image to be converted.
 	 *  @return	a structure containing the array of booleans representing the image.
 	 */
-	public PreprocessedImage binarise(BufferedImage image) {
+	private PreprocessedImage binarise(BufferedImage image) {
 		boolean[][] bin = new boolean[image.getWidth()][image.getHeight()];
 		
 		for (int i = 0; i < bin.length; i++) {

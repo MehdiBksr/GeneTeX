@@ -35,7 +35,7 @@ public class JFrameBinarisedFile extends JFrame {
 	       		Level.SEVERE, null, ex);
 	   }
 	   Preprocessor proc = new BasicPreprocessor();
-	   bufferedImage = toBI(proc.binarise(bufferedImage));
+	   bufferedImage = toBI(proc.preprocess(bufferedImage));
 	   JLabel jLabel = new JLabel(new ImageIcon(bufferedImage));
 	    
 	   JPanel jPanel = new JPanel();

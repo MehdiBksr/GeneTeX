@@ -40,7 +40,7 @@ public class GeneTeX {
 		
 		printVerbose("Preprocessing image...", false);
 		Preprocessor proc = new BasicPreprocessor();
-		PreprocessedImage binaryImage = proc.binarise(image);
+		PreprocessedImage binaryImage = proc.preprocess(image);
 		printVerbose(" done", true);
 		
 		printVerbose("Segmenting preprocessed image...", false);
