@@ -45,7 +45,7 @@ public class JFrameSplittedFile extends JFrame {
 		Preprocessor proc = new BasicPreprocessor();
 		PreprocessedImage bin = proc.preprocess(bufferedImage);
 		BasicSplitter splitter = new BasicSplitter();
-		SplittedPage page = splitter.primarySegmentation(bin);
+		SplittedPage page = splitter.split(bin);
 		Iterator<Block> itBlock = page.getIterator();
 		while (itBlock.hasNext()) {
 			Block currentBlock = itBlock.next();

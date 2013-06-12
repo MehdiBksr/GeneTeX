@@ -7,9 +7,8 @@ import data.PreprocessedImage;
 /** 
  * This basic implementation of a preprocessor only transforms the input image
  * into a <code>PreprocessedImage</code>, i.e. a two-dimensional array of 
- * boolean values.
- * When such a value is true, the pixel is coloured, when it is false the pixel
- * is at background colour.
+ * pixels represented as boolean values, such value being true when the pixel is 
+ * coloured, and false when the pixel is at background colour.
  * 
  * @see PreprocessedImage, Preprocessor
  * 
@@ -45,13 +44,20 @@ public class BasicPreprocessor implements Preprocessor {
 	public PreprocessedImage preprocess(BufferedImage image) {
 		return this.binarise(image);
 	}
+    
+    /* ************************************************************************
+     *                          PRIVATE FUNCTIONS                             * 
+     ************************************************************************ */
 	
 	/** 
-	 * This method turns a BufferedImage, which contains an array of pixels (using their
-	 * RGB values) into an array of booleans of the same dimensions. A pixel of the binarized image
-	 * will be colored (true) if its equivalent in the BufferedImage satisfies the given conditions.
+	 * Transforms the given image in form of a BufferedImage into a 
+	 * PreprocessedImage containing a binarised version of the initial image.
+	 * The binarised image is a two-dimensional array of pixels represented as 
+	 * boolean values, such value being true when the pixel is coloured, and 
+	 * false when the pixel is at background colour.
 	 * 
 	 *  @param image The image to be converted.
+	 *  
 	 *  @return	a structure containing the array of booleans representing the image.
 	 */
 	private PreprocessedImage binarise(BufferedImage image) {
@@ -72,4 +78,5 @@ public class BasicPreprocessor implements Preprocessor {
 		
 		return new PreprocessedImage(bin);
 	}
+	
 }

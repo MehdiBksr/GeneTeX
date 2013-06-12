@@ -10,6 +10,7 @@ import analysis.preprocess.BasicPreprocessor;
 import analysis.preprocess.Preprocessor;
 import analysis.recognition.NeuralNetworkRecognizer;
 import analysis.split.BasicSplitter;
+import analysis.split.Splitter;
 import data.Page;
 import data.PreprocessedImage;
 import data.contentdata.StructuredPage;
@@ -29,7 +30,8 @@ public class BasicAnalyzer implements Analyzer {
 		Utility.printVerbose(" done", true);
 		
 		Utility.printVerbose("Segmenting preprocessed image...", false);
-		SplittedPage page = BasicSplitter.primarySegmentation(binaryImage);
+		Splitter splitter = new BasicSplitter();
+		SplittedPage page = splitter.split(binaryImage);
 		Utility.printVerbose(" done", true);
 		
 		Utility.printVerbose("Recognizing... ", false);
