@@ -12,8 +12,17 @@ import error.analysis.recognition.neuralnetwork.NeuronException;
 
 import junit.framework.TestCase;
 
+/**
+ * Test the public methods of NeuronLayer.
+ * 
+ * @author Mehdi BOUKSARA, Théo MERLE, Marceau THALGOTT 
+ */
 public class TestNeuronLayer extends TestCase {
 
+	/**
+	 * Test if size() returns the number of neurons contained
+	 * in the layer.
+	 */
 	@Test
 	public void testSize() {
 		NeuronLayer neuronLayer = new NeuronLayer();
@@ -21,7 +30,6 @@ public class TestNeuronLayer extends TestCase {
 		try {
 			neuronLayer.addNeuron(new Neuron(new float[3]));
 		} catch (NeuronException e) {
-			// TODO Auto-generated catch block
 			fail("Unexpected NeuronException");
 		}
 		assertEquals(1, neuronLayer.size());
@@ -30,7 +38,6 @@ public class TestNeuronLayer extends TestCase {
 			try {
 				aLayer.add(new Neuron(new float[5]));
 			} catch (NeuronException e) {
-				// TODO Auto-generated catch block
 				fail("Unexpected NeuronException");
 			}
 		}
@@ -38,6 +45,9 @@ public class TestNeuronLayer extends TestCase {
 		assertEquals(10, anotherNeuronLayer.size());
 	}
 	
+	/**
+	 * Test if the methods computeNeuralValues and reset are correct
+	 */
 	public void testComputeAndReset() {
 		// creating a primitive vector for a simple binarized image
 		Primitive primitive = new Primitive();
@@ -49,14 +59,15 @@ public class TestNeuronLayer extends TestCase {
 		try {
 			primitive.computePrimitives(new SplittedSymbol(binary, 0, 0));
 		} catch (ComputePrimitivesException e) {
-			// TODO Auto-generated catch block
 			fail("Unexpected ComputePrimitivesException");
 		}
+
 		// creating a simple neuron layer
 		Vector<Neuron> neurons = new Vector<Neuron>();
 		for (int i = 0; i < 5; i++) {
 			neurons.add(new Neuron(130));
 		}
+		
 		// computing neuron values
 		NeuronLayer neuronLayer = new NeuronLayer(neurons);
 		try {
@@ -64,6 +75,7 @@ public class TestNeuronLayer extends TestCase {
 		} catch (NeuronException e) {
 			fail("Unexpected NeuronException");
 		}
+		
 		// checking computation
 		boolean computation = false;
 		for (int i = 0; i < neuronLayer.size(); i++) {

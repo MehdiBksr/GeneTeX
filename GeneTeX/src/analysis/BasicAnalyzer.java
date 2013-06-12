@@ -9,6 +9,7 @@ import util.Utility;
 import analysis.preprocess.BasicPreprocessor;
 import analysis.preprocess.Preprocessor;
 import analysis.recognition.NeuralNetworkRecognizer;
+import analysis.recognition.Recognizer;
 import analysis.split.BasicSplitter;
 import analysis.split.Splitter;
 import data.Page;
@@ -35,8 +36,9 @@ public class BasicAnalyzer implements Analyzer {
 		Utility.printVerbose(" done", true);
 		
 		Utility.printVerbose("Recognizing... ", false);
+		Recognizer recognizer = new NeuralNetworkRecognizer();
 		Vector<Page> recognizedPages = new Vector<Page>();
-		recognizedPages.add(NeuralNetworkRecognizer.readPage(page));
+		recognizedPages.add(recognizer.recognise(page));
 		Utility.printVerbose(" done", true);
 		
 		return (StructuredPage)recognizedPages.get(0);

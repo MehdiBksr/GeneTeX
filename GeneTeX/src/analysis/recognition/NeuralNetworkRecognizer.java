@@ -18,33 +18,45 @@ import data.imagedata.SplittedLine;
 import data.imagedata.SplittedPage;
 import data.imagedata.SplittedSymbol;
 
+/**
+ * This class loads a trained neural network and analyse the split data to
+ * recognise the content of the document
+ * 
+ * @author Mehdi BOUKSARA, Théo MERLE, Marceau THALGOTT 
+ */
 public class NeuralNetworkRecognizer implements Recognizer {
-	
+
 	/* ************************************************************************
-     *                              ATTRIBUTES                                * 
-     ************************************************************************ */
-    
-    /* ************************************************************************
-     *                              CONSTRUCTORS                              * 
-     ************************************************************************ */
-    
-    /* ************************************************************************
-     *                              METHODS                                   * 
-     ************************************************************************ */
-    
-	public static StructuredPage readPage(SplittedPage page) throws Exception {
+	 *                              METHODS                                   * 
+	 ************************************************************************ */
+
+	/**
+	 * Create the content data corresponding to the split data given.
+	 * The current version recognize the Token contained 
+	 * 
+	 * @param page Informations coming from the splitting.
+	 * @return The content data obtained after analysing the split data
+	 * @throws Exception
+	 */
+	public StructuredPage recognise(SplittedPage page)
+			throws Exception {
 		NeuralNetwork network;
-		
+
+		// load the trained neural network.
 		try {
-		FileInputStream getLearningData = new FileInputStream("91charOutOf95.save");
-		ObjectInputStream objLearningData = new ObjectInputStream(getLearningData);
-		network = (NeuralNetwork)objLearningData.readObject();
-		objLearningData.close();
-		getLearningData.close();
+			FileInputStream getLearningData =
+					new FileInputStream("91charOutOf95.save");
+			ObjectInputStream objLearningData =
+					new ObjectInputStream(getLearningData);
+			network = (NeuralNetwork)objLearningData.readObject();
+			objLearningData.close();
+			getLearningData.close();
 		} catch (FileNotFoundException e) {
-			throw new Exception("Can't find a configured neural network, aborting");
+			throw
+			new Exception("Can't find a configured neural network, aborting");
 		}
-		
+
+		// create the content data corresponding to the split data.
 		StructuredPage structuredPage = new StructuredPage();
 		Iterator<Block> itBlock = page.getIterator();
 		while (itBlock.hasNext()) {
@@ -66,13 +78,5 @@ public class NeuralNetworkRecognizer implements Recognizer {
 		}
 		return structuredPage; 
 	}
-	
-    /* ************************************************************************
-     *                          PRIVATE FUNCTIONS                             * 
-     ************************************************************************ */
-    
-    /* ************************************************************************
-     *                              ACCESSORS                                 * 
-     ************************************************************************ */
 
 }
