@@ -7,7 +7,7 @@ import error.analysis.recognition.neuralnetwork.NeuronException;
 
 /** This class represents the neuron, it is the smallest unit in a neural network.
  * It is composed of a value and of an array of synaptic weights used for
- * computation of the value.
+ * computation of its value.
  * 
  * @author Mehdi BOUKSARA, Théo MERLE, Marceau THALGOTT 
  *
@@ -54,7 +54,8 @@ public class Neuron implements Serializable {
 			this.synapticWeights[i] = ((float)randGen.nextInt((int)n))/n;
 		}
 		
-		//Standardize the weights, so that they are between -5 and 5.
+		/* Standardize the weights, so that they are between -5 and 5, to avoid
+		 * extreme starting values which can cause the learning to fail */
 		float max = 0;
 		float min = 0;
 		for (int i=0; i<=previousLayerSize; i++) {
@@ -69,7 +70,7 @@ public class Neuron implements Serializable {
 					(10*(this.synapticWeights[i]-min)/(max-min) - 5);
 		}		
 
-		//Standardize the sum, so that sum(abs(synaptic weigth))<=2
+		// Standardize the sum, so that sum(abs(synaptic weigth)) <= 2
 		for (int i=0; i<=previousLayerSize; i++) {
 			this.synapticWeights[i] *= 2.0/(5.0 * (float)(this.synapticWeights.length));	
 		}
@@ -124,7 +125,7 @@ public class Neuron implements Serializable {
 		this.value = 0;
 	}
 	
-	/** Adapt the synaptic weights of this neuron depending on the input values
+	/** Adapts the synaptic weights of this neuron depending on the input values
 	 *  from the previous layer, the weighted deltas from the next layer's
 	 *  gradient and the adaptation rate.
 	 * 

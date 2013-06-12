@@ -3,11 +3,12 @@ package analysis.recognition.neuralnetwork;
 import java.io.Serializable;
 
 /**
- * The neural network is composed of layer. Each layer contains some elements.
+ * The neural network is a structure composed of layers. Each layer contains
+ * some elements of the same nature.
  * 
- * @author Mehdi BOUKSARA, ThÃ©o MERLE, Marceau THALGOTT 
+ * @author Mehdi BOUKSARA, Théo MERLE, Marceau THALGOTT 
  */
-public interface Layer extends Serializable{
+public interface Layer extends Serializable {
 	    
     /* ************************************************************************
      *                              METHODS                                   * 
@@ -28,8 +29,7 @@ public interface Layer extends Serializable{
 	public float getValue(int index);
 	
 	/**
-	 * Resets all values that the network computed
-	 * Does not change the parameters (synaptic weights, nonlinear parameters...).
+	 * Resets the values of the elements without changing the rest.
 	 */
 	public void resetValues();
 

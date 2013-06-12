@@ -11,7 +11,7 @@ import error.argumenthandler.UnknownArgumentException;
  * The argument handler is a singleton storing source and/or destination files 
  * as well as options specified in the command line.
  * 
- * @author Marceau Thalgott, Theo Merle, Mehdi Bouksara
+ * @author Mehdi BOUKSARA,  Théo MERLE, Marceau THALGOTT
  */
 public class ArgumentHandler {
 	
@@ -19,14 +19,14 @@ public class ArgumentHandler {
      *                              ATTRIBUTES                                * 
      ************************************************************************ */
 
-	/** Unique instance. */
+	/** Unique instance of the class. */
 	final private static ArgumentHandler instance = new ArgumentHandler();
 	
 	/** Name of the destination file. */
 	private String 			destinationFile	= new String();
 	/** Name of the source file(s). */
 	private Vector<String> 	sourceFiles		= new Vector<String>();
-	/** Option verbose. */
+	/** Verbose option. */
 	private boolean 		verbose			= false;
 	/** Help option. */
 	private boolean 		help			= false;
@@ -137,7 +137,7 @@ public class ArgumentHandler {
      ************************************************************************ */
 	
 	/** 
-	 * Returns the name of the destination file
+	 * Returns the name of the destination file.
 	 * 
 	 * @return the name of the destination file.
 	 */
@@ -146,18 +146,18 @@ public class ArgumentHandler {
 	}
 	
 	/** 
-	 * Returns the boolean saying if the verbose option is enabled
+	 * Returns the boolean saying if the verbose option is enabled.
 	 * 
-	 * @return the verbose boolean
+	 * @return The verbose boolean
 	 */
 	public boolean getVerbose() {
 		return this.verbose;
 	}
 	
 	/** 
-	 * Returns the boolean saying if the help option is enabled
+	 * Returns the boolean saying if the help option is enabled.
 	 * 
-	 * @return the help boolean
+	 * @return The help boolean
 	 */
 	public boolean getHelp() {
 		return this.help;
@@ -167,7 +167,7 @@ public class ArgumentHandler {
 	 * Returns a vector containing the names of the source files, in the same 
 	 * order as the initial order.
 	 * 
-	 * @return a vector of String containing the names of the source files
+	 * @return A Vector<String> containing the names of the source files.
 	 */
 	public Vector<String> getSourceFiles() {
 		return this.sourceFiles;

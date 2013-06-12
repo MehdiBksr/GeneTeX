@@ -17,6 +17,12 @@ import data.PreprocessedImage;
 import data.contentdata.StructuredPage;
 import data.imagedata.SplittedPage;
 
+/** A basic implementation of the analyser.
+ * 
+ * @author Mehdi BOUKSARA, Théo MERLE, Marceau THALGOTT
+ * @see analysis.Analyzer
+ *
+ */
 public class BasicAnalyzer implements Analyzer {
 	
 	public StructuredPage analyse(String fileName) throws Exception {
@@ -32,7 +38,8 @@ public class BasicAnalyzer implements Analyzer {
 		
 		Utility.printVerbose("Segmenting preprocessed image...", false);
 		Splitter splitter = new BasicSplitter();
-		SplittedPage page = splitter.split(binaryImage);
+		SplittedPage page = splitter
+				.split(binaryImage);
 		Utility.printVerbose(" done", true);
 		
 		Utility.printVerbose("Recognizing... ", false);
