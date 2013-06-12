@@ -1,5 +1,11 @@
 package analysis.split;
 
+/** Interface representing the splitting module. Its role is to find the limits of
+ * each text block in the page, each line in the page, and of each symbol in the line.
+ * 
+ * @author Mehdi Bouksara
+ *
+ */
 public interface Splitter {
 	
 	/* ************************************************************************

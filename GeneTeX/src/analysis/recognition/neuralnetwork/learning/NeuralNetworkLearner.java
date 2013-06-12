@@ -30,7 +30,7 @@ import error.analysis.recognition.neuralnetwork.NeuronLayerException;
 			NeuralNetwork network;
 			
 			try {
-			FileInputStream getLearningData = new FileInputStream("learning.object");
+			FileInputStream getLearningData = new FileInputStream("91charOutOf95.save");
 			ObjectInputStream objLearningData = new ObjectInputStream(getLearningData);
 			network = (NeuralNetwork)objLearningData.readObject();
 			objLearningData.close();
