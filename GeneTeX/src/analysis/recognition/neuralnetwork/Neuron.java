@@ -6,12 +6,12 @@ import java.util.Random;
 import error.analysis.recognition.neuralnetwork.NeuronException;
 
 /** This class represents the neuron, it is the smallest unit in a neural network.
- * It is composed of a value and of an array of synaptic weights used for computation of the value.
+ * It is composed of a value and of an array of synaptic weights used for
+ * computation of the value.
  * 
- * @author Th�o Merle
+ * @author Mehdi BOUKSARA, Théo MERLE, Marceau THALGOTT 
  *
  */
-
 @SuppressWarnings("serial")
 public class Neuron implements Serializable {
 
@@ -20,12 +20,15 @@ public class Neuron implements Serializable {
      *                              ATTRIBUTES                                * 
      ************************************************************************ */
 
-	/** The value computed by the neuron. When nothing has been computed yet, its
+	/**
+	 * The value computed by the neuron. When nothing has been computed yet, its
 	 * value is 0.
 	 */
 	protected float value;
 	
-	/** The synaptic weights of the neuron. */
+	/** 
+	 * The synaptic weights of the neuron.
+	 */
 	protected float synapticWeights[];
 	
 	
@@ -33,19 +36,25 @@ public class Neuron implements Serializable {
      *                              CONSTRUCTORS                              * 
      ************************************************************************ */
     
+	/**
+	 * Builds a neuron with previousLayerSize + 1 synaptic weights on its
+	 * entries.
+	 * 
+	 * @param previousLayerSize The number of neurons in the previous layer.
+	 */
 	public Neuron(int previousLayerSize){
+
 		this.value = 0;
+
+		// Gives the synaptic weight a random value.
 		this.synapticWeights = new float[previousLayerSize + 1];
 		Random randGen = new Random();
 		float n = 10*previousLayerSize;
-//		System.out.println("Initial synaptic weights :");
 		for (int i=0; i<=previousLayerSize; i++) {
 			this.synapticWeights[i] = ((float)randGen.nextInt((int)n))/n;
-//			System.out.print(" " + this.synapticWeights[i]);
 		}
 		
-		//Standardize the weights, so that the linear sum gives a result between -5
-		// and 5.
+		//Standardize the weights, so that they are between -5 and 5.
 		float max = 0;
 		float min = 0;
 		for (int i=0; i<=previousLayerSize; i++) {
@@ -55,20 +64,23 @@ public class Neuron implements Serializable {
 				min -= this.synapticWeights[i];
 			}
 		}
-//		System.out.println("Standardised synaptic weights :");
 		for (int i=0; i<=previousLayerSize; i++) {
 			this.synapticWeights[i] =
 					(10*(this.synapticWeights[i]-min)/(max-min) - 5);
-//			System.out.print(" " + (int)this.synapticWeights[i]);
 		}		
-//		System.out.println();
 
-		//Standardize the sum so that sum(abs(synaptic weigth))<=2
+		//Standardize the sum, so that sum(abs(synaptic weigth))<=2
 		for (int i=0; i<=previousLayerSize; i++) {
 			this.synapticWeights[i] *= 2.0/(5.0 * (float)(this.synapticWeights.length));	
 		}
 	}
 
+	/**
+	 * Builds a neuron with given synaptic weights.
+	 * 
+	 * @param synapticWeights The wanted synaptic weights.
+	 * @throws NeuronException
+	 */
 	public Neuron(float synapticWeights[]) throws NeuronException{
 		this.value = 0;
 		
@@ -91,6 +103,7 @@ public class Neuron implements Serializable {
 	 * @throws NeuronException
 	 */
 	public void computeValue(Layer previousLayer) throws NeuronException{
+		// check if the argument is correct.
 		if (previousLayer == null) {
 			throw new NeuronException("In call to function" +
 					" neuron.computeValue(Layer), the parameter is null.");
@@ -100,6 +113,8 @@ public class Neuron implements Serializable {
 					" neuron.computeValue(Layer), the parameter is not " +
 					"synapticWeights.length - 1.");
 		}
+		
+		// compute the value of the neuron
 		this.value = this.activationFunction(
 				this.scalarProduct(previousLayer));
 	}
@@ -110,8 +125,8 @@ public class Neuron implements Serializable {
 	}
 	
 	/** Adapt the synaptic weights of this neuron depending on the input values
-	 *  from the previous layer, the weighted deltas from the next layer and
-	 *  the adaptation rate.
+	 *  from the previous layer, the weighted deltas from the next layer's
+	 *  gradient and the adaptation rate.
 	 * 
 	 * @param previousLayer          The previous layer in the neural network.
 	 * @param nextLayerWeightedDelta The weighted delta from the next Layer.
@@ -122,13 +137,22 @@ public class Neuron implements Serializable {
 	public float[] adaptSynapticWeigths(Layer previousLayer,
 			float nextLayerWeightedDelta, float alpha)
 					throws NeuronException{
+		
+		// check if the previous layer is corresponding to the current neuron.
 		if (this.synapticWeights.length != previousLayer.size() + 1) {
 			throw new NeuronException("In call to " +
 					"neuron.adaptSynapticWeigths, the size of the previous " +
 					"layer is not the number of synaptics weights minus 1.");
 		}
+		
+		// delta is used to modify the weights. Careful, if this.value is near
+		// 0 or 1, the modification is insignificant. 
 		float delta = this.value*(1-this.value)*nextLayerWeightedDelta;
-		float[] resultingWeightedDeltas = new float[this.synapticWeights.length];
+		// compute the weighted deltas, that will be used to adapt the previous
+		// layer. The last case of this array contains the contribution to the
+		// computation of the gradient's norm.
+		float[] resultingWeightedDeltas =
+				new float[this.synapticWeights.length];
 		for (int i=0; i<resultingWeightedDeltas.length-1; i++) {
 			resultingWeightedDeltas[i] = this.synapticWeights[i]*delta;
 			resultingWeightedDeltas[resultingWeightedDeltas.length-1] =
@@ -154,6 +178,8 @@ public class Neuron implements Serializable {
 	 */
 	private float activationFunction(float x){
 		// sigmoidal function of parameter beta > 0
+		// For beta = 1 and x near 5, the result is nearly 1.
+		// For beta = 1 and x near -5, the result is nearly 0.
 		double beta = 1.0;
 		return (float)(1.0/(1.0+Math.exp(-beta*x)));
 	}

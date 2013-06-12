@@ -5,9 +5,7 @@ import java.io.Serializable;
 /**
  * The neural network is composed of layer. Each layer contains some elements.
  * 
- * @author Marceau Thalgott 
- * @author Mehdi Bouksara
- * @author Théo Merle
+ * @author Mehdi BOUKSARA, Théo MERLE, Marceau THALGOTT 
  */
 public interface Layer extends Serializable{
 	    
@@ -34,14 +32,5 @@ public interface Layer extends Serializable{
 	 * Does not change the parameters (synaptic weights, nonlinear parameters...).
 	 */
 	public void resetValues();
-
-	/* ************************************************************************
-     *                          PRIVATE FUNCTIONS                             * 
-     ************************************************************************ */
-    
-    /* ************************************************************************
-     *                              ACCESSORS                                 * 
-     ************************************************************************ */
-	
 
 }
