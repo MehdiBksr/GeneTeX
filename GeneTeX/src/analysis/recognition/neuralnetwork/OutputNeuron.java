@@ -4,7 +4,8 @@ import data.contentdata.Token;
 import error.analysis.recognition.neuralnetwork.NeuronException;
 
 /** This class represents an output neuron. It is used to recognise a given
- * token.
+ * token, by checking its value : the higher it is, the more likely the image
+ * is to represent the token associated to the neuron.
  * 
  * @author Mehdi BOUKSARA, Théo MERLE, Marceau THALGOTT 
  *
@@ -17,8 +18,9 @@ public class OutputNeuron extends Neuron {
      ************************************************************************ */
    
 	/**
-	 * The token, this neuron is supposed to recognise. In a perfect case, it
-	 * should compute 1 for the recognition of this toke and 0 otherwise.
+	 * The token this neuron is supposed to recognise. In a perfect case, it
+	 * should compute 1 when an image representing this token is recognised,
+	 * and 0 otherwise.
 	 */
 	private Token token;
 	
@@ -39,8 +41,8 @@ public class OutputNeuron extends Neuron {
 	}
 
 	/**
-	 * Builds a neuron with given synaptic weights.
-	 * 
+	 * Builds an output neuron with given synaptic weights.
+	 *
 	 * @param previousLayerSize The number of neurons in the previous layer.
 	 * @param t                 The token, this neuron should recognise.
 	 */
@@ -54,9 +56,9 @@ public class OutputNeuron extends Neuron {
      *                              METHODS                                   * 
      ************************************************************************ */
 
-	/** Adapt the synaptic weights of this neuron depending on the input values
-	 *  from the previous layer, the weighted deltas from the next layer and
-	 *  the adaptation rate.
+	/** Adapt the synaptic weights of this output neuron depending on the input 
+	 *  values from the previous layer, the weighted deltas from the next layer
+	 *  and the adaptation rate.
 	 * 
 	 * @param previousLayer The previous layer in the neural network.
 	 * @param expectedToken The weighted delta from the next Layer.
@@ -99,7 +101,9 @@ public class OutputNeuron extends Neuron {
      ************************************************************************ */
 
 	/**
-	 * @return The token, this neuron should recognise.
+	 * Returns the token associated to the output neuron.
+	 * 
+	 * @return The token this neuron should recognise.
 	 */
 	public Token getToken() {
 		return token;

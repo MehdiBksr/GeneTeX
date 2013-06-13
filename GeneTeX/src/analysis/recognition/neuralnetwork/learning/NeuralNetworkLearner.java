@@ -89,8 +89,9 @@ import error.analysis.recognition.neuralnetwork.NeuronLayerException;
 						Token returnedToken = network.recognise(currentSymbol).getToken();
 						if (returnedToken == T) {
 							nbSuccess++;
+							if (T == Token.COMMA || T == Token.QUOTE) System.out.println(T + " was recognised correctly.");
 						} else {
-//							System.out.println(T + " is not recognised. " + returnedToken + " was returned instead.");
+							// System.out.println(T + " is not recognised. " + returnedToken + " was returned instead.");
 						}
 						nbRecognitions++;
 						// calculating total squared gradient
