@@ -86,13 +86,13 @@ public class BasicSplitter implements Splitter {
 		//  true length of the line (from the starting position) 
 		int length_y = 0;
 
-		// get the length and starting y position of the current line
+		// get the starting y position of the current line
 		while (start_y < page[0].length && rowEmpty(page, start_y))
 			start_y++;
 		// end of the page: no new line in the page
 		if (start_y >= page[0].length) return null;
 
-		// computing the length of the line
+		// computing the height of the line
 		while ((length_y + start_y < page[0].length) 
 				&& !rowEmpty(page, length_y + start_y))
 			length_y++;
@@ -220,7 +220,7 @@ public class BasicSplitter implements Splitter {
 	 * 
 	 * @return A trimmed two-dimensional array of pixels.
 	 */
-	private static boolean[][] removeMargins(boolean[][] pixels) {
+	protected static boolean[][] removeMargins(boolean[][] pixels) {
 		int start_x = 0, end_x = 0;
 		int start_y = 0, end_y = 0;
 		boolean[][] symbol;

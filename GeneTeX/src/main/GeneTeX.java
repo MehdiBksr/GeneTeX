@@ -19,7 +19,7 @@ public class GeneTeX {
 		try {
 			ArgumentHandler.initialise(args);
 		} catch (InvalidCommandLineException e) {
-			System.out.println(Help.getHelpString());
+			System.out.println(e.getMessage());
 			return;
 		}
 		Vector<String> source = options.getSourceFiles();
