@@ -30,6 +30,7 @@ public class SplittedLine extends Line {
 	private int lastPixelY;
 	/** Size of  the line. */
 	private int lineWidth;
+
 	/** The symbols contained in the line. */
 	private Vector<Symbol> symbols = new Vector<Symbol>();
 	
@@ -126,6 +127,14 @@ public class SplittedLine extends Line {
 	 */
 	public void setLastPixelRow(int y) {
 		this.lastPixelY = y;
+	}
+
+	/**
+	 * Get the size of the line.
+	 * @return return the width of the line.
+	 */
+	public int getLineWidth() {
+		return lineWidth;
 	}
 
 }

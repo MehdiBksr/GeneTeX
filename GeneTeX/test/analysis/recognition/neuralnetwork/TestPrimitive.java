@@ -66,6 +66,50 @@ public class TestPrimitive {
 			//expected behaviour
 		}
 
+		// test the relative coordinates
+		try {
+			boolean bin[][] = new boolean[1][1];
+			bin[0][0] = true;
+			SplittedSymbol img = new SplittedSymbol(bin);
+			p.computePrimitives(img);
+			fail("computePrimitives with a not initialised linewidth did not" +
+					" throw an exception.");
+		} catch (ComputePrimitivesException e) {
+			//expected behaviour
+		}
+		
+		// test the relative coordinates
+		try {
+			// test the extreme relative coordinates.
+			p.setLineWidth(1);
+			boolean bin[][] = new boolean[1][1];
+			SplittedSymbol img = new SplittedSymbol(bin);
+			img.setFirstPixelX(0);
+			img.setFirstPixelY(0);
+			p.computePrimitives(img);
+			if (p.getValue(130) != 0 || p.getValue(131) != 0 ||
+					p.getValue(132) != 0 || p.getValue(133) != 0) {
+				fail("Call to computePrimitive, with an 1x1 image starting" +
+						" at (0,0) did not return 0 for all its coordinates.");
+			}
+			
+			// test other relative coordinates
+			p.setLineWidth(8);
+			bin = new boolean[5][5];
+			img = new SplittedSymbol(bin);
+			img.setFirstPixelX(2);
+			img.setFirstPixelY(2);
+			p.computePrimitives(img);
+			if (p.getValue(130) != 0.25 || p.getValue(131) != 0.25 ||
+					p.getValue(132) != 0.75 || p.getValue(133) != 0.75) {
+				fail("Call to computePrimitive, with an 1x1 image starting" +
+						" at (0,0) did not return 0 for all its coordinates.");
+			}
+		} catch (ComputePrimitivesException e) {
+			fail("Call to computePrimitives ended with an unexpected" +
+					" exception.");
+		}
+
 		try {
 			// sizes to test all stretching limit cases for the standardisation.
 			int sizes[] = new int[3];
@@ -86,6 +130,7 @@ public class TestPrimitive {
 					//  -------
 					String mess = "After computation on a white image of size "
 							+ xSize + "x" + ySize + ", ";
+					p.setLineWidth(xSize);
 					p.computePrimitives(selfColouredImage(xSize,ySize,false));
 					// testing if the standardisation coefficients are correct
 					testStandardisation(p, mess, xSize, ySize);
@@ -104,6 +149,7 @@ public class TestPrimitive {
 					//  -------
 					mess = "After computation on a black image of size " +
 							xSize + "x" + ySize + ", ";
+					p.setLineWidth(xSize);
 					p.computePrimitives(selfColouredImage(xSize,ySize,true));
 					// testing if the standardisation coefficients are correct
 					testStandardisation(p, mess, xSize, ySize);
@@ -123,6 +169,7 @@ public class TestPrimitive {
 					//  -------
 					mess = "After computation on a white image with a black border of size "
 							+ xSize + "x" + ySize + ", ";
+					p.setLineWidth(xSize);
 					p.computePrimitives(emptySquareImage(xSize,ySize));
 					// testing if the standardisation coefficients are correct
 					testStandardisation(p, mess, xSize, ySize);
@@ -142,6 +189,7 @@ public class TestPrimitive {
 					//  -------
 					mess = "After computation on a black cross image of size "
 							+ xSize + "x" + ySize + ", ";
+					p.setLineWidth(xSize);
 					p.computePrimitives(LineImage(xSize,ySize));
 					// testing if the standardisation coefficients are correct
 					testStandardisation(p, mess, xSize, ySize);
@@ -276,7 +324,7 @@ public class TestPrimitive {
 	 * @see 
 	 */
 	private void testExtremeOutline(Primitive p, String mess, boolean black){
-		for (int i=2; i<p.size(); i++) {
+		for (int i=2; i<Primitive.getRelativeCoordinatesIndex(); i++) {
 			float val = p.getValue(i);
 			float expectedValue = 0;
 			if (!black){
@@ -430,7 +478,10 @@ public class TestPrimitive {
 				pixels[i][j] = b;
 			}
 		}
-		return new SplittedSymbol(pixels);
+		SplittedSymbol res = new SplittedSymbol(pixels);
+		res.setFirstPixelX(0);
+		res.setFirstPixelY(0);
+		return res;
 	}
 
 	/**
@@ -461,7 +512,10 @@ public class TestPrimitive {
 			pixels[i][0] = true;
 			pixels[i][ySize-1] = true;
 		}
-		return new SplittedSymbol(pixels);
+		SplittedSymbol res = new SplittedSymbol(pixels);
+		res.setFirstPixelX(0);
+		res.setFirstPixelY(0);
+		return res;
 	}
 
 	/**
@@ -490,7 +544,10 @@ public class TestPrimitive {
 				}
 			}
 		}
-		return new SplittedSymbol(pixels);
+		SplittedSymbol res = new SplittedSymbol(pixels);
+		res.setFirstPixelX(0);
+		res.setFirstPixelY(0);
+		return res;
 	}
 
 }
