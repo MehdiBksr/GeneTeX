@@ -28,6 +28,8 @@ public class SplittedLine extends Line {
 	private int firstPixelY;
 	/** Index of the last pixel row of this line in the page. */
 	private int lastPixelY;
+	/** Size of  the line. */
+	private int lineWidth;
 	/** The symbols contained in the line. */
 	private Vector<Symbol> symbols = new Vector<Symbol>();
 	
@@ -70,6 +72,7 @@ public class SplittedLine extends Line {
 	public SplittedLine() { 
 		this.firstPixelY 	= 0;
 		this.lastPixelY 	= 0;
+		this.lineWidth		= 0;
 	}
 	
 	/**
@@ -79,9 +82,10 @@ public class SplittedLine extends Line {
 	 * @param firstPixelLine Index of the first pixel row.
 	 * @param lastPixelLine Index of the last pixel row.
 	 */
-	public SplittedLine(int firstPixelLine, int lastPixelLine) {
+	public SplittedLine(int firstPixelLine, int lastPixelLine, int lineWidth) {
 		this.firstPixelY 	= firstPixelLine;
 		this.lastPixelY 	= lastPixelLine;
+		this.lineWidth		= lineWidth;
 	}
 
 	/* ************************************************************************
