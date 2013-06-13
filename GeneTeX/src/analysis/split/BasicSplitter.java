@@ -186,7 +186,6 @@ public class BasicSplitter implements Splitter {
 	 * @param y The index of the row to be checked.
 	 * @return Whether the row is empty.
 	 */
-	
 	private static boolean rowEmpty(boolean[][] pixels, int y) {
 		for (int i = 0; i < pixels.length; i++) {
 			if (pixels[i][y]) 
@@ -247,7 +246,6 @@ public class BasicSplitter implements Splitter {
 
 		return symbol;
 	}
-
 }
 
 
