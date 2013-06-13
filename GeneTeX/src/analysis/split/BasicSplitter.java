@@ -1,5 +1,7 @@
 package analysis.split;
 
+import java.util.Vector;
+
 import data.PreprocessedImage;
 import data.imagedata.SplittedBlock;
 import data.imagedata.SplittedLine;
@@ -26,7 +28,14 @@ import error.data.BadInstanceException;
  */
 public class BasicSplitter implements Splitter {
 	
+	/* ************************************************************************
+     *                              ATTRIBUTES                                * 
+     ************************************************************************ */
+	
+	/** Number of pixels below which a pixel row is considered empty. */
 	private final static int ROW_PIXELS_THRESHOLD = 5;
+	/** Coefficient estimating the width of a character (width = height*coef). */
+	private final static double HEIGHT_TO_WIDTH = 1.5;
 
     /* ************************************************************************
      *                              METHODS                                   * 
@@ -35,8 +44,6 @@ public class BasicSplitter implements Splitter {
 	public SplittedPage split(PreprocessedImage preprocessedPage) {
 		
 		int y = 0;
-		int[] horizontalHistogram = 
-				new int[preprocessedPage.getPixels()[0].length];
 		SplittedBlock b = new SplittedBlock();
 		SplittedLine l 	= getNextLine(preprocessedPage.getPixels(), y);
 		SplittedPage p 	= new SplittedPage();
@@ -79,6 +86,12 @@ public class BasicSplitter implements Splitter {
 	 */	
 	private static SplittedLine getNextLine(boolean[][] page, int y) {
 
+		// number of pixels in the current pixel row
+		int nbOfPixels = 0;
+		// horizontal histogram counting the number of pixels in relevant rows
+		Vector<Integer> horizontalHistogram = new Vector<Integer>();
+		// average width of a character in this row
+		int avgWidth;
 		int x = 0;
 		SplittedSymbol s;
 		SplittedLine l;
@@ -91,20 +104,27 @@ public class BasicSplitter implements Splitter {
 		int length_y = 0;
 
 		// get the starting y position of the current line
-		while (start_y < page[0].length && rowEmpty(page, start_y))
+		while (start_y < page[0].length 
+				&& pixelsInRow(page, start_y) <= ROW_PIXELS_THRESHOLD)
 			start_y++;
 		// end of the page: no new line in the page
 		if (start_y >= page[0].length) return null;
 
 		// computing the height of the line
+		nbOfPixels = pixelsInRow(page, length_y + start_y);
 		while ((length_y + start_y < page[0].length) 
-				&& !rowEmpty(page, length_y + start_y))
+				&& nbOfPixels > ROW_PIXELS_THRESHOLD) {
 			length_y++;
+			horizontalHistogram.add(nbOfPixels);
+			nbOfPixels = pixelsInRow(page, length_y + start_y);
+		}
 		
 		// no new exploitable line, end of the page
 		if (length_y == 0) return null;
 
 		l = new SplittedLine(start_y, start_y + length_y - 1, page.length);
+		avgWidth = computeAverageWidth(horizontalHistogram);
+		
 		// generate a sub-array containing the current line only
 		for (int i = 0; i < page.length; i++) {
 			line[i] = new boolean[length_y];
@@ -137,8 +157,7 @@ public class BasicSplitter implements Splitter {
 			if (s != null) {
 				// removing blanks around the symbol
 				s.setFirstPixelY(start_y);
-				boolean[][] removedMargins = removeMargins(s.getBinary());
-				s.setBinary(removedMargins);
+				s.setBinary(removeMargins(s.getBinary()));
 			}
 		}
 		return l;
@@ -240,35 +259,47 @@ public class BasicSplitter implements Splitter {
 	 * @return A trimmed two-dimensional array of pixels.
 	 */
 	protected static boolean[][] removeMargins(boolean[][] pixels) {
-		int start_x = 0, end_x = 0;
-		int start_y = 0, end_y = 0;
+		int start_y = 0, end_y = pixels[0].length - 1;
 		boolean[][] symbol;
 
-		// looking for first column
-		while (columnEmpty(pixels, start_x))
-			start_x++;
-
-		for (int i = start_x; i < pixels.length; i++) {
-			if (!columnEmpty(pixels, i)) end_x = i;
-		}
-
+		// looking for first non-empty row
 		while (rowEmpty(pixels, start_y))
 			start_y++;
+		// looking for the last non-empty row
+		while (rowEmpty(pixels, end_y))
+			end_y--;
 
-		for (int i = start_x; i < pixels[0].length; i++) {
-			if (!rowEmpty(pixels, i)) end_y = i;
-		}
-
-		
 		// copying the sub-array containing the symbol
-		int length_x = end_x - start_x + 1;
 		int length_y = end_y - start_y + 1;
-		symbol = new boolean[length_x][length_y];
+		symbol = new boolean[pixels.length][length_y];
 		for (int i = 0; i < symbol.length; i++) {
 			System.arraycopy(pixels[i], start_y, symbol[i], 0, length_y);
 		}
-
 		return symbol;
+	}
+	
+	/**
+	 * Calculates the average width of a character in the line corresponding to
+	 * the given horizontal histogram.
+	 * @param hHistogram The horizontal histogram.
+	 * @return The average width of a character in this line.
+	 */
+	private static int computeAverageWidth(Vector<Integer> hHistogram) {
+		int avg = 0;
+		int height = 0;
+		
+		// total number of pixels
+		for (int i : hHistogram)
+			avg += i;
+		// average number of pixels per row
+		avg /= hHistogram.size();
+		// number of rows having a number of pixels superior to average
+		// i.e. 'average' estimated height of the line 
+		for (int i : hHistogram)
+			if (i > avg)
+				height++;
+		// returns the estimated width of a character in the line
+		return (int) (height * HEIGHT_TO_WIDTH);
 	}
 }
 

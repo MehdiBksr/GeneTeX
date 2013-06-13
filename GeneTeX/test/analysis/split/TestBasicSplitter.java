@@ -2,15 +2,10 @@ package analysis.split;
 
 import static org.junit.Assert.*;
 import imageloader.ImageLoader;
-import imageloader.TestImageLoader;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Iterator;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import javax.swing.SwingUtilities;
 
 import org.junit.Test;
 
@@ -25,7 +20,6 @@ import data.imagedata.SplittedSymbol;
 
 import util.Displayer;
 import util.JFrameSplittedFile;
-import error.data.BadInstanceException;
 
 public class TestBasicSplitter {
 		
@@ -33,8 +27,11 @@ public class TestBasicSplitter {
 		static Displayer displayer;
 
 		public static void main(String[] args) {
-			displayFile("images\\testGeneTeXexact.png");
-			displaySymbol("images\\testGeneTeXexact.png", 0, 6);
+			String[] filename = {
+					"images\\testGeneTeXexact.png", 
+					"images\\gltroll.png"};
+			displayFile(filename[1]);
+			displaySymbol(filename[1], 0, 2);
 	    }
 		
 		/**
