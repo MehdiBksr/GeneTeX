@@ -92,13 +92,17 @@ public class BasicSplitter implements Splitter {
 		Vector<Integer> horizontalHistogram = new Vector<Integer>();
 		// average width of a character in this row
 		int avgWidth;
-		int x = 0;
-		SplittedSymbol s;
+		// the line being split
 		SplittedLine l;
+		// current x position in the line
+		int x = 0;
+		// next symbol(s) discovered in the line
+		Vector<SplittedSymbol> nextSymbols;
+		// line's content
 		boolean[][] line = new boolean[page.length][];
-		// true starting position of the line
+		// y starting position of the line in the page
 		int start_y = y;
-		//  true height of the line (from the starting position) 
+		//  height of the line (from the starting position) 
 		int length_y = 0;
 
 		/* LINE DELIMITATION */
@@ -133,32 +137,23 @@ public class BasicSplitter implements Splitter {
 			System.arraycopy(page[i], start_y, line[i], 0, length_y - 1);
 		}
 
-		// looking for first symbol in the line
-		s = getNextSymbol(line, x, avgWidth);
-		if (s != null) {
-			// removing blanks around the symbol
-			s.setFirstPixelY(start_y);
-			s.setBinary(removeMargins(s.getBinary()));
-		}
-		
+		nextSymbols = getNextSymbol(line, x, avgWidth);
 		// as long as there are undiscovered symbols
-		while (s != null) {
-
-			// adding the symbol
-			try {
-				l.addSymbol(s);
-			} catch (BadInstanceException e) {
-				e.printStackTrace();
-			}
-
-			// resuming search on the first unknown column
-			x = s.getLastPixelX() + 2;
-			s = getNextSymbol(line, x, avgWidth);
-			if (s != null) {
+		while (nextSymbols != null) {
+			for (SplittedSymbol s : nextSymbols) {
+				// adds the symbols
+				try {
+					l.addSymbol(s);
+				} catch (BadInstanceException e) {
+					e.printStackTrace();
+				}
 				// removing blanks around the symbol
 				s.setFirstPixelY(start_y);
 				s.setBinary(removeMargins(s.getBinary()));
 			}
+			// resuming search on the first unknown column
+			x = nextSymbols.lastElement().getLastPixelX() + 2;
+			nextSymbols = getNextSymbol(line, x, avgWidth);
 		}
 		return l;
 	}
@@ -172,10 +167,11 @@ public class BasicSplitter implements Splitter {
 	 * @param width The estimated average width of a character.
 	 * @return The line as a <code>SplitLine</code>.
 	 */
-	private static SplittedSymbol getNextSymbol(boolean[][] line, int x, int width) {
+	private static Vector<SplittedSymbol> getNextSymbol(boolean[][] line, int x, int width) {
 
 		int start_x = x;
 		int length_x = 0;
+		Vector<SplittedSymbol> res = new Vector<SplittedSymbol>();
 
 		// look for the first non-empty column
 		while ((start_x < line.length) && columnEmpty(line, start_x))
@@ -189,7 +185,8 @@ public class BasicSplitter implements Splitter {
 			for (int i = 0; i < pixels.length; i++)
 				for (int j = 0; j < pixels[0].length; j++)
 					pixels[i][j] = false;
-			return new SplittedSymbol(pixels, start_x - width/2 - 2, 0);
+			res.add(new SplittedSymbol(pixels, start_x - width/2 - 2, 0));
+			return res;
 		}
 
 		// finding the end of the column
@@ -207,8 +204,8 @@ public class BasicSplitter implements Splitter {
 			System.arraycopy(line[start_x+i], 0, symbol[i], 0, line[0].length);
 		}
 
-		SplittedSymbol s = new SplittedSymbol(symbol, start_x, 0);
-		return s;
+		res.add(new SplittedSymbol(symbol, start_x, 0));
+		return res;
 	}
 
 	/**
