@@ -7,6 +7,9 @@ import java.util.ListIterator;
 
 import data.contentdata.StructuredSymbol;
 import data.contentdata.Token;
+import data.imagedata.SplittedBlock;
+import data.imagedata.SplittedLine;
+import data.imagedata.SplittedPage;
 import data.imagedata.SplittedSymbol;
 import error.analysis.recognition.neuralnetwork.ComputePrimitivesException;
 import error.analysis.recognition.neuralnetwork.NeuralNetworkException;
@@ -18,7 +21,7 @@ import error.analysis.recognition.neuralnetwork.NeuronLayerException;
  * structure of the network, recognise a token, or adapt itself given learning
  * data.
  * 
- * @author Mehdi BOUKSARA, Théo MERLE, Marceau THALGOTT 
+ * @author Mehdi BOUKSARA, Thï¿½o MERLE, Marceau THALGOTT 
  */
 @SuppressWarnings("serial")
 public class NeuralNetwork implements Serializable {
@@ -227,6 +230,28 @@ public class NeuralNetwork implements Serializable {
 		}		
 		OutputNeuron output = (OutputNeuron) this.outputLayer.getNeuron(this.outputLayer.size()-1);
 		System.out.println(output.getToken() + " => " + output.getValue() + ".");
+	}
+	
+	/**
+	 * Register data concerning the whole page.
+	 * @param page A page that is split.
+	 */
+	public void registerPageData(SplittedPage page) {
+	}
+
+	/**
+	 * Register data concerning a block.
+	 * @param block A block of the split image
+	 */
+	public void registerBlockData(SplittedBlock block) {
+	}
+
+	/**
+	 * Register data concerning a line.
+	 * @param block A line of the split image
+	 */
+	public void registerLineData(SplittedLine line) {
+		this.primitives.setLineWidth(line.getLineWidth());
 	}
 
 }

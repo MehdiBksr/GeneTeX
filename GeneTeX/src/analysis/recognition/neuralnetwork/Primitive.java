@@ -9,7 +9,7 @@ import error.analysis.recognition.neuralnetwork.ComputePrimitivesException;
  * PreprocessedImage.
  * Those values are the initial input values of the neural network.
  * 
- * @author Mehdi BOUKSARA, Théo MERLE, Marceau THALGOTT 
+ * @author Mehdi BOUKSARA, Thï¿½o MERLE, Marceau THALGOTT 
  */
 @SuppressWarnings("serial")
 public class Primitive implements Layer {
@@ -23,6 +23,8 @@ public class Primitive implements Layer {
 	 */
 	public static final int standardSize = 32;
 
+	
+	
 	/**
 	 * @return The first index of the standardisation coefficients.
 	 */
@@ -58,6 +60,11 @@ public class Primitive implements Layer {
 		return 2+3*Primitive.standardSize;
 	}
 
+	public static int getRelativeCoordinatesIndex(){
+		return 2+4*Primitive.standardSize;
+	}
+	
+	
 	/**
 	 * @param index Index number of a primitive
 	 * @return The name of the primitive ("not a primitive" if index is incorrect).
@@ -83,6 +90,17 @@ public class Primitive implements Layer {
 				case 3 : 
 					return "leftOutline[" + (index-2) % Primitive.standardSize
 							+ "]";
+				default :
+					switch (index - getRelativeCoordinatesIndex())	{
+					case 0 :
+						return "firstRelativeX";
+					case 1 :
+						return "firstRelativeY";
+					case 2 :
+						return "lastRelativeX";
+					case 3 :
+						return "lastRelativeY";
+					}
 				}
 			}
 		}
@@ -106,6 +124,11 @@ public class Primitive implements Layer {
 	 */
 	private float upOutline[], downOutline[], rightOutline[], leftOutline[];
 
+
+	private int lineWidth;
+	
+	private float firstRelativeX, firstRelativeY, lastRelativeX, lastRelativeY;
+
 	/* ************************************************************************
 	 *                              CONSTRUCTORS                              * 
 	 ************************************************************************ */
@@ -128,6 +151,11 @@ public class Primitive implements Layer {
 			this.rightOutline[i] = 0;
 			this.leftOutline[i] = 0;
 		}
+		this.lineWidth = 0;
+		this.firstRelativeX = 0;
+		this.firstRelativeY = 0;
+		this.lastRelativeX = 0;
+		this.lastRelativeY = 0;
 	}
 
 	/* ************************************************************************
@@ -139,19 +167,20 @@ public class Primitive implements Layer {
 	 * @return number of primitives contained in the layer
 	 */
 	public int size() {
-		return 2 + 4*standardSize;
+		return 2 + 4*standardSize + 4;
 	}
 
 	/**
 	 * Returns the value of the index-th primitive computed. If no primitive
 	 * corresponds to index, it returns 0.
 	 * <ul>
-	 * <li> index = 0 corresponds to standardisationCoefficientX
-	 * <li> index = 1 corresponds to standardisationCoefficientY
-	 * <li> index = 2..33 corresponds to upOutline
-	 * <li> index = 34..65 corresponds to downOutline
-	 * <li> index = 66..97 corresponds to rightOutline
-	 * <li> index = 98..129 corresponds to leftOutline
+	 * <li> index = 0 corresponds to standardisationCoefficientX.
+	 * <li> index = 1 corresponds to standardisationCoefficientY.
+	 * <li> index = 2..33 corresponds to upOutline.
+	 * <li> index = 34..65 corresponds to downOutline.
+	 * <li> index = 66..97 corresponds to rightOutline.
+	 * <li> index = 98..129 corresponds to leftOutline.
+	 * <li> index = 130..133 corresponds to the relatives coordinates.
 	 * </ul>
 	 *
 	 * @param index an integer corresponding to a primitive.
@@ -174,6 +203,17 @@ public class Primitive implements Layer {
 					return this.rightOutline[(index-2) % standardSize];
 				case 3 : 
 					return this.leftOutline[(index-2) % standardSize];
+				default :
+					switch (index - getRelativeCoordinatesIndex())	{
+					case 0 :
+						return this.firstRelativeX;
+					case 1 :
+						return this.firstRelativeY;
+					case 2 :
+						return this.lastRelativeX;
+					case 3 :
+						return this.lastRelativeY;
+					}
 				}
 			}
 		}
@@ -197,6 +237,11 @@ public class Primitive implements Layer {
 			this.rightOutline[i] = 0;
 			this.leftOutline[i] = 0;
 		}
+		this.lineWidth = 0;
+		this.firstRelativeX = 0;
+		this.firstRelativeY = 0;
+		this.lastRelativeX = 0;
+		this.lastRelativeY = 0;
 	}
 
 
@@ -214,7 +259,7 @@ public class Primitive implements Layer {
 					"the SplittedImage is a null reference.");
 		}
 		
-		// checck if the binary image is null or empty.
+		// check if the binary image is null or empty.
 		boolean emptyBinary = (img.getBinary() == null) ||
 				(img.getBinary().length == 0);
 		if (!emptyBinary){
@@ -237,9 +282,13 @@ public class Primitive implements Layer {
 					" empty");
 		}
 
+		
 		// standardises the image.
 		SplittedSymbol standardisedImage = this.standardisation(img);
 		
+		// compute the relative coordinates.
+		this.computeRelativeCoordinates(img);
+
 		// compute the outline.
 		this.computeUpOutline(standardisedImage);
 		this.computeDownOutline(standardisedImage);
@@ -247,6 +296,15 @@ public class Primitive implements Layer {
 		this.computeLeftOutline(standardisedImage);
 	}
 	
+	/**
+	 * Set the line width.
+	 * @param lineWidth The line width.
+	 */
+	public void setLineWidth(int lineWidth) {
+		this.lineWidth = lineWidth;		
+	}
+
+
 	/* ************************************************************************
 	 *                          PRIVATE FUNCTIONS                             * 
 	 ************************************************************************ */
@@ -316,9 +374,6 @@ public class Primitive implements Layer {
 			int result = 0;
 			while (result<Primitive.standardSize &&
 					!binImg[col][Primitive.standardSize-1-result]){
-				//System.out.println("computeUpOutline : col = " + col + ", result = "
-				//		+ result + ", pixel = " + 
-				//		binImg[col][Primitive.standardSize-1-result]);
 				result++;
 			}
 			this.upOutline[col] = result/((float)Primitive.standardSize);
@@ -376,4 +431,27 @@ public class Primitive implements Layer {
 		}
 	}
 
+	/**
+	 * Compute the relatives coordinates of the image containing the character.
+	 * 
+	 * Precondition : this.linewidth must be different from 0;
+	 * 
+	 * @param img A symbol containing the data extracted from the split.
+	 * @throws ComputePrimitivesException 
+	 */
+	private void computeRelativeCoordinates(SplittedSymbol img)
+			throws ComputePrimitivesException {
+		if (this.lineWidth == 0){
+			throw new ComputePrimitivesException("In call to" +
+					" Primitive.computePrimitive, the wdth of the line is 0.");
+		}
+		this.firstRelativeX =
+				((float)img.getFirstPixelX()) / ((float)this.lineWidth);
+		this.firstRelativeY =
+				((float)img.getFirstPixelY()) / ((float)this.lineWidth);
+		this.lastRelativeX =
+				((float)img.getLastPixelX()) / ((float)this.lineWidth);
+		this.lastRelativeY =
+				((float)img.getLastPixelY()) / ((float)this.lineWidth);
+	}
 }
