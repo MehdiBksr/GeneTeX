@@ -100,7 +100,7 @@ public class BasicSplitter implements Splitter {
 		// no new exploitable line, end of the page
 		if (length_y == 0) return null;
 
-		l = new SplittedLine(start_y, start_y + length_y - 1);
+		l = new SplittedLine(start_y, start_y + length_y - 1, 0);
 		// generate a sub-array containing the current line only
 		for (int i = 0; i < page.length; i++) {
 			line[i] = new boolean[length_y];
