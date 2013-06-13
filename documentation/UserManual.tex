@@ -1,0 +1,124 @@
+\documentclass[12pt]{article}
+
+\usepackage[french]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{graphicx}
+\usepackage{verbatim}
+\usepackage{amsmath}
+
+\usepackage{listings}
+\lstset{
+  sensitive=f,
+  morecomment=[l]--,
+  morestring=[d]",
+  showstringspaces=false,
+  basicstyle=\small\ttfamily,
+  keywordstyle=\bf\small,
+  commentstyle=\itshape,
+  stringstyle=\sf,
+  extendedchars=true,
+  columns=[c]fixed
+}
+
+
+% CI-DESSOUS: conversion des caractères accentués UTF-8 
+% en caractères TeX dans les listings...
+\lstset{
+  literate=%
+  {À}{{\`A}}1 {Â}{{\^A}}1 {Ç}{{\c{C}}}1%
+  {à}{{\`a}}1 {â}{{\^a}}1 {ç}{{\c{c}}}1%
+  {É}{{\'E}}1 {È}{{\`E}}1 {Ê}{{\^E}}1 {Ë}{{\"E}}1% 
+  {é}{{\'e}}1 {è}{{\`e}}1 {ê}{{\^e}}1 {ë}{{\"e}}1%
+  {Ï}{{\"I}}1 {Î}{{\^I}}1 {Ô}{{\^O}}1%
+  {ï}{{\"i}}1 {î}{{\^i}}1 {ô}{{\^o}}1%
+  {Ù}{{\`U}}1 {Û}{{\^U}}1 {Ü}{{\"U}}1%
+  {ù}{{\`u}}1 {û}{{\^u}}1 {ü}{{\"u}}1%
+}
+
+%%%%%%%%%%
+% TAILLE DES PAGES (A4 serré)
+
+\setlength{\parindent}{0cm}
+\setlength{\parskip}{1ex}
+\setlength{\textwidth}{17cm}
+\setlength{\textheight}{24cm}
+\setlength{\oddsidemargin}{-.7cm}
+\setlength{\evensidemargin}{-.7cm}
+\setlength{\topmargin}{-.5in}
+
+%%%%%%%%%%
+% EN-TÊTES ET PIED DE PAGES
+
+\pagestyle{fancyplain}
+\renewcommand{\headrulewidth}{0pt}
+\addtolength{\headheight}{1.6pt}
+\addtolength{\headheight}{2.6pt}
+\lfoot{}
+\cfoot{}
+\rfoot{\footnotesize\sf \thepage/\pageref{LastPage}} % numero de page
+\lhead{\footnotesize\sf GeneTeX} % en-tete Gauche
+
+%%%%%%%%%%
+% TITRE DU DOCUMENT
+
+\title{\textbf{GeneTeX \\
+  User Manual}}
+
+\author{Mehdi \textsc{Bouksara} - Théo \textsc{Merle} - Marceau \textsc{Thalgott} \\}
+
+\date{May - June 2013}
+
+
+%%%%%%%
+
+\begin{document}
+
+\maketitle
+~\\
+\begin{center}
+\includegraphics[width=10cm]{genetex.eps}
+\end{center}
+
+\newpage
+\section{Introduction}
+
+GeneTeX is an image-to-LaTeX translator. It is able to read an image containing written text, and to generate a LaTeX document containing the text written in the original image, and to give information about the liability of the retranscription.\\
+GeneTeX comes with ABSOLUTELY NO WARRANTY, to the extent permitted by applicable law. To be more accurate, GeneTeX is not able to generate a perfectly accurate retranscription of a given document, as the quality of the character recognition depends on various factors such as the resolution of the original image, or the quality of the writing.\\
+\\
+When used without any options, and when all the parameters are correct, GeneTeX generates a .tex document, with the same name than the input image, and doesn't write anything on standard output.
+
+% \subsection{Package \lstinline!Code!}
+
+\subsection{Synopsis}
+\lstinline{$genetex [source [-v] [-r destination]] | [-h] }\\ %$
+
+\subsection{Options}
+\begin{itemize}
+       \item[] \lstinline!-h! (help)\\
+         Writes the help text of GeneTeX on standard output. Must be used alone.
+       \item[] \lstinline!-v! (verbose)\\
+         Allows GeneTeX to print verbose messages giving indications on the transcription progress.
+       \item[]\lstinline!-r! (rename)\\
+         Specifies destination as the name of the generated LaTeX document.
+\end{itemize}
+
+
+\section{Recognized fonts and writing styles}
+
+GeneTeX is only able to recognize the original LaTeX font (Computer Modern).\\
+It won't be able to recognise other fonts, and won't recognise handwritten text either.\\
+The characters in the image must not overlap horizontally or vertically.\\
+The image must not contain any element that is not text to be recognized.
+
+\section{Known bugs and limitations}
+
+\begin{itemize}
+  \item[] - GeneTeX can only recognize images with no scanning defects or noise.
+  \item[] - GeneTeX cannot recognize characters if it is not perfectly horizontal.
+  \item[] - GeneTeX may be wrong when recognizing characters such as 'l', 'o', '.', which can be mistaken for a look-alike character. Reading the LaTeX output will probably be necessary.
+\end{itemize}
+
+\end{document}
