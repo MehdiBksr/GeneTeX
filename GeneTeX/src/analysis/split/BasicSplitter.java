@@ -220,25 +220,29 @@ public class BasicSplitter implements Splitter {
 	 * @return A trimmed two-dimensional array of pixels.
 	 */
 	protected static boolean[][] removeMargins(boolean[][] pixels) {
-		int start_x = 0, length_x = 0;
-		int start_y = 0, length_y = 0;
+		int start_x = 0, end_x = 0;
+		int start_y = 0, end_y = 0;
 		boolean[][] symbol;
 
+		// looking for first column
 		while (columnEmpty(pixels, start_x))
 			start_x++;
 
-		while (start_x + length_x < pixels.length && 
-				!columnEmpty(pixels, start_x + length_x))
-			length_x++;
+		for (int i = start_x; i < pixels.length; i++) {
+			if (!columnEmpty(pixels, i)) end_x = i;
+		}
 
 		while (rowEmpty(pixels, start_y))
 			start_y++;
 
-		while (start_y + length_y < pixels[0].length &&
-				!rowEmpty(pixels, start_y + length_y))
-			length_y++;
+		for (int i = start_x; i < pixels[0].length; i++) {
+			if (!rowEmpty(pixels, i)) end_y = i;
+		}
 
+		
 		// copying the sub-array containing the symbol
+		int length_x = end_x - start_x + 1;
+		int length_y = end_y - start_y + 1;
 		symbol = new boolean[length_x][length_y];
 		for (int i = 0; i < symbol.length; i++) {
 			System.arraycopy(pixels[i], start_y, symbol[i], 0, length_y);
