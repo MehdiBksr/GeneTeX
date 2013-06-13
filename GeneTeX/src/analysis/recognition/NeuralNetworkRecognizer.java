@@ -58,15 +58,18 @@ public class NeuralNetworkRecognizer implements Recognizer {
 
 		// create the content data corresponding to the split data.
 		StructuredPage structuredPage = new StructuredPage();
+		//network.registerPageData(SplittedPage);
 		Iterator<Block> itBlock = page.getIterator();
 		while (itBlock.hasNext()) {
 			SplittedBlock block = (SplittedBlock)itBlock.next();
 			StructuredBlock structuredBlock = new StructuredBlock();
+			//network.registerBlockData(SplittedBlock);
 			structuredPage.addBlock(structuredBlock);
 			Iterator<Line> itLine = block.getIterator();
 			while (itLine.hasNext()) {
 				SplittedLine line = (SplittedLine)itLine.next();
 				StructuredLine structuredLine = new StructuredLine();
+				//network.registerLineData(SplittedLine);
 				structuredBlock.addLine(structuredLine);
 				Iterator<Symbol> itSymbol = line.getIterator();
 				while (itSymbol.hasNext()) {
