@@ -1,40 +1,100 @@
 package analysis.split;
 
 import static org.junit.Assert.*;
+import imageloader.ImageLoader;
+import imageloader.TestImageLoader;
+
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.Iterator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.SwingUtilities;
 
 import org.junit.Test;
 
+import analysis.preprocess.BasicPreprocessor;
+import analysis.preprocess.Preprocessor;
+import data.Block;
+import data.Line;
+import data.PreprocessedImage;
+import data.Symbol;
+import data.imagedata.SplittedPage;
+import data.imagedata.SplittedSymbol;
+
+import util.Displayer;
 import util.JFrameSplittedFile;
 import error.data.BadInstanceException;
 
 public class TestBasicSplitter {
 		
 		static JFrameSplittedFile jFrameSrc;
+		static Displayer displayer;
 
 		public static void main(String[] args) {
-		    testSourceFile();
+			displayFile("images\\testGeneTeXexact.png");
+			displaySymbol("images\\testGeneTeXexact.png", 0, 6);
 	    }
 		
-		private static void testSourceFile() {
-			SwingUtilities.invokeLater(runJFrameSourceFile);
+		/**
+		 * Displays a split symbol of the specified text image. 
+		 * @param file The source file name.
+		 * @param y The line containing the symbol (first line at 0)
+		 * @param x The symbol's number in the line (first symbol at 0)
+		 */
+		private static void displaySymbol(String file, int y, int x) {
+			BufferedImage bufferedImage = null;
+			Preprocessor proc = new BasicPreprocessor();
+			BasicSplitter splitter = new BasicSplitter();
+			int currentLineNumber = 0;
+			int currentSymbolNumber = 0;
+			
+			try {
+				bufferedImage = ImageLoader.load(file);
+			} catch (IOException ex) {
+				System.err.println(ex.getMessage());
+			}
+			
+			PreprocessedImage bin = proc.preprocess(bufferedImage);
+			SplittedPage page = splitter.split(bin);
+			Iterator<Block> itBlock = page.getIterator();
+			while (itBlock.hasNext()) {
+				Iterator<Line> itLine = itBlock.next().getIterator();
+				Line currentLine = itLine.next();
+				while (itLine.hasNext() && currentLineNumber < y) {
+					currentLine = itLine.next();
+					currentLineNumber++;
+				}
+				Iterator<Symbol> itSym = currentLine.getIterator();
+				Symbol s = itSym.next();
+				while (itSym.hasNext() && currentSymbolNumber < x) {
+					 s = itSym.next();
+					 currentSymbolNumber++;
+				}
+
+				displayer = new Displayer(toBI(new PreprocessedImage(
+						((SplittedSymbol) s).getBinary())));
+				displayer.setVisible(true);
+			}
 		}
 		
-		static Runnable runJFrameSourceFile = new Runnable() {
-		    @Override
-		    public void run() {
-		        try {
-					jFrameSrc = new JFrameSplittedFile("images\\testGeneTeXexact.png");
-					jFrameSrc.setVisible(true);
-				} catch (BadInstanceException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-		        
-		    }
-		};
-
+		/**
+		 * Displays the given file.
+		 * @param file
+		 */
+		private static void displayFile(String file) {
+			BufferedImage bufferedImage = null;
+			try {
+				bufferedImage = ImageLoader.load(file);
+			} catch (IOException ex) {
+				System.err.println(ex.getMessage());
+			}
+			
+			displayer = new Displayer(bufferedImage);
+			displayer.setVisible(true);
+		}
+		
 		@Test
 		public void testRemoveMargin() {
 			boolean[][] example;
@@ -189,13 +249,37 @@ public class TestBasicSplitter {
 				for (int j=0; j<bin[0].length; j++) {
 					for (int i=0; i<bin.length; i++) {
 						if (bin[i][j]) {
-							System.out.print("b");
+							System.out.print("o");
 						} else {
-							System.out.print("w");
+							System.out.print(".");
 						}
 					}
 					System.out.println();
 				}
 			}
+		}
+		
+		/**
+		 * Transforms a pre-processed image into a buffered image that can be 
+		 * displayed. 
+		 * 
+		 * @param preprocessedImage The image as a PreprocessedImage.
+		 * @return The image as a BufferedImage.
+		 */
+		private static BufferedImage toBI(PreprocessedImage preprocessedImage) {
+			BufferedImage bi = 
+					new BufferedImage(preprocessedImage.getPixels().length, 
+							preprocessedImage.getPixels()[0].length, 
+							BufferedImage.TYPE_INT_ARGB);
+
+			for (int i = 0; i < preprocessedImage.getPixels().length; i++) {
+				for (int j = 0; j < preprocessedImage.getPixels()[i].length; j++) {
+					if (preprocessedImage.getPixels()[i][j])
+						bi.setRGB(i, j, 0xFF000000);
+					else
+						bi.setRGB(i, j, 0xFFFFFFFF);
+				}
+			}
+			return bi;
 		}
 }

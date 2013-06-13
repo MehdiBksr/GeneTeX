@@ -25,6 +25,8 @@ import error.data.BadInstanceException;
  *
  */
 public class BasicSplitter implements Splitter {
+	
+	private final static int ROW_PIXELS_THRESHOLD = 5;
 
     /* ************************************************************************
      *                              METHODS                                   * 
@@ -33,6 +35,8 @@ public class BasicSplitter implements Splitter {
 	public SplittedPage split(PreprocessedImage preprocessedPage) {
 		
 		int y = 0;
+		int[] horizontalHistogram = 
+				new int[preprocessedPage.getPixels()[0].length];
 		SplittedBlock b = new SplittedBlock();
 		SplittedLine l 	= getNextLine(preprocessedPage.getPixels(), y);
 		SplittedPage p 	= new SplittedPage();
@@ -100,7 +104,7 @@ public class BasicSplitter implements Splitter {
 		// no new exploitable line, end of the page
 		if (length_y == 0) return null;
 
-		l = new SplittedLine(start_y, start_y + length_y - 1, 0);
+		l = new SplittedLine(start_y, start_y + length_y - 1, page.length);
 		// generate a sub-array containing the current line only
 		for (int i = 0; i < page.length; i++) {
 			line[i] = new boolean[length_y];
@@ -176,6 +180,22 @@ public class BasicSplitter implements Splitter {
 
 		SplittedSymbol s = new SplittedSymbol(symbol, start_x, 0);
 		return s;
+	}
+
+	/**
+	 * Returns the number of colourful pixels in the row specified by the given 
+	 * index y in the given array pixels.
+	 * 
+	 * @param pixels The two-dimensional array of pixels.
+	 * @param y The index of the row..
+	 * @return The number of coloured pixels in this row.
+	 */
+	private static int pixelsInRow(boolean[][] pixels, int y) {
+		int number = 0;
+		for (int i = 0; i < pixels.length; i++)
+			if (pixels[i][y])
+				 number++;
+		return number;
 	}
 
 	/**

@@ -88,7 +88,6 @@ public class JFrameSplittedFile extends JFrame {
 					bi.setRGB(i, j, 0xFFFFFFFF);
 			}
 		}
-
 		return bi;
 	}
 
