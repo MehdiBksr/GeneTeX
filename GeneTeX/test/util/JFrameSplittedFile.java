@@ -59,9 +59,6 @@ public class JFrameSplittedFile extends JFrame {
 					symbol = (SplittedSymbol)itSymbol.next();
 					symbol = (SplittedSymbol)itSymbol.next();
 					symbol = (SplittedSymbol)itSymbol.next();
-					symbol = (SplittedSymbol)itSymbol.next();
-					symbol = (SplittedSymbol)itSymbol.next();
-					symbol = (SplittedSymbol)itSymbol.next();
 					PreprocessedImage symbolArray = new PreprocessedImage(symbol.getBinary());
 					bufferedImage = toBI(symbolArray);
 					JLabel jLabel = new JLabel(new ImageIcon(bufferedImage));
