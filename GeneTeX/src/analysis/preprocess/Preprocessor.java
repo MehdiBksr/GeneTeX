@@ -18,7 +18,7 @@ public interface Preprocessor {
 
 	/**
 	 * Pre-processes the given image and returns an object of type <code>
-	 * PreprocessedImage</code> contained the altered image.
+	 * PreprocessedImage</code> containing the altered image.
 	 * 
 	 * @param image The input image as a <code>BufferedImage</code>.
 	 * 
