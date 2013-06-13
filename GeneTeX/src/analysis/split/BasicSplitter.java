@@ -35,7 +35,9 @@ public class BasicSplitter implements Splitter {
 	/** Number of pixels below which a pixel row is considered empty. */
 	private final static int ROW_PIXELS_THRESHOLD = 5;
 	/** Coefficient estimating the width of a character (width = height*coef). */
-	private final static double HEIGHT_TO_WIDTH = 1.5;
+	private final static double HEIGHT_TO_WIDTH = 1.3;
+	/** Coefficient determining the minimum width of a space (min_sp_width = width/coef). */
+	private final static int SPACE_WIDTH_DIVIDER = 2;
 
     /* ************************************************************************
      *                              METHODS                                   * 
@@ -50,19 +52,18 @@ public class BasicSplitter implements Splitter {
 
 		// as long as there are lines in the page
 		while (l != null) {			
-			// adding the line
+			// adds the line
 			try {
 				b.addLine(l);
 			} catch (BadInstanceException e) {
 				e.printStackTrace();
 			}
 			// start again on the first unchecked pixel line
-			// (l.getLastPixelLine() + 1 is empty)
 			y = l.getLastPixelLine() + 2;
 			l = getNextLine(preprocessedPage.getPixels(), y);
 		}
 		
-		// adding the block
+		// adds the block
 		try {
 			p.addBlock(b);
 		} catch (BadInstanceException e) {
@@ -180,12 +181,12 @@ public class BasicSplitter implements Splitter {
 		if (start_x >= line.length) return null; 
 		
 		// managing the space character
-		if (start_x - x > width / 2) {
-			boolean[][] pixels = new boolean[width/2][line[0].length];
+		if (start_x - x > width/SPACE_WIDTH_DIVIDER) {
+			boolean[][] pixels = new boolean[width/SPACE_WIDTH_DIVIDER][line[0].length];
 			for (int i = 0; i < pixels.length; i++)
 				for (int j = 0; j < pixels[0].length; j++)
 					pixels[i][j] = false;
-			res.add(new SplittedSymbol(pixels, start_x - width/2 - 2, 0));
+			res.add(new SplittedSymbol(pixels, start_x - width/SPACE_WIDTH_DIVIDER - 2, 0));
 			return res;
 		}
 
@@ -197,15 +198,101 @@ public class BasicSplitter implements Splitter {
 		if (length_x == 0) {
 			return null;
 		}
+		
+//		// the chunk of the line is too wide to be a single symbol
+//		if (length_x > width) 
+//			return secondarySegmentation(line, start_x, length_x, width);
 
 		// copying the sub-array containing the symbol
 		boolean[][] symbol = new boolean[length_x][line[0].length];
-		for (int i = 0; i < symbol.length; i++) {
-			System.arraycopy(line[start_x+i], 0, symbol[i], 0, line[0].length);
-		}
+		for (int i = 0; i < symbol.length; i++)
+			System.arraycopy(line[start_x+i], 0, symbol[i], 0, symbol[0].length);
 
 		res.add(new SplittedSymbol(symbol, start_x, 0));
 		return res;
+	}
+
+	/**
+	 * Secondary segmentation function.
+	 * This function will attempt to extract single symbols that are not 
+	 * separated by one or more blank columns, either being overlapping or
+	 * connected to each other.
+	 *  
+	 * @param line The line in which symbols are to be extracted.
+	 * @param x X index at which the indistinct set of symbols starts.
+	 * @param length_x Length of the indistinct set of symbols.
+	 * @param width Estimated average width of a single symbol.
+	 * @return A vector containing all the unit symbols after extraction.
+	 */
+	private static Vector<SplittedSymbol> secondarySegmentation(boolean[][] line, int x, int length_x, int width) {
+		// the symbols to be returned
+		Vector<SplittedSymbol> symbols = new Vector<SplittedSymbol>();
+		// object containing the line portion
+		boolean[][] multipleSymbol = new boolean[length_x][line[x].length];
+		// the symbols being extracted
+		SplittedSymbol connectedSymbol, singleSymbol;
+		// the current x value in the line
+		int current_x = x;
+
+		for (int i = 0; i < multipleSymbol.length; i++)
+			System.arraycopy(line[x+i], 0, multipleSymbol[i], 0, multipleSymbol[0].length);
+
+		connectedSymbol = extractFirstOverlappingSymbol(multipleSymbol);
+		// extract all the overlapping but not connected symbols
+		while (connectedSymbol != null) {
+			current_x += connectedSymbol.getFirstPixelX();
+			connectedSymbol.setFirstPixelX(current_x);
+			if (connectedSymbol.getBinary().length > width) {
+				// extracted symbol still too wide, separates it
+				singleSymbol = extractFirstConnectedSymbol(connectedSymbol.getBinary());
+				while (singleSymbol != null) {
+					current_x += singleSymbol.getFirstPixelX();
+					singleSymbol.setFirstPixelX(current_x);
+					symbols.add(singleSymbol);
+					singleSymbol = extractFirstConnectedSymbol(connectedSymbol.getBinary());
+				}
+			} else {
+				symbols.add(connectedSymbol);
+			}
+			connectedSymbol = extractFirstOverlappingSymbol(multipleSymbol);
+		}
+		mergeComposite(symbols);
+		return symbols;
+	}
+	
+	/**
+	 * This function aims at extracting the first symbol present in a set of
+	 * overlapping symbols.
+	 * The set is given in form of a two-dimensional boolean array. The symbol
+	 * is removed from the array as it is extracted.
+	 * @param symbols The set of overlapping symbols.
+	 * @return The extracted symbol.
+	 */
+	private static SplittedSymbol extractFirstOverlappingSymbol(boolean[][] symbols) {
+		// TODO take naturally overlapping symbols into account (e.g. '=', ';' etc.)
+		return null;
+	}
+	
+	/**
+	 * This function aims at extracting the first symbol present in a set of
+	 * connected symbols.
+	 * The set is given in form of a two-dimensional boolean array. The symbol
+	 * is removed from the array as it is extracted.
+	 * @param symbols The set of connected symbols.
+	 * @return The extracted symbol.
+	 */
+	private static SplittedSymbol extractFirstConnectedSymbol(boolean[][] symbols) {
+		return null;
+	}
+	
+	/**
+	 * Merge composite unconnected symbols that might have been extracted 
+	 * separately because of the overlapping into the proper one, e.g. '=', ';',
+	 * etc. 
+	 * The given set of symbols is updated.
+	 * @param symbols The set of separated symbols which is to be updated.
+	 */
+	private static void mergeComposite(Vector<SplittedSymbol> symbols) {
 	}
 
 	/**
