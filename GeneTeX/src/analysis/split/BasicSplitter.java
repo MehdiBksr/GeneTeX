@@ -95,14 +95,14 @@ public class BasicSplitter implements Splitter {
 		int x = 0;
 		SplittedSymbol s;
 		SplittedLine l;
-
 		boolean[][] line = new boolean[page.length][];
-
 		// true starting position of the line
 		int start_y = y;
-		//  true length of the line (from the starting position) 
+		//  true height of the line (from the starting position) 
 		int length_y = 0;
 
+		/* LINE DELIMITATION */
+		
 		// get the starting y position of the current line
 		while (start_y < page[0].length 
 				&& pixelsInRow(page, start_y) <= ROW_PIXELS_THRESHOLD)
@@ -122,6 +122,8 @@ public class BasicSplitter implements Splitter {
 		// no new exploitable line, end of the page
 		if (length_y == 0) return null;
 
+		/* SYMBOL PROCESSING */
+		
 		l = new SplittedLine(start_y, start_y + length_y - 1, page.length);
 		avgWidth = computeAverageWidth(horizontalHistogram);
 		
@@ -132,12 +134,11 @@ public class BasicSplitter implements Splitter {
 		}
 
 		// looking for first symbol in the line
-		s = getNextSymbol(line, x);
+		s = getNextSymbol(line, x, avgWidth);
 		if (s != null) {
 			// removing blanks around the symbol
 			s.setFirstPixelY(start_y);
-			boolean[][] removedMargins = removeMargins(s.getBinary());
-			s.setBinary(removedMargins);
+			s.setBinary(removeMargins(s.getBinary()));
 		}
 		
 		// as long as there are undiscovered symbols
@@ -151,9 +152,8 @@ public class BasicSplitter implements Splitter {
 			}
 
 			// resuming search on the first unknown column
-			// (s.getLastPixelX() + 1 is empty)
 			x = s.getLastPixelX() + 2;
-			s = getNextSymbol(line, x);
+			s = getNextSymbol(line, x, avgWidth);
 			if (s != null) {
 				// removing blanks around the symbol
 				s.setFirstPixelY(start_y);
@@ -169,9 +169,10 @@ public class BasicSplitter implements Splitter {
 	 * @param page The page being currently split.
 	 * @param y The index of the pixel row starting from which the next line is
 	 * 			to be found.
+	 * @param width The estimated average width of a character.
 	 * @return The line as a <code>SplitLine</code>.
 	 */
-	private static SplittedSymbol getNextSymbol(boolean[][] line, int x) {
+	private static SplittedSymbol getNextSymbol(boolean[][] line, int x, int width) {
 
 		int start_x = x;
 		int length_x = 0;
@@ -181,6 +182,15 @@ public class BasicSplitter implements Splitter {
 			start_x++;
 		// end of the line: no new symbol in the line
 		if (start_x >= line.length) return null; 
+		
+		// managing the space character
+		if (start_x - x > width / 2) {
+			boolean[][] pixels = new boolean[width/2][line[0].length];
+			for (int i = 0; i < pixels.length; i++)
+				for (int j = 0; j < pixels[0].length; j++)
+					pixels[i][j] = false;
+			return new SplittedSymbol(pixels, start_x - width/2 - 2, 0);
+		}
 
 		// finding the end of the column
 		while ((start_x + length_x < line.length) 
@@ -263,8 +273,13 @@ public class BasicSplitter implements Splitter {
 		boolean[][] symbol;
 
 		// looking for first non-empty row
-		while (rowEmpty(pixels, start_y))
+		while (start_y < pixels[0].length && rowEmpty(pixels, start_y))
 			start_y++;
+		
+		// found a space character, return
+		if (start_y >= pixels[0].length)
+			return pixels;
+		
 		// looking for the last non-empty row
 		while (rowEmpty(pixels, end_y))
 			end_y--;

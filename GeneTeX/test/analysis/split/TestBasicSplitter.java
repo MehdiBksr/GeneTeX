@@ -19,11 +19,9 @@ import data.imagedata.SplittedPage;
 import data.imagedata.SplittedSymbol;
 
 import util.Displayer;
-import util.JFrameSplittedFile;
 
 public class TestBasicSplitter {
 		
-		static JFrameSplittedFile jFrameSrc;
 		static Displayer displayer;
 
 		public static void main(String[] args) {
@@ -31,21 +29,22 @@ public class TestBasicSplitter {
 					"images\\testGeneTeXexact.png", 
 					"images\\gltroll.png"};
 			displayFile(filename[1]);
-			displaySymbol(filename[1], 0, 2);
+			displaySymbol(filename[1], 2, 2);
+			displaySymbol(filename[1], 2, 1);
 	    }
 		
 		/**
 		 * Displays a split symbol of the specified text image. 
 		 * @param file The source file name.
-		 * @param y The line containing the symbol (first line at 0)
-		 * @param x The symbol's number in the line (first symbol at 0)
+		 * @param y The line containing the symbol (first line at 1)
+		 * @param x The symbol's number in the line (first symbol at 1)
 		 */
 		private static void displaySymbol(String file, int y, int x) {
 			BufferedImage bufferedImage = null;
 			Preprocessor proc = new BasicPreprocessor();
 			BasicSplitter splitter = new BasicSplitter();
-			int currentLineNumber = 0;
-			int currentSymbolNumber = 0;
+			int currentLineNumber = 1;
+			int currentSymbolNumber = 1;
 			
 			try {
 				bufferedImage = ImageLoader.load(file);
@@ -72,7 +71,6 @@ public class TestBasicSplitter {
 
 				displayer = new Displayer(toBI(new PreprocessedImage(
 						((SplittedSymbol) s).getBinary())));
-				displayer.setVisible(true);
 			}
 		}
 		
@@ -89,7 +87,6 @@ public class TestBasicSplitter {
 			}
 			
 			displayer = new Displayer(bufferedImage);
-			displayer.setVisible(true);
 		}
 		
 		@Test
