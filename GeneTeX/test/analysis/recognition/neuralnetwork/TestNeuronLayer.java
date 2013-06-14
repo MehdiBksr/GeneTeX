@@ -5,7 +5,7 @@ import java.util.Vector;
 
 import org.junit.Test;
 
-import data.imagedata.SplittedSymbol;
+import data.imagedata.SplitSymbol;
 
 import error.analysis.recognition.neuralnetwork.ComputePrimitivesException;
 import error.analysis.recognition.neuralnetwork.NeuronException;
@@ -57,7 +57,7 @@ public class TestNeuronLayer extends TestCase {
 		binary[1][0] = false;
 		binary[1][1] = true;
 		try {
-			primitive.computePrimitives(new SplittedSymbol(binary, 0, 0));
+			primitive.computePrimitives(new SplitSymbol(binary, 0, 0));
 		} catch (ComputePrimitivesException e) {
 			fail("Unexpected ComputePrimitivesException");
 		}

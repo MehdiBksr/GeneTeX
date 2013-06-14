@@ -18,7 +18,7 @@ import error.data.BadInstanceException;
  * 
  * @author Marceau Thalgott, Theo Merle, Mehdi Bouksara
  */
-public class SplittedBlock extends Block {
+public class SplitBlock extends Block {
 	
     /* ************************************************************************
      *                                ATTRIBUTES                              * 
@@ -33,8 +33,8 @@ public class SplittedBlock extends Block {
 	
 	@Override
 	public void addLine(Line l) throws BadInstanceException {
-		if (!(l instanceof SplittedLine)) 
-			throw new BadInstanceException(SplittedLine.class, l.getClass());
+		if (!(l instanceof SplitLine)) 
+			throw new BadInstanceException(SplitLine.class, l.getClass());
 		lines.add(l);
 	}
 	

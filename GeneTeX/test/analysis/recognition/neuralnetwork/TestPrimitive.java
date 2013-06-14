@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import data.imagedata.SplittedSymbol;
+import data.imagedata.SplitSymbol;
 import error.analysis.recognition.neuralnetwork.ComputePrimitivesException;
 
 /** Class for testing the primitive calculation for the neural network.
@@ -37,7 +37,7 @@ public class TestPrimitive {
 		// check if a call to computePrimitives with a null image throws an
 		// exception
 		try {
-			SplittedSymbol img = new SplittedSymbol(null);
+			SplitSymbol img = new SplitSymbol(null);
 			p.computePrimitives(img);
 			fail("computePrimitives with empty binarised image did not throw" +
 					" an exception.");
@@ -49,7 +49,7 @@ public class TestPrimitive {
 		// exception
 		try {
 			boolean bin[][] = new boolean[0][0];
-			SplittedSymbol img = new SplittedSymbol(bin);
+			SplitSymbol img = new SplitSymbol(bin);
 			p.computePrimitives(img);
 			fail("computePrimitives with empty binarised image did not throw" +
 					" an exception.");
@@ -58,7 +58,7 @@ public class TestPrimitive {
 		}
 		try {
 			boolean bin[][] = new boolean[1][0];
-			SplittedSymbol img = new SplittedSymbol(bin);
+			SplitSymbol img = new SplitSymbol(bin);
 			p.computePrimitives(img);
 			fail("computePrimitives with empty binarised image did not throw" +
 					" an exception.");
@@ -70,7 +70,7 @@ public class TestPrimitive {
 		try {
 			boolean bin[][] = new boolean[1][1];
 			bin[0][0] = true;
-			SplittedSymbol img = new SplittedSymbol(bin);
+			SplitSymbol img = new SplitSymbol(bin);
 			p.computePrimitives(img);
 			fail("computePrimitives with a not initialised linewidth did not" +
 					" throw an exception.");
@@ -83,7 +83,7 @@ public class TestPrimitive {
 			// test the extreme relative coordinates.
 			p.setLineWidth(1);
 			boolean bin[][] = new boolean[1][1];
-			SplittedSymbol img = new SplittedSymbol(bin);
+			SplitSymbol img = new SplitSymbol(bin);
 			img.setFirstPixelX(0);
 			img.setFirstPixelY(0);
 			p.computePrimitives(img);
@@ -96,7 +96,7 @@ public class TestPrimitive {
 			// test other relative coordinates
 			p.setLineWidth(8);
 			bin = new boolean[5][5];
-			img = new SplittedSymbol(bin);
+			img = new SplitSymbol(bin);
 			img.setFirstPixelX(2);
 			img.setFirstPixelY(2);
 			p.computePrimitives(img);
@@ -471,14 +471,14 @@ public class TestPrimitive {
 	 * @param b     Fills the image with black pixels if true (white otherwise).
 	 * @return A self-coloured image.
 	 */
-	private SplittedSymbol selfColouredImage(int xSize, int ySize, boolean b){
+	private SplitSymbol selfColouredImage(int xSize, int ySize, boolean b){
 		boolean pixels[][] = new boolean[xSize][ySize];
 		for (int i=0; i<xSize;i++){
 			for (int j=0; j<ySize;j++){
 				pixels[i][j] = b;
 			}
 		}
-		SplittedSymbol res = new SplittedSymbol(pixels);
+		SplitSymbol res = new SplitSymbol(pixels);
 		res.setFirstPixelX(0);
 		res.setFirstPixelY(0);
 		return res;
@@ -499,7 +499,7 @@ public class TestPrimitive {
 	 * @return An image of dimension xSize x ySize containing a black-bordered
 	 *               square filled with white of maximal size.
 	 */
-	private SplittedSymbol emptySquareImage(int xSize, int ySize){
+	private SplitSymbol emptySquareImage(int xSize, int ySize){
 		boolean pixels[][] = new boolean[xSize][ySize];
 		for (int j=0; j<ySize;j++){
 			pixels[0][j] = true;
@@ -512,7 +512,7 @@ public class TestPrimitive {
 			pixels[i][0] = true;
 			pixels[i][ySize-1] = true;
 		}
-		SplittedSymbol res = new SplittedSymbol(pixels);
+		SplitSymbol res = new SplitSymbol(pixels);
 		res.setFirstPixelX(0);
 		res.setFirstPixelY(0);
 		return res;
@@ -533,7 +533,7 @@ public class TestPrimitive {
 	 * @return An image of dimension xSize x ySize containing a black diagonal
 	 *              line.
 	 */
-	private SplittedSymbol LineImage(int xSize, int ySize){
+	private SplitSymbol LineImage(int xSize, int ySize){
 		boolean pixels[][] = new boolean[xSize][ySize];
 		for (int i=0; i<xSize;i++){
 			for (int j=0; j<ySize;j++){
@@ -544,7 +544,7 @@ public class TestPrimitive {
 				}
 			}
 		}
-		SplittedSymbol res = new SplittedSymbol(pixels);
+		SplitSymbol res = new SplitSymbol(pixels);
 		res.setFirstPixelX(0);
 		res.setFirstPixelY(0);
 		return res;

@@ -18,8 +18,8 @@ import analysis.preprocess.Preprocessor;
 import analysis.recognition.neuralnetwork.NeuralNetwork;
 import data.PreprocessedImage;
 import data.contentdata.Token;
-import data.imagedata.SplittedLine;
-import data.imagedata.SplittedSymbol;
+import data.imagedata.SplitLine;
+import data.imagedata.SplitSymbol;
 import error.analysis.recognition.neuralnetwork.ComputePrimitivesException;
 import error.analysis.recognition.neuralnetwork.NeuralNetworkException;
 import error.analysis.recognition.neuralnetwork.NeuronException;
@@ -45,7 +45,7 @@ public class NeuralNetworkLearner {
 	 * The name of the file where the neural network is saved. If the file does
 	 * not exist, the learner will have to create a new network and its file.
 	 */
-	private static String networkFileName = "learning.object.refactor";
+	private static String networkFileName = "learning.object";
 
 	/**
 	 * Launches the learning process. If no network was saved, it will create a
@@ -174,7 +174,8 @@ public class NeuralNetworkLearner {
 	NeuralNetworkException, NeuronLayerException, IOException {
 
 		while (!this.learningBlocked && this.globalSuccessRate < 0.8){
-			System.out.println("Improve the network with a new random cross-validation.");
+			System.out.println("Improve the network with a new random " +
+					"cross-validation.");
 			// choose the validation and training data.
 			this.createCrossValidationData();
 			// Trains the network.
@@ -272,7 +273,7 @@ public class NeuralNetworkLearner {
 			/* getting the name of the directory containing the samples
 			 * for this token */
 			File dirName = new File("learningdata/" + T.getSampleDirectory());
-			//			System.out.println("Directory name : " + dirName.getName());
+//			System.out.println("Directory name : " + dirName.getName());
 			File[] samples = dirName.listFiles();
 			if (samples == null) {
 				System.out.println("Dossier inexistant pour " + T + ".");
@@ -288,8 +289,8 @@ public class NeuralNetworkLearner {
 			int validationSamplesSize = samples.length - learningSamplesSize;
 			this.hasValidationData = validationSamplesSize!=0;
 			
-			//			System.out.println(learningSamplesSize + " learning data and " +
-			//					validationSamplesSize + " validation data.");
+//			System.out.println(learningSamplesSize + " learning data and " +
+//					validationSamplesSize + " validation data.");
 			// randomly choosing the type of each sample.
 			File[] learningSamples = new File[learningSamplesSize];
 			File[] validationSamples = new File[validationSamplesSize];
@@ -301,8 +302,8 @@ public class NeuralNetworkLearner {
 					learningSamplesSize--;
 					learningSamples[learningSamplesSize] =
 							samples[sampleIndex];
-					//					System.out.println("learning file : " +
-					//							learningSamples[learningSamplesSize]);
+//					System.out.println("learning file : " +
+//							learningSamples[learningSamplesSize]);
 				} else {
 					sampleIndex++;
 					validationSamplesSize--;
@@ -357,11 +358,11 @@ public class NeuralNetworkLearner {
 						((float)this.nbSuccess) / ((float)this.nbRecognitions);
 				this.recognitionValues.put(T, successRate);
 				this.globalSuccessRate += successRate;
-				System.out.println("Percent of recognised validation data for " +
-						T + " : " + (100*successRate) + "%");
+				System.out.println("Percent of recognised validation data for "
+						+ T + " : " + (100*successRate) + "%");
 				// updating the quadratic error.
-				System.out.println("Average quadratic error on token " + T + " : " +
-						this.localQuadraticError/this.nbRecognitions +
+				System.out.println("Average quadratic error on token " + T +
+						" : " +	this.localQuadraticError/this.nbRecognitions +
 						", on validation data.");
 				quadraticError += this.localQuadraticError/this.nbRecognitions;
 			} else {
@@ -372,7 +373,8 @@ public class NeuralNetworkLearner {
 			}
 		}
 		this.globalSuccessRate /= Token.values().length;
-		System.out.println("Global success rate on validation data : " + this.globalSuccessRate);
+		System.out.println("Global success rate on validation data : " +
+				this.globalSuccessRate);
 		this.quadraticError /= Token.values().length * this.nbSamplesExamined;
 		System.out.println("Average quadratic error on all tokens : " +
 				quadraticError + ", on validation data.");
@@ -396,16 +398,17 @@ public class NeuralNetworkLearner {
 
 		Preprocessor proc = new BasicPreprocessor();
 		PreprocessedImage binarizedSample = proc.preprocess(currentSample);
-		SplittedLine aLine = new SplittedLine(0, 50, 6000);
+		SplitLine aLine =
+				new SplitLine(0, 50, binarizedSample.getPixels().length);
 		this.network.registerLineData(aLine);
-		SplittedSymbol currentSymbol =
-				new SplittedSymbol(binarizedSample.getPixels(), 0, 0);
+		SplitSymbol currentSymbol =
+				new SplitSymbol(binarizedSample.getPixels(), 0, 0);
 		Token returnedToken = network.recognise(currentSymbol).getToken();
 		if (returnedToken == T) {
 			nbSuccess++;
 		} else {
-			//			System.out.println(T + " is not recognised. " + returnedToken +
-			//					" was returned instead.");
+//			System.out.println(T + " is not recognised. " + returnedToken +
+//					" was returned instead.");
 		}
 		nbRecognitions++;
 		// updating the local quadratic error.
@@ -421,7 +424,7 @@ public class NeuralNetworkLearner {
 	/**
 	 * Trains the neural network on the learning data determined by the
 	 * cross-validation. For all token, for all sample, it adapts the
-	 * synaptic weights depending on the local quadratic error's gradient.   
+	 * synaptic weights depending on the local quadratic error's gradient.
 	 * 
 	 * It measures the success rate on all learning samples, the quadratic
 	 * error and its gradient's norm.
@@ -448,11 +451,13 @@ public class NeuralNetworkLearner {
 
 			for (Token T : Token.values()) {
 				// learning for the samples in the directory
-				for (int i = 0; i < learningData.get(T).length; i++) {
-					//					System.out.println(learningData.get(T)[i]);
-					this.processLearningSample(ImageLoader.load(
-							learningData.get(T)[i].getAbsolutePath()), T);
-				}	
+				if (learningData.get(T) != null){
+					for (int i = 0; i < learningData.get(T).length; i++) {
+//						System.out.println(learningData.get(T)[i]);
+						this.processLearningSample(ImageLoader.load(
+								learningData.get(T)[i].getAbsolutePath()), T);
+					}
+				}
 			}
 			System.out.println("Number of successes = " + nbSuccess +
 					", number of recognition = " + nbRecognitions);
@@ -486,17 +491,19 @@ public class NeuralNetworkLearner {
 			throws ComputePrimitivesException, NeuronException,
 			NeuralNetworkException, NeuronLayerException {
 		nbSamplesExamined++;
-		//		currentSample = ImageLoader.load(learningData.get(T)[i].getAbsolutePath());
 		Preprocessor proc = new BasicPreprocessor();
 		PreprocessedImage binarizedSample = proc.preprocess(currentSample);
-		SplittedLine aLine = new SplittedLine(0, 50, 6000);
+		SplitLine aLine =
+				new SplitLine(0, 50, binarizedSample.getPixels().length);
 		this.network.registerLineData(aLine);
-		SplittedSymbol currentSymbol = new SplittedSymbol(binarizedSample.getPixels(), 0, 0);
+		SplitSymbol currentSymbol =
+				new SplitSymbol(binarizedSample.getPixels(), 0, 0);
 		Token returnedToken = network.recognise(currentSymbol).getToken();
 		if (returnedToken == T) {
 			nbSuccess++;
 		} else {
-			System.out.println(T + " is not recognised. " + returnedToken + " was returned instead.");
+//			System.out.println(T + " is not recognised. " + returnedToken +
+//					" was returned instead.");
 		}
 		nbRecognitions++;
 		// calculating total squared gradient

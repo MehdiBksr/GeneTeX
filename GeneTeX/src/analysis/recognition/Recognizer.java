@@ -1,7 +1,7 @@
 package analysis.recognition;
 
 import data.contentdata.StructuredPage;
-import data.imagedata.SplittedPage;
+import data.imagedata.SplitPage;
 
 /**
  * This interface is used to abstract and have access to the recognition
@@ -21,5 +21,5 @@ public interface Recognizer {
 	 * @return The data computed for the FileGenerator.
 	 * @throws Exception 
 	 */
-	public StructuredPage recognise(SplittedPage page) throws Exception;
+	public StructuredPage recognise(SplitPage page) throws Exception;
 }

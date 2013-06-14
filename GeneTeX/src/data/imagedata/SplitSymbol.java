@@ -12,7 +12,7 @@ import data.Symbol;
  * 
  * @author Marceau Thalgott, Theo Merle, Mehdi Bouksara
  */
-public class SplittedSymbol extends Symbol {
+public class SplitSymbol extends Symbol {
 	
     /* ************************************************************************
      *                               ATTRIBUTES                               * 
@@ -38,7 +38,7 @@ public class SplittedSymbol extends Symbol {
 	 * 
 	 * @param binaryImage The image as an array of boolean
 	 */
-	public SplittedSymbol(boolean[][] binaryImage) {
+	public SplitSymbol(boolean[][] binaryImage) {
 		this.setBinary(binaryImage);
 	}
 
@@ -53,7 +53,7 @@ public class SplittedSymbol extends Symbol {
 	 * @param firstPixelX The index of the symbol's first pixel column in the page.
 	 * @param firstPixelY The index of the symbol's first pixel row in the page. 
 	 */
-	public SplittedSymbol(boolean[][] binaryImage, int x, int y) {
+	public SplitSymbol(boolean[][] binaryImage, int x, int y) {
 		this.binary 		= binaryImage;
 		this.firstPixelX 	= x;
 		this.firstPixelY 	= y;

@@ -151,7 +151,7 @@ public enum Token implements Serializable {
      *                         PUNCTUATION MARK                               * 
      ************************************************************************ */
 	
-//	SPACE(false, " ", "space"),
+	SPACE(false, " ", "space"),
 	ASTERISK(false, "*", "asterisk"),
 	COLON(false, ":", "colon"),
 	COMMA(false, ",", "comma"),

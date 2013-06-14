@@ -17,7 +17,7 @@ import error.data.BadInstanceException;
  * 
  * @author Marceau Thalgott, Theo Merle, Mehdi Bouksara
  */
-public class SplittedPage extends Page {
+public class SplitPage extends Page {
 	
     /* ************************************************************************
      *                              ATTRIBUTES                                * 
@@ -39,8 +39,8 @@ public class SplittedPage extends Page {
 	 */
 	@Override
 	public void addBlock(Block b) throws BadInstanceException {
-		if (!(b instanceof SplittedBlock))
-			throw new BadInstanceException(SplittedBlock.class, b.getClass());
+		if (!(b instanceof SplitBlock))
+			throw new BadInstanceException(SplitBlock.class, b.getClass());
 		blocks.add(b);
 	}
 	

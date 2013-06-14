@@ -1,6 +1,6 @@
 package analysis.recognition.neuralnetwork;
 
-import data.imagedata.SplittedSymbol;
+import data.imagedata.SplitSymbol;
 import error.analysis.recognition.neuralnetwork.ComputePrimitivesException;
 
 
@@ -251,7 +251,7 @@ public class Primitive implements Layer {
 	 * @param img The symbol to analyse.
 	 * @throws ComputePrimitivesException
 	 */
-	public void computePrimitives(SplittedSymbol img)
+	public void computePrimitives(SplitSymbol img)
 			throws ComputePrimitivesException {
 		// check if the argument is null.
 		if (img == null){
@@ -284,7 +284,7 @@ public class Primitive implements Layer {
 
 		
 		// standardises the image.
-		SplittedSymbol standardisedImage = this.standardisation(img);
+		SplitSymbol standardisedImage = this.standardisation(img);
 		
 		// compute the relative coordinates.
 		this.computeRelativeCoordinates(img);
@@ -316,7 +316,7 @@ public class Primitive implements Layer {
 	 * @param img Symbol to standardise.
 	 * @return The standardised image.
 	 */
-	private SplittedSymbol standardisation(SplittedSymbol img){
+	private SplitSymbol standardisation(SplitSymbol img){
 		boolean oldImg[][] = img.getBinary();
 		this.standardisationCoefficientX = 
 				((float)(Primitive.standardSize))/((float)(oldImg.length));
@@ -332,7 +332,7 @@ public class Primitive implements Layer {
 						newPixel(oldImg, newPixelX, newPixelY);
 			}
 		}
-		return new SplittedSymbol(standardisedImg);
+		return new SplitSymbol(standardisedImg);
 	}
 
 	/**
@@ -367,7 +367,7 @@ public class Primitive implements Layer {
 	 * 
 	 * @param img The image to analyse.
 	 */
-	private void computeUpOutline(SplittedSymbol img){
+	private void computeUpOutline(SplitSymbol img){
 		boolean binImg[][] = img.getBinary();
 		
 		for (int col=0; col<Primitive.standardSize; col++) {
@@ -385,7 +385,7 @@ public class Primitive implements Layer {
 	 * 
 	 * @param img The image to analyse.
 	 */
-	private void computeDownOutline(SplittedSymbol img){
+	private void computeDownOutline(SplitSymbol img){
 		boolean binImg[][] = img.getBinary();
 		for (int col=0; col<Primitive.standardSize; col++) {
 			int result = 0;
@@ -402,7 +402,7 @@ public class Primitive implements Layer {
 	 * 
 	 * @param img The image to analyse.
 	 */
-	private void computeRightOutline(SplittedSymbol img){
+	private void computeRightOutline(SplitSymbol img){
 		boolean binImg[][] = img.getBinary();
 		for (int line=0; line<Primitive.standardSize; line++) {
 			int result = 0;
@@ -419,7 +419,7 @@ public class Primitive implements Layer {
 	 * 
 	 * @param img The image to analyse.
 	 */
-	private void computeLeftOutline(SplittedSymbol img){
+	private void computeLeftOutline(SplitSymbol img){
 		boolean binImg[][] = img.getBinary();
 		for (int line=0; line<Primitive.standardSize; line++) {
 			int result = 0;
@@ -439,11 +439,11 @@ public class Primitive implements Layer {
 	 * @param img A symbol containing the data extracted from the split.
 	 * @throws ComputePrimitivesException 
 	 */
-	private void computeRelativeCoordinates(SplittedSymbol img)
+	private void computeRelativeCoordinates(SplitSymbol img)
 			throws ComputePrimitivesException {
 		if (this.lineWidth == 0){
 			throw new ComputePrimitivesException("In call to" +
-					" Primitive.computePrimitive, the wdth of the line is 0.");
+					" Primitive.computePrimitive, the width of the line is 0.");
 		}
 		this.firstRelativeX =
 				((float)img.getFirstPixelX()) / ((float)this.lineWidth);

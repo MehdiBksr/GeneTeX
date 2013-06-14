@@ -15,7 +15,7 @@ import analysis.split.Splitter;
 import data.Page;
 import data.PreprocessedImage;
 import data.contentdata.StructuredPage;
-import data.imagedata.SplittedPage;
+import data.imagedata.SplitPage;
 
 /** A basic implementation of the analyser.
  * 
@@ -38,8 +38,7 @@ public class BasicAnalyzer implements Analyzer {
 		
 		Utility.printVerbose("Segmenting preprocessed image...", false);
 		Splitter splitter = new BasicSplitter();
-		SplittedPage page = splitter
-				.split(binaryImage);
+		SplitPage page = splitter.split(binaryImage, true);
 		Utility.printVerbose(" done", true);
 		
 		Utility.printVerbose("Recognizing... ", false);

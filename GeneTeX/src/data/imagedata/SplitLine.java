@@ -18,7 +18,7 @@ import error.data.BadInstanceException;
  * 
  * @author Marceau Thalgott, Theo Merle, Mehdi Bouksara
  */
-public class SplittedLine extends Line {
+public class SplitLine extends Line {
 	
 	/* ************************************************************************
 	 *                              ATTRIBUTES                                * 
@@ -47,8 +47,8 @@ public class SplittedLine extends Line {
 	 */
 	@Override
 	public void addSymbol(Symbol s) throws BadInstanceException {
-		if (!(s instanceof SplittedSymbol)) 
-			throw new BadInstanceException(SplittedSymbol.class, s.getClass());
+		if (!(s instanceof SplitSymbol)) 
+			throw new BadInstanceException(SplitSymbol.class, s.getClass());
 		symbols.add(s);
 	}
 	
@@ -70,7 +70,7 @@ public class SplittedLine extends Line {
 	/**
 	 * Creates a line.
 	 */
-	public SplittedLine() { 
+	public SplitLine() { 
 		this.firstPixelY 	= 0;
 		this.lastPixelY 	= 0;
 		this.lineWidth		= 0;
@@ -83,7 +83,7 @@ public class SplittedLine extends Line {
 	 * @param firstPixelLine Index of the first pixel row.
 	 * @param lastPixelLine Index of the last pixel row.
 	 */
-	public SplittedLine(int firstPixelLine, int lastPixelLine, int lineWidth) {
+	public SplitLine(int firstPixelLine, int lastPixelLine, int lineWidth) {
 		this.firstPixelY 	= firstPixelLine;
 		this.lastPixelY 	= lastPixelLine;
 		this.lineWidth		= lineWidth;
