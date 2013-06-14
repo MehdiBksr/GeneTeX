@@ -29,8 +29,8 @@ public class TestBasicSplitter {
 					"images\\testGeneTeXexact.png", 
 					"images\\gltroll.png"};
 			displayFile(filename[1]);
-			displaySymbol(filename[1], 1, 6);
-			displaySymbol(filename[1], 1, 7);
+			displaySymbol(filename[1], 2, 2);
+			displaySymbol(filename[1], 2, 3);
 	    }
 		
 		/**
