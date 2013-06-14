@@ -85,6 +85,7 @@ import error.analysis.recognition.neuralnetwork.NeuronLayerException;
 						currentSample = ImageLoader.load(samples[i].getAbsolutePath());
 						Preprocessor proc = new BasicPreprocessor();
 						PreprocessedImage binarizedSample = proc.preprocess(currentSample);
+						System.out.println(binarizedSample.getPixels().length);
 						SplittedSymbol currentSymbol = new SplittedSymbol(binarizedSample.getPixels(), 0, 0);
 						Token returnedToken = network.recognise(currentSymbol).getToken();
 						if (returnedToken == T) {

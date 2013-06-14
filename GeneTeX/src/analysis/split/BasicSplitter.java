@@ -180,7 +180,7 @@ public class BasicSplitter implements Splitter {
 		// end of the line: no new symbol in the line
 		if (start_x >= line.length) return null; 
 		
-		// managing the space character
+		// handling the space character
 		if (start_x - x > width/SPACE_WIDTH_DIVIDER) {
 			boolean[][] pixels = new boolean[width/SPACE_WIDTH_DIVIDER][line[0].length];
 			for (int i = 0; i < pixels.length; i++)

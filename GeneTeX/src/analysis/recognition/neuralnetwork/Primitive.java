@@ -443,7 +443,7 @@ public class Primitive implements Layer {
 			throws ComputePrimitivesException {
 		if (this.lineWidth == 0){
 			throw new ComputePrimitivesException("In call to" +
-					" Primitive.computePrimitive, the wdth of the line is 0.");
+					" Primitive.computePrimitive, the width of the line is 0.");
 		}
 		this.firstRelativeX =
 				((float)img.getFirstPixelX()) / ((float)this.lineWidth);
