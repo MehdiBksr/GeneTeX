@@ -9,6 +9,8 @@ import java.util.Iterator;
 import java.util.Random;
 import java.util.Vector;
 
+import javax.imageio.ImageIO;
+
 import util.Displayer;
 import util.Utility;
 import analysis.preprocess.BasicPreprocessor;
@@ -20,10 +22,10 @@ import data.Line;
 import data.PreprocessedImage;
 import data.Symbol;
 import data.contentdata.Token;
-import data.imagedata.SplittedBlock;
-import data.imagedata.SplittedLine;
-import data.imagedata.SplittedPage;
-import data.imagedata.SplittedSymbol;
+import data.imagedata.SplitBlock;
+import data.imagedata.SplitLine;
+import data.imagedata.SplitPage;
+import data.imagedata.SplitSymbol;
 
 /**
  * This class allows to get token samples for learning from scanned images
@@ -47,9 +49,9 @@ import data.imagedata.SplittedSymbol;
 public class NeuralNetworkSampler {
 
 	public static void main(String[] args) throws IOException {
-		// TODO Auto-generated method stub
+		// TODO this main is there for testing purposes and shouldn't remain
 		Vector<Token> tokenOrder = new Vector<Token>();
-		tokenOrder.add(Token.UPPER_CASE_J);
+		/*tokenOrder.add(Token.UPPER_CASE_J);
 		tokenOrder.add(Token.LOWER_CASE_E);
 		tokenOrder.add(Token.LOWER_CASE_S);
 		tokenOrder.add(Token.LOWER_CASE_U);
@@ -57,7 +59,12 @@ public class NeuralNetworkSampler {
 		tokenOrder.add(Token.LOWER_CASE_S);
 		tokenOrder.add(Token.LOWER_CASE_L);
 		tokenOrder.add(Token.QUOTE);
-		tokenOrder.add(Token.LOWER_CASE_ALPHA);
+		tokenOrder.add(Token.LOWER_CASE_ALPHA);*/
+		for (Token T : Token.values()) {
+			tokenOrder.add(T);
+			tokenOrder.add(T);
+			tokenOrder.add(T);
+		}
 		sampleByGivenOrder(tokenOrder, "images/testGeneTeXexact.png");
 
 		
@@ -88,19 +95,19 @@ public class NeuralNetworkSampler {
 		PreprocessedImage binaryImage = proc.preprocess(image);
 		
 		Splitter splitter = new BasicSplitter();
-		SplittedPage splittedImage = splitter.split(binaryImage);
+		SplitPage splittedImage = splitter.split(binaryImage, false);
 		
 		Iterator<Token> itToken = tokenOrder.iterator();
 		
 		Iterator<Block> itBlock = splittedImage.getIterator();
 		while (itBlock.hasNext()) {
-			SplittedBlock splittedBlock = (SplittedBlock)itBlock.next();
+			SplitBlock splittedBlock = (SplitBlock)itBlock.next();
 			Iterator<Line> itLine = splittedBlock.getIterator();
 			while (itLine.hasNext()) {
-				SplittedLine splittedLine = (SplittedLine)itLine.next();
+				SplitLine splittedLine = (SplitLine)itLine.next();
 				Iterator<Symbol> itSymbol = splittedLine.getIterator();
 				while (itSymbol.hasNext()) {
-					SplittedSymbol splittedSymbol = (SplittedSymbol)itSymbol.next();
+					SplitSymbol splittedSymbol = (SplitSymbol)itSymbol.next();
 					BufferedImage bufferedSymbol = Utility.toBI(new PreprocessedImage(splittedSymbol.getBinary()));
 					@SuppressWarnings("unused")
 					Displayer displayer = new Displayer(bufferedSymbol);
@@ -108,11 +115,11 @@ public class NeuralNetworkSampler {
 					
 					Random random = new Random();
 					Integer randomInt = random.nextInt(2000000000);
-					File saveFile = new File("learningdata/" + directoryName + randomInt.toString() + ".png");
+					File saveFile = new File("learningdata/" + directoryName + "/" + directoryName + randomInt.toString() + ".png");
 					
-					System.out.println(saveFile.getAbsolutePath());
+					System.out.println("Writing " + saveFile.getAbsolutePath());
 					
-					//ImageIO.write(bufferedSymbol, "png", saveFile);
+					ImageIO.write(bufferedSymbol, "png", saveFile);
 					
 				}
 			}
@@ -120,16 +127,4 @@ public class NeuralNetworkSampler {
 		}
 		
 	}
-	
-	/**
-	 * Samples the image knowing the symbols it contains are in the same order
-	 * than the tokens in the Token enumeration.
-	 * This sampling method is more generic and should be used in priority.
-	 * 
-	 * @param fileName the name of the image file to be sampled.
-	 */
-	private void sampleByTokenOrder(String fileName) {
-		
-	}
-
 }

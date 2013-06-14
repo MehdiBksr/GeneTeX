@@ -7,10 +7,10 @@ import java.util.ListIterator;
 
 import data.contentdata.StructuredSymbol;
 import data.contentdata.Token;
-import data.imagedata.SplittedBlock;
-import data.imagedata.SplittedLine;
-import data.imagedata.SplittedPage;
-import data.imagedata.SplittedSymbol;
+import data.imagedata.SplitBlock;
+import data.imagedata.SplitLine;
+import data.imagedata.SplitPage;
+import data.imagedata.SplitSymbol;
 import error.analysis.recognition.neuralnetwork.ComputePrimitivesException;
 import error.analysis.recognition.neuralnetwork.NeuralNetworkException;
 import error.analysis.recognition.neuralnetwork.NeuronException;
@@ -85,7 +85,7 @@ public class NeuralNetwork implements Serializable {
 	 * @return An object containing the token recognised and informations for
 	 * 					the file generation
 	 */
-	public StructuredSymbol recognise(SplittedSymbol symbol)
+	public StructuredSymbol recognise(SplitSymbol symbol)
 			throws ComputePrimitivesException, NeuronException {
 
 		// Extract primitives from the SplitSymbol
@@ -236,21 +236,21 @@ public class NeuralNetwork implements Serializable {
 	 * Register data concerning the whole page.
 	 * @param page A page that is split.
 	 */
-	public void registerPageData(SplittedPage page) {
+	public void registerPageData(SplitPage page) {
 	}
 
 	/**
 	 * Register data concerning a block.
 	 * @param block A block of the split image
 	 */
-	public void registerBlockData(SplittedBlock block) {
+	public void registerBlockData(SplitBlock block) {
 	}
 
 	/**
 	 * Register data concerning a line.
 	 * @param block A line of the split image
 	 */
-	public void registerLineData(SplittedLine line) {
+	public void registerLineData(SplitLine line) {
 		this.primitives.setLineWidth(line.getLineWidth());
 	}
 

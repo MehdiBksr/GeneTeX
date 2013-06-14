@@ -18,8 +18,8 @@ import data.Block;
 import data.Line;
 import data.PreprocessedImage;
 import data.Symbol;
-import data.imagedata.SplittedPage;
-import data.imagedata.SplittedSymbol;
+import data.imagedata.SplitPage;
+import data.imagedata.SplitSymbol;
 import error.data.BadInstanceException;
 
 import analysis.preprocess.BasicPreprocessor;
@@ -45,7 +45,7 @@ public class JFrameSplittedFile extends JFrame {
 		Preprocessor proc = new BasicPreprocessor();
 		PreprocessedImage bin = proc.preprocess(bufferedImage);
 		BasicSplitter splitter = new BasicSplitter();
-		SplittedPage page = splitter.split(bin);
+		SplitPage page = splitter.split(bin, true);
 		Iterator<Block> itBlock = page.getIterator();
 		while (itBlock.hasNext()) {
 			Block currentBlock = itBlock.next();
@@ -54,11 +54,11 @@ public class JFrameSplittedFile extends JFrame {
 				Line currentLine = itLine.next();
 				Iterator<Symbol> itSymbol = currentLine.getIterator();
 				if (itSymbol.hasNext()) {
-					SplittedSymbol symbol = (SplittedSymbol)itSymbol.next();
-					symbol = (SplittedSymbol)itSymbol.next();
-					symbol = (SplittedSymbol)itSymbol.next();
-					symbol = (SplittedSymbol)itSymbol.next();
-					symbol = (SplittedSymbol)itSymbol.next();
+					SplitSymbol symbol = (SplitSymbol)itSymbol.next();
+					symbol = (SplitSymbol)itSymbol.next();
+					symbol = (SplitSymbol)itSymbol.next();
+					symbol = (SplitSymbol)itSymbol.next();
+					symbol = (SplitSymbol)itSymbol.next();
 					PreprocessedImage symbolArray = new PreprocessedImage(symbol.getBinary());
 					bufferedImage = toBI(symbolArray);
 					JLabel jLabel = new JLabel(new ImageIcon(bufferedImage));

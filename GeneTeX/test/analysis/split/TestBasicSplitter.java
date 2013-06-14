@@ -15,8 +15,8 @@ import data.Block;
 import data.Line;
 import data.PreprocessedImage;
 import data.Symbol;
-import data.imagedata.SplittedPage;
-import data.imagedata.SplittedSymbol;
+import data.imagedata.SplitPage;
+import data.imagedata.SplitSymbol;
 
 import util.Displayer;
 
@@ -53,7 +53,7 @@ public class TestBasicSplitter {
 			}
 			
 			PreprocessedImage bin = proc.preprocess(bufferedImage);
-			SplittedPage page = splitter.split(bin);
+			SplitPage page = splitter.split(bin, true);
 			Iterator<Block> itBlock = page.getIterator();
 			while (itBlock.hasNext()) {
 				Iterator<Line> itLine = itBlock.next().getIterator();
@@ -70,7 +70,7 @@ public class TestBasicSplitter {
 				}
 
 				displayer = new Displayer(toBI(new PreprocessedImage(
-						((SplittedSymbol) s).getBinary())));
+						((SplitSymbol) s).getBinary())));
 			}
 		}
 		

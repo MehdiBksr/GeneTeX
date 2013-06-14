@@ -13,10 +13,10 @@ import data.contentdata.StructuredBlock;
 import data.contentdata.StructuredLine;
 import data.contentdata.StructuredPage;
 import data.contentdata.StructuredSymbol;
-import data.imagedata.SplittedBlock;
-import data.imagedata.SplittedLine;
-import data.imagedata.SplittedPage;
-import data.imagedata.SplittedSymbol;
+import data.imagedata.SplitBlock;
+import data.imagedata.SplitLine;
+import data.imagedata.SplitPage;
+import data.imagedata.SplitSymbol;
 
 /**
  * This class loads a trained neural network and analyse the split data to
@@ -38,7 +38,7 @@ public class NeuralNetworkRecognizer implements Recognizer {
 	 * @return The content data obtained after analysing the split data
 	 * @throws Exception
 	 */
-	public StructuredPage recognise(SplittedPage page)
+	public StructuredPage recognise(SplitPage page)
 			throws Exception {
 		NeuralNetwork network;
 
@@ -61,19 +61,19 @@ public class NeuralNetworkRecognizer implements Recognizer {
 		network.registerPageData(page);
 		Iterator<Block> itBlock = page.getIterator();
 		while (itBlock.hasNext()) {
-			SplittedBlock block = (SplittedBlock)itBlock.next();
+			SplitBlock block = (SplitBlock)itBlock.next();
 			StructuredBlock structuredBlock = new StructuredBlock();
 			network.registerBlockData(block);
 			structuredPage.addBlock(structuredBlock);
 			Iterator<Line> itLine = block.getIterator();
 			while (itLine.hasNext()) {
-				SplittedLine line = (SplittedLine)itLine.next();
+				SplitLine line = (SplitLine)itLine.next();
 				StructuredLine structuredLine = new StructuredLine();
 				network.registerLineData(line);
 				structuredBlock.addLine(structuredLine);
 				Iterator<Symbol> itSymbol = line.getIterator();
 				while (itSymbol.hasNext()) {
-					SplittedSymbol symbol = (SplittedSymbol)itSymbol.next();
+					SplitSymbol symbol = (SplitSymbol)itSymbol.next();
 					StructuredSymbol structuredSymbol = network.recognise(symbol);
 					structuredLine.addSymbol(structuredSymbol);
 				}
