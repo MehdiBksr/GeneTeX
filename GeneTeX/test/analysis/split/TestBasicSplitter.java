@@ -27,9 +27,10 @@ public class TestBasicSplitter {
 					"images\\testGeneTeXexact.png", 
 					"images\\gltroll.png",
 					"images\\test_merge.png",
-					"images\\complex_example.jpg"};
-			displayFile(filename[3]);
-			displaySymbol(filename[3], 1, 1);
+					"images\\complex_example.jpg",
+					"images\\alphabet.jpg"};
+//			displayFile(filename[4]);
+			displaySymbol(filename[4], 1, 3);
 //			displaySymbol(filename[1], 1, 5);
 	    }
 		
