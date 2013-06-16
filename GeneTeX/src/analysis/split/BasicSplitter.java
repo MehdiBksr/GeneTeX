@@ -218,6 +218,7 @@ public class BasicSplitter implements Splitter {
 		}
 
 		// the chunk of the line is too wide to be a single symbol
+
 		if (length_x > width)
 			return secondarySegmentation(line, start_x, length_x, width);
 
