@@ -104,9 +104,9 @@ public class BasicSplitter implements Splitter {
 		Vector<SplitSymbol> nextSymbols;
 		// line's content
 		boolean[][] line = new boolean[page.length][];
-		// y starting position of the line in the page
+		// starting position of the line in the page
 		int start_y = y;
-		//  height of the line (from the starting position) 
+		// height of the line (from the starting position) 
 		int length_y = 0;
 
 		/* LINE DELIMITATION */
@@ -118,7 +118,7 @@ public class BasicSplitter implements Splitter {
 		// end of the page: no new line in the page
 		if (start_y >= page[0].length) return null;
 
-		// computing the height of the line
+		// compute the height of the line
 		do {
 			nbOfPixels = pixelsInRow(page, length_y + start_y);
 			horizontalHistogram.add(nbOfPixels);
@@ -128,7 +128,7 @@ public class BasicSplitter implements Splitter {
 
 		// no new exploitable line, end of the page
 		if (length_y == 0) return null;
-
+		
 		l = new SplitLine(start_y, start_y + length_y - 1, page.length);
 		avgWidth = computeAverageWidth(horizontalHistogram);
 
@@ -141,6 +141,15 @@ public class BasicSplitter implements Splitter {
 		/* SYMBOL PROCESSING */
 		
 		nextSymbols = getNextSymbol(line, x, avgWidth, handlingSpaces);
+		
+		// handling lines starting with an irrelevant space character
+		if (nextSymbols != null && !nextSymbols.isEmpty() && emptySymbol(nextSymbols.firstElement())) {
+			x = nextSymbols.firstElement().getLastPixelX() + 2;
+			nextSymbols.remove(0);
+			if (nextSymbols.isEmpty())
+				nextSymbols = getNextSymbol(line, x, avgWidth, handlingSpaces);
+		}
+			
 		// as long as there are undiscovered symbols
 		while (nextSymbols != null) {
 			for (SplitSymbol s : nextSymbols) {
@@ -550,6 +559,21 @@ public class BasicSplitter implements Splitter {
 		}
 		return true;
 	}
+	
+	/**
+	 * Returns whether the boolean array representing the image corresponding
+	 * to the given symbol is empty, i.e. is a space character.
+	 * True is also returned if the symbol has an empty boolean array.
+	 * @param s The symbol to be checked.
+	 * @return Whether the symbol is a space.
+	 */
+	private static boolean emptySymbol(SplitSymbol s) {
+		for (int i = 0; i < s.getBinary().length; i++)
+			for (int j = 0; j < s.getBinary()[0].length; j++)
+				if (s.getBinary()[i][j])
+					return false;
+		return true;
+	}
 
 	/**
 	 * Removes blank lines or columns at top, bottom, left and right sides of 
@@ -557,7 +581,7 @@ public class BasicSplitter implements Splitter {
 	 * 
 	 * @param s The symbol to be trimmed.
 	 */
-	protected static void removeMargins(SplitSymbol s) {
+	private static void removeMargins(SplitSymbol s) {
 		boolean[][] pixels = s.getBinary();
 		int start_x = 0, end_x = pixels.length - 1;
 		int start_y = 0, end_y = pixels[0].length - 1;
@@ -620,19 +644,6 @@ public class BasicSplitter implements Splitter {
 				height++;
 		// returns the estimated width of a character in the line
 		return (int) (height * HEIGHT_TO_WIDTH);
-	}
-
-	// TODO: remove inner testing function
-	private static void displayBoolArray(boolean[][] multipleSymbol) {
-		for (int i = 0; i < multipleSymbol[0].length ; i++) {
-			for (int j = 0; j < multipleSymbol.length; j++) {
-				if (multipleSymbol[j][i])
-					System.out.print("o");
-				else
-					System.out.print(".");
-			}
-			System.out.println();
-		}
 	}
 }
 

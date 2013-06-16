@@ -1,13 +1,11 @@
 package analysis.split;
 
-import static org.junit.Assert.*;
 import imageloader.ImageLoader;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Iterator;
 
-import org.junit.Test;
 
 import analysis.preprocess.BasicPreprocessor;
 import analysis.preprocess.Preprocessor;
@@ -31,7 +29,7 @@ public class TestBasicSplitter {
 					"images\\test_merge.png",
 					"images\\complex_example.jpg"};
 			displayFile(filename[3]);
-			displaySymbol(filename[3], 2, 2);
+			displaySymbol(filename[3], 1, 1);
 //			displaySymbol(filename[1], 1, 5);
 	    }
 		
@@ -225,35 +223,35 @@ public class TestBasicSplitter {
 //			}
 //		}
 
-		private boolean identicalImage(boolean[][] img1, boolean[][] img2){
-			boolean res = img1.length==img2.length;
-			if (res && img1.length>0) {
-				for (int i=0; res && i<img1.length; i++) {
-					res = img1[i].length==img2[i].length;
-					if (res){
-						for (int j=0; res && j<img1[0].	length; j++) {
-							res = img1[i][j]==img2[i][j];
-						}
-					}
-				}
-			}
-			return res;
-		}
+//		private boolean identicalImage(boolean[][] img1, boolean[][] img2){
+//			boolean res = img1.length==img2.length;
+//			if (res && img1.length>0) {
+//				for (int i=0; res && i<img1.length; i++) {
+//					res = img1[i].length==img2[i].length;
+//					if (res){
+//						for (int j=0; res && j<img1[0].	length; j++) {
+//							res = img1[i][j]==img2[i][j];
+//						}
+//					}
+//				}
+//			}
+//			return res;
+//		}
 		
-		private void printBooleanArray(boolean[][] bin) {
-			if (bin.length!=0) {
-				for (int j=0; j<bin[0].length; j++) {
-					for (int i=0; i<bin.length; i++) {
-						if (bin[i][j]) {
-							System.out.print("o");
-						} else {
-							System.out.print(".");
-						}
-					}
-					System.out.println();
-				}
-			}
-		}
+//		private void printBooleanArray(boolean[][] bin) {
+//			if (bin.length!=0) {
+//				for (int j=0; j<bin[0].length; j++) {
+//					for (int i=0; i<bin.length; i++) {
+//						if (bin[i][j]) {
+//							System.out.print("o");
+//						} else {
+//							System.out.print(".");
+//						}
+//					}
+//					System.out.println();
+//				}
+//			}
+//		}
 		
 		/**
 		 * Transforms a pre-processed image into a buffered image that can be 
