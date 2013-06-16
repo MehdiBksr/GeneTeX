@@ -15,7 +15,7 @@ public enum Token implements Serializable {
      *                              FIGURES                                   * 
      ************************************************************************ */
 	
-	ZERO(false, "0", "0"),
+/*	ZERO(false, "0", "0"),
 	ONE(false, "1", "1"),
 	TWO(false, "2", "2"),
 	THREE(false, "3", "3"),
@@ -24,7 +24,7 @@ public enum Token implements Serializable {
 	SIX(false, "6", "6"),
 	SEVEN(false, "7", "7"),
 	EIGHT(false, "8", "8"),
-	NINE(false, "9", "9"),
+	NINE(false, "9", "9"),*/
 
     /* ************************************************************************
      *                      LOWER CASE LATIN LETTERS                          * 
@@ -86,12 +86,12 @@ public enum Token implements Serializable {
 	UPPER_CASE_W(false, "W", "Wmaj"),
 	UPPER_CASE_X(false, "X", "Xmaj"),
 	UPPER_CASE_Y(false, "Y", "Ymaj"),
-	UPPER_CASE_Z(false, "Z", "Zmaj"),
+	UPPER_CASE_Z(false, "Z", "Zmaj");
 
     /* ************************************************************************
      *                      LOWER CASE GREEK LETTERS                          * 
      ************************************************************************ */
-// the following commented lines do not have learning data.	
+/*// the following commented lines do not have learning data.	
 	LOWER_CASE_ALPHA(false, "\\alpha", "alpha"),
 	LOWER_CASE_BETA(false, "\\beta", "beta"),
 	LOWER_CASE_GAMMA(false, "\\gamma", "gamma"),
@@ -117,7 +117,7 @@ public enum Token implements Serializable {
 	LOWER_CASE_OMEGA(false, "\\omega", "omega"),
 //	LOWER_CASE_OMICRON(false, "\\omicron", "omicron"),
 //	LOWER_CASE_SIGMAF(false, "\\sigmaf", "sigmaf"),
-
+*/
     /* ************************************************************************
      *                      UPPER CASE GREEK LETTERS                          * 
      ************************************************************************ */
@@ -151,7 +151,7 @@ public enum Token implements Serializable {
      *                         PUNCTUATION MARK                               * 
      ************************************************************************ */
 	
-	SPACE(false, " ", "space"),
+	/*SPACE(false, " ", "space"),
 	ASTERISK(false, "*", "asterisk"),
 	COLON(false, ":", "colon"),
 	COMMA(false, ",", "comma"),
@@ -162,25 +162,25 @@ public enum Token implements Serializable {
 	QUOTE(false, "'", "quote"),
 	SEMICOLON(false, ";", "semicolon"),
 	SLASH(false, "/", "slash"),
-	UNDERSCORE(false, "\\_", "underscore"),
+	UNDERSCORE(false, "\\_", "underscore"),*/
 
     /* ************************************************************************
      *                             BRACKETS                                   * 
      ************************************************************************ */
 
-	OPENING_PARENTHESES(false, "(", "openpar"),
+/*	OPENING_PARENTHESES(false, "(", "openpar"),
 	CLOSING_PARENTHESES(false, ")", "closepar"),
 //	OPENING_SQUARE_BRACKET(false, "[", "opensqbracket"),
 //	CLOSING_SQUARE_BRACKET(false, "]", "closesqbracket"),
 //	OPENING_BRACE(false, "{", "openbrace"),
 //	CLOSING_BRACE(false, "}", "closebrace"),
-	
+*/	
 
     /* ************************************************************************
      *                        MATHEMATICAL SYMBOLS                            * 
      ************************************************************************ */
 	
-	PLUS(false, "+", "plus"),
+/*	PLUS(false, "+", "plus"),
 	MINUS(false, "-", "hyphen"),
 	DIVIDE(false, "/", "slash"),
 	MULTIPLY(false, "*", "asterisk"),
@@ -207,7 +207,7 @@ public enum Token implements Serializable {
 //	GREATER(false, ">", "greater"),
 //	LOWER_OR_EQUAL(false, "\\le", "lowerequal"),
 //	GREATER_OR_EQUAL(false, "\\ge", "greaterequal"),
-
+*/
     /* ************************************************************************
      *                             ARROWS                                     * 
      ************************************************************************ */

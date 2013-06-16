@@ -47,15 +47,7 @@ public class BasicPreprocessor implements Preprocessor {
 	 ************************************************************************ */
 
 	public PreprocessedImage preprocess(BufferedImage image) {
-		BufferedImage rotatedImage = rotate(image, (Math.PI)/4);
-		PreprocessedImage preprocessedImage = binarise(rotatedImage);
-		int x1 = 0;
-		int x2 = 0;
-		int y1 = 30;
-		int y2 = 0;
-		Vector<Point> line = bresenhamLinePoints(x1, y1, x2, y2);
-		findLineAngle(x1, y1, x2, y2);
-		for (int i = 0; i < line.size(); i++) preprocessedImage.setPixel((int)line.get(i).getX(), (int)line.get(i).getY(), true);
+		PreprocessedImage preprocessedImage = binarise(image);
 		return preprocessedImage;
 	}
 
@@ -119,7 +111,22 @@ public class BasicPreprocessor implements Preprocessor {
 
 	private float findTextRotation(PreprocessedImage preprocessedImage) {
 		//TODO To be implemented
+		int[] emptyLines = new int[2*preprocessedImage.getPixels()[0].length];
+		for (int i = 0; i < emptyLines.length; i++) emptyLines[i] = 0;
+		for (int yDiff = 0; yDiff < preprocessedImage.getPixels()[0].length; yDiff++) {
+			for (int yStart = 0; yStart < preprocessedImage.getPixels()[0].length - yDiff; yStart++) {
+				Vector<Point> currentLine = bresenhamLinePoints(0, yStart, preprocessedImage.getPixels().length, yStart + yDiff);
+				emptyLines[yDiff] += (emptyLine(preprocessedImage, currentLine)) ? 1 : 0;			
+			}
+		}
 		return 0;
+	}
+	
+	private boolean emptyLine(PreprocessedImage preprocessedImage, Vector<Point> line) {
+		for (int i = 0; i < line.size(); i++) {
+			if (preprocessedImage.getPixels()[(int)line.get(i).getX()][(int)line.get(i).getY()]) return false;
+		}
+		return true;
 	}
 
 	private double findLineAngle(int xFirst, int yFirst, int xLast, int yLast) {
