@@ -35,7 +35,7 @@ public class BasicSplitter implements Splitter {
 	 ************************************************************************ */
 
 	/** Number of pixels below which a pixel row is considered empty. */
-	private final static int ROW_PIXELS_THRESHOLD = 5;
+	private final static int ROW_PIXELS_THRESHOLD = 0;
 	/** Coefficient estimating the width of a character (width = height*coef). */
 	private final static double HEIGHT_TO_WIDTH = 1.3;
 	/** Coefficient determining the minimum width of a space (min_sp_width = width/coef). */
@@ -211,9 +211,9 @@ public class BasicSplitter implements Splitter {
 		}
 
 		// the chunk of the line is too wide to be a single symbol
-		if (length_x > width) 
+		/*if (length_x > width) 
 			return secondarySegmentation(line, start_x, length_x, width);
-
+*/
 		// copying the sub-array containing the symbol
 		boolean[][] symbol = new boolean[length_x][line[0].length];
 		for (int i = 0; i < symbol.length; i++)

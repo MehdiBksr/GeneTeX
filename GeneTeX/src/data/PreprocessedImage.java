@@ -43,5 +43,9 @@ public class PreprocessedImage {
 	public boolean[][] getPixels() {
 		return pixels;
 	}
+	
+	public void setPixel(int x, int y, boolean value) {
+		pixels[x][y] = value;
+	}
 
 }

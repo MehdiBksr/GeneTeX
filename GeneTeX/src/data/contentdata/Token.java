@@ -180,7 +180,7 @@ public enum Token implements Serializable {
      *                        MATHEMATICAL SYMBOLS                            * 
      ************************************************************************ */
 	
-//	PLUS(false, "+", "+"),
+	PLUS(false, "+", "plus"),
 	MINUS(false, "-", "hyphen"),
 	DIVIDE(false, "/", "slash"),
 	MULTIPLY(false, "*", "asterisk"),
