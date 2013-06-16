@@ -28,9 +28,10 @@ public class TestBasicSplitter {
 			String[] filename = {
 					"images\\testGeneTeXexact.png", 
 					"images\\gltroll.png",
-					"images\\test_merge.png"};
-			displayFile(filename[2]);
-			displaySymbol(filename[2], 1, 13);
+					"images\\test_merge.png",
+					"images\\complex_example.jpg"};
+			displayFile(filename[3]);
+			displaySymbol(filename[3], 2, 2);
 //			displaySymbol(filename[1], 1, 5);
 	    }
 		

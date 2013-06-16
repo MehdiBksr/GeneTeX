@@ -4,8 +4,6 @@ import java.awt.Point;
 import java.util.Stack;
 import java.util.Vector;
 
-import javax.swing.text.html.MinimalHTMLWriter;
-
 import data.PreprocessedImage;
 import data.imagedata.SplitBlock;
 import data.imagedata.SplitLine;
@@ -37,11 +35,11 @@ public class BasicSplitter implements Splitter {
 	 ************************************************************************ */
 
 	/** Number of pixels below which a pixel row is considered empty. */
-	private final static int ROW_PIXELS_THRESHOLD = 5;
+	private final static int ROW_PIXELS_THRESHOLD = 1;
 	/** Coefficient estimating the width of a character (width = height*coef). */
-	private final static double HEIGHT_TO_WIDTH = 1.3;
+	private final static double HEIGHT_TO_WIDTH = 1.5;
 	/** Coefficient determining the minimum width of a space (min_sp_width = width/coef). */
-	private final static int SPACE_WIDTH_DIVIDER = 2;
+	private final static double SPACE_WIDTH_DIVIDER = 3.3;
 
 	/* ************************************************************************
 	 *                              METHODS                                   * 
@@ -92,7 +90,6 @@ public class BasicSplitter implements Splitter {
 	 * @return The line as a <code>SplitLine</code>.
 	 */	
 	private static SplitLine getNextLine(boolean[][] page, int y, boolean handlingSpaces) {
-
 		// number of pixels in the current pixel row
 		int nbOfPixels = 0;
 		// horizontal histogram counting the number of pixels in relevant rows
@@ -122,18 +119,15 @@ public class BasicSplitter implements Splitter {
 		if (start_y >= page[0].length) return null;
 
 		// computing the height of the line
-		nbOfPixels = pixelsInRow(page, length_y + start_y);
-		while ((length_y + start_y < page[0].length) 
-				&& nbOfPixels > ROW_PIXELS_THRESHOLD) {
-			length_y++;
-			horizontalHistogram.add(nbOfPixels);
+		do {
 			nbOfPixels = pixelsInRow(page, length_y + start_y);
-		}
+			horizontalHistogram.add(nbOfPixels);
+			length_y++;
+		} while ((length_y + start_y < page[0].length) 
+				&& nbOfPixels > ROW_PIXELS_THRESHOLD);
 
 		// no new exploitable line, end of the page
 		if (length_y == 0) return null;
-
-		/* SYMBOL PROCESSING */
 
 		l = new SplitLine(start_y, start_y + length_y - 1, page.length);
 		avgWidth = computeAverageWidth(horizontalHistogram);
@@ -143,12 +137,13 @@ public class BasicSplitter implements Splitter {
 			line[i] = new boolean[length_y];
 			System.arraycopy(page[i], start_y, line[i], 0, length_y - 1);
 		}
-
+		
+		/* SYMBOL PROCESSING */
+		
 		nextSymbols = getNextSymbol(line, x, avgWidth, handlingSpaces);
 		// as long as there are undiscovered symbols
 		while (nextSymbols != null) {
 			for (SplitSymbol s : nextSymbols) {
-				System.out.println("x_length: " + s.getBinary().length);
 				// adds the symbols
 				try {
 					l.addSymbol(s);
@@ -193,15 +188,15 @@ public class BasicSplitter implements Splitter {
 		if (start_x >= line.length) return null; 
 
 		// handling the space character
-		if (handlingSpaces) {
-			if (start_x - x > width/SPACE_WIDTH_DIVIDER) {
-				boolean[][] pixels = new boolean[width/SPACE_WIDTH_DIVIDER][line[0].length];
-				for (int i = 0; i < pixels.length; i++)
-					for (int j = 0; j < pixels[0].length; j++)
-						pixels[i][j] = false;
-				res.add(new SplitSymbol(pixels, start_x - width/SPACE_WIDTH_DIVIDER - 2, 0));
-				return res;
-			}
+		double d = width/SPACE_WIDTH_DIVIDER;
+		if (handlingSpaces && start_x - x > d) {
+			boolean[][] pixels = new boolean[(int)Math.max(d, 1)][line[0].length];
+
+			for (int i = 0; i < pixels.length; i++)
+				for (int j = 0; j < pixels[0].length; j++)
+					pixels[i][j] = false;
+			res.add(new SplitSymbol(pixels, (start_x - (int) d - 2), 0));
+			return res;
 		}
 
 		// finding the end of the column
@@ -214,7 +209,7 @@ public class BasicSplitter implements Splitter {
 		}
 
 		// the chunk of the line is too wide to be a single symbol
-		if (length_x > width) 
+		if (length_x > width)
 			return secondarySegmentation(line, start_x, length_x, width);
 
 		// copying the sub-array containing the symbol
@@ -245,7 +240,8 @@ public class BasicSplitter implements Splitter {
 		// object containing the line portion
 		boolean[][] multipleSymbol = new boolean[length_x][line[x].length];
 		// the symbols being extracted
-		SplitSymbol connectedSymbol, singleSymbol;
+		SplitSymbol connectedSymbol;
+		Vector<SplitSymbol> singleSymbols;
 		// the current x value in the line
 		int current_x = x;
 
@@ -256,19 +252,18 @@ public class BasicSplitter implements Splitter {
 		// extract all the overlapping but not connected symbols
 		while (connectedSymbol != null) {
 			connectedSymbol.setFirstPixelX(x + connectedSymbol.getFirstPixelX());
-			//			if (connectedSymbol.getBinary().length > width) {
-			//				// extracted symbol still too wide, separates it
-			//				singleSymbol = extractFirstConnectedSymbol(connectedSymbol.getBinary());
-			//				while (singleSymbol != null) {
-			//					current_x += singleSymbol.getFirstPixelX();
-			//					singleSymbol.setFirstPixelX(current_x);
-			//					symbols.add(singleSymbol);
-			//					singleSymbol = extractFirstConnectedSymbol(connectedSymbol.getBinary());
-			//				}
-			//			} else {
-			current_x += connectedSymbol.getLastPixelX();
-			symbols.add(connectedSymbol);
-			//			}
+			if (connectedSymbol.getBinary().length > width) {
+				// extracted symbol still too wide, separates it
+				singleSymbols = extractConnectedSymbols(connectedSymbol.getBinary(), width);
+				for (SplitSymbol s : singleSymbols) {
+					current_x += s.getFirstPixelX();
+					s.setFirstPixelX(current_x);
+					symbols.add(s);
+				}
+			} else {
+				current_x += connectedSymbol.getLastPixelX();
+				symbols.add(connectedSymbol);
+			}
 			connectedSymbol = extractFirstOverlappingSymbol(multipleSymbol);
 		}
 		mergeComposite(symbols);
@@ -295,7 +290,7 @@ public class BasicSplitter implements Splitter {
 		// the symbol to be returned and its image
 		boolean[][] res = new boolean[symbols.length][symbols[0].length];
 		SplitSymbol symbol = new SplitSymbol(res);
-		
+
 		// initialises the res array
 		for (int i = 0; i < res.length; i++)
 			for (int j = 0; j < res[0].length; j++)
@@ -309,7 +304,7 @@ public class BasicSplitter implements Splitter {
 					y = j;
 					start_x = i;
 				}
-		
+
 		// empty image, return null
 		if (start_x == -1)
 			return null;
@@ -345,15 +340,56 @@ public class BasicSplitter implements Splitter {
 	}
 
 	/**
-	 * This function aims at extracting the first symbol present in a set of
+	 * This function aims at extracting the symbols present in a set of
 	 * connected symbols.
 	 * The set is given in form of a two-dimensional boolean array. The symbol
 	 * is removed from the array as it is extracted.
 	 * @param symbols The set of connected symbols.
-	 * @return The extracted symbol.
+	 * @param width The average estimated width of a symbol.
+	 * @return The extracted symbols.
 	 */
-	private static SplitSymbol extractFirstConnectedSymbol(boolean[][] symbols) {
-		return null;
+	private static Vector<SplitSymbol> extractConnectedSymbols(boolean[][] symbols, int width) {
+		final int RATIO = 20;
+		int offset = width * RATIO / 100;
+		Vector<SplitSymbol> res = new Vector<SplitSymbol>();
+		Vector<Integer> verticalHistogram = new Vector<Integer>();
+		// the X position before which symbols have already been checked
+		int x = 0, next = 0;
+		int min = Integer.MAX_VALUE;
+		
+		while (symbols.length - x > width) {
+			SplitSymbol s;
+			next = x + width;
+			// store the number of pixels in columns from -20% to +20% of the width
+			for (int i = next-offset; i < symbols.length && i < next+offset; i++)
+				verticalHistogram.add(pixelsInColumn(symbols, i));
+			
+			// find the minimum: symbols will be separated there
+			for (int i = 0; i < verticalHistogram.size(); i++)
+				if (min > verticalHistogram.elementAt(i)) {
+					next = x + width + i - offset;
+					min = verticalHistogram.elementAt(i);
+				}
+			
+			// split the symbol and add it to the list to be returned
+			boolean[][] symbol = new boolean[next-x][symbols[0].length];
+			for (int i = 0; i < symbol.length; i++)
+				System.arraycopy(symbols[x+i], 0, symbol[i], 0, symbol[0].length);
+			s = new SplitSymbol(symbol, x, 0);
+			removeMargins(s);
+			res.add(s);
+			x = next;
+		}
+		
+		// add the last remaining symbol
+		boolean[][] symbol = new boolean[symbols.length-x][symbols[0].length];
+		for (int i = 0; i < symbol.length; i++)
+			System.arraycopy(symbols[x+i], 0, symbol[i], 0, symbol[0].length);
+		SplitSymbol s = new SplitSymbol(symbol, x, 0);
+		removeMargins(s);
+		res.add(s);
+		
+		return res;
 	}
 
 	/**
@@ -366,22 +402,22 @@ public class BasicSplitter implements Splitter {
 	private static void mergeComposite(Vector<SplitSymbol> symbols) {
 		// Two contiguous symbols in the vector.
 		SplitSymbol i, j;
-		
+
 		// no symbol to be merged
 		if (symbols.size() <= 1)
 			return;
-		
+
 		for (int k = 1; k < symbols.size(); k++) {
 			i = symbols.elementAt(k-1);
 			j = symbols.elementAt(k);
-			
+
 			if (merge(i, j)) {
 				symbols.remove(k);
 				k--;
 			}
 		}
 	}
-	
+
 	/**
 	 * Merges the two given symbols if they are strongly overlapping.
 	 * If the merge occurs, true is returned, false if not.
@@ -399,7 +435,7 @@ public class BasicSplitter implements Splitter {
 		int i_src = a.getFirstPixelX(), i_end = a.getLastPixelX();
 		int j_src = b.getFirstPixelX(), j_end = b.getLastPixelX();
 		boolean merge = false;
-		
+
 		if (j_end - j_src < i_end - i_src) {
 			// invert i and j intervals so that i is always the smallest
 			int temp;
@@ -414,7 +450,7 @@ public class BasicSplitter implements Splitter {
 		merge = (i_src < j_src && i_end - j_src >= (i_end - i_src) / 2) ||
 				(i_end > j_end && j_end - i_src >= (i_end - i_src) / 2) ||
 				(i_end <= j_end && i_src >= j_src);
-		
+
 		if (!merge)
 			// no merge needed
 			return false;
@@ -442,11 +478,11 @@ public class BasicSplitter implements Splitter {
 				symbol[k][l] = symbol[k][l] | b.getBinary()[i][j];
 			}
 		}
-		
+
 		a.setFirstPixelX(x_min);
 		a.setFirstPixelY(y_min);
 		a.setBinary(symbol);
-		
+
 		return true;
 	}
 
@@ -455,13 +491,29 @@ public class BasicSplitter implements Splitter {
 	 * index y in the given array pixels.
 	 * 
 	 * @param pixels The two-dimensional array of pixels.
-	 * @param y The index of the row..
+	 * @param y The index of the row.
 	 * @return The number of coloured pixels in this row.
 	 */
 	private static int pixelsInRow(boolean[][] pixels, int y) {
 		int number = 0;
 		for (int i = 0; i < pixels.length; i++)
 			if (pixels[i][y])
+				number++;
+		return number;
+	}
+
+	/**
+	 * Returns the number of colourful pixels in the column specified by the 
+	 * given index x in the given array pixels.
+	 * 
+	 * @param pixels The two-dimensional array of pixels.
+	 * @param y The index of the column.
+	 * @return The number of coloured pixels in this column.
+	 */
+	private static int pixelsInColumn(boolean[][] pixels, int x) {
+		int number = 0;
+		for (int j = 0; j < pixels[0].length; j++)
+			if (pixels[x][j])
 				number++;
 		return number;
 	}
@@ -518,19 +570,19 @@ public class BasicSplitter implements Splitter {
 		// found a space character, return
 		if (start_y >= pixels[0].length)
 			return;
-		
+
 		// looking for the last non-empty row
 		while (rowEmpty(pixels, end_y))
 			end_y--;
-		
+
 		// looking for the first non-empty column
 		while (columnEmpty(pixels, start_x))
 			start_x++;
-		
+
 		// looking for the last non-empty column
 		while (columnEmpty(pixels, end_x))
 			end_x--;
-		
+
 		if (start_x == 0 && start_y == 0 && 
 				end_x == pixels.length - 1 && end_y == pixels[0].length - 1)
 			return ;
@@ -569,7 +621,7 @@ public class BasicSplitter implements Splitter {
 		// returns the estimated width of a character in the line
 		return (int) (height * HEIGHT_TO_WIDTH);
 	}
-	
+
 	// TODO: remove inner testing function
 	private static void displayBoolArray(boolean[][] multipleSymbol) {
 		for (int i = 0; i < multipleSymbol[0].length ; i++) {
