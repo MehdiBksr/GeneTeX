@@ -4,6 +4,8 @@ import java.awt.Point;
 import java.util.Stack;
 import java.util.Vector;
 
+import javax.swing.text.html.MinimalHTMLWriter;
+
 import data.PreprocessedImage;
 import data.imagedata.SplitBlock;
 import data.imagedata.SplitLine;
@@ -146,6 +148,7 @@ public class BasicSplitter implements Splitter {
 		// as long as there are undiscovered symbols
 		while (nextSymbols != null) {
 			for (SplitSymbol s : nextSymbols) {
+				System.out.println("x_length: " + s.getBinary().length);
 				// adds the symbols
 				try {
 					l.addSymbol(s);
@@ -154,7 +157,7 @@ public class BasicSplitter implements Splitter {
 				}
 				// removing blanks around the symbol
 				s.setFirstPixelY(start_y);
-				s.setBinary(removeMargins(s.getBinary()));
+				removeMargins(s);
 			}
 			// resuming search on the first unknown column
 			x = nextSymbols.lastElement().getLastPixelX() + 2;
@@ -336,9 +339,9 @@ public class BasicSplitter implements Splitter {
 					s.add(new Point(x-1, y));
 			}
 		}
-		res = removeMargins(res);
-		displayBoolArray(res);
-		return (new SplitSymbol(res, start_x, 0));
+		SplitSymbol sym = new SplitSymbol(res, start_x, 0);
+		removeMargins(sym);
+		return sym;
 	}
 
 	/**
@@ -361,6 +364,90 @@ public class BasicSplitter implements Splitter {
 	 * @param symbols The set of separated symbols which is to be updated.
 	 */
 	private static void mergeComposite(Vector<SplitSymbol> symbols) {
+		// Two contiguous symbols in the vector.
+		SplitSymbol i, j;
+		
+		// no symbol to be merged
+		if (symbols.size() <= 1)
+			return;
+		
+		for (int k = 1; k < symbols.size(); k++) {
+			i = symbols.elementAt(k-1);
+			j = symbols.elementAt(k);
+			
+			if (merge(i, j)) {
+				symbols.remove(k);
+				k--;
+			}
+		}
+	}
+	
+	/**
+	 * Merges the two given symbols if they are strongly overlapping.
+	 * If the merge occurs, true is returned, false if not.
+	 * If the merge occurs, the first parameter symbol contains the merged
+	 * version of the two former symbols.
+	 * @param a The first symbol to be merged. This symbol is the merged symbol 
+	 * 			if a merge occurred.
+	 * @param b The second symbol to be merged. This symbol has an irrelevant 
+	 * 			value if a merge occurred.
+	 * @return Whether they had to be merged
+	 */
+	private static boolean merge(SplitSymbol a, SplitSymbol b) {
+		// X first and last value of the 'i' and 'j' intervals corresponding to 
+		// two symbol lengths. 
+		int i_src = a.getFirstPixelX(), i_end = a.getLastPixelX();
+		int j_src = b.getFirstPixelX(), j_end = b.getLastPixelX();
+		boolean merge = false;
+		
+		if (j_end - j_src < i_end - i_src) {
+			// invert i and j intervals so that i is always the smallest
+			int temp;
+			temp	= j_src;
+			j_src 	= i_src;
+			i_src	= temp;
+			temp 	= j_end;
+			j_end	= i_end;
+			i_end 	= temp;
+		}
+
+		merge = (i_src < j_src && i_end - j_src >= (i_end - i_src) / 2) ||
+				(i_end > j_end && j_end - i_src >= (i_end - i_src) / 2) ||
+				(i_end <= j_end && i_src >= j_src);
+		
+		if (!merge)
+			// no merge needed
+			return false;
+
+		// merge the images
+		int x_min = Math.min(i_src, j_src);
+		int x_max = Math.max(i_end, j_end);
+		int y_min = Math.min(a.getFirstPixelY(), b.getFirstPixelY());
+		int y_max = Math.max(a.getLastPixelY(), b.getLastPixelY());
+		// create a new boolean array for the merged image
+		boolean[][] symbol = new boolean[x_max-x_min+1][y_max-y_min+1];
+		// initialise the array
+		for (int k = 0; k < symbol.length; k++)
+			for (int l = 0; l < symbol[0].length; l++)
+				symbol[k][l] = false;
+		// merge the first symbol and the new image
+		for (int k = a.getFirstPixelX() - x_min, i = 0; k <= a.getLastPixelX() - x_min; k++, i++) {
+			for (int l = a.getFirstPixelY() - y_min, j = 0; l <= a.getLastPixelY() - y_min; l++, j++) {
+				symbol[k][l] = symbol[k][l] | a.getBinary()[i][j];
+			}
+		}
+		// merge the second symbol and the new image
+		for (int k = b.getFirstPixelX() - x_min, i = 0; k <= b.getLastPixelX() - x_min; k++, i++) {
+			for (int l = b.getFirstPixelY() - y_min, j = 0; l <= b.getLastPixelY() - y_min; l++, j++) {
+				symbol[k][l] = symbol[k][l] | b.getBinary()[i][j];
+			}
+		}
+		
+		a.setFirstPixelX(x_min);
+		a.setFirstPixelY(y_min);
+		a.setBinary(symbol);
+		
+		return true;
 	}
 
 	/**
@@ -414,13 +501,12 @@ public class BasicSplitter implements Splitter {
 
 	/**
 	 * Removes blank lines or columns at top, bottom, left and right sides of 
-	 * the binary table representing the current symbol.
+	 * the binary table representing the given symbol.
 	 * 
-	 * @param pixels The initial two-dimensional array of pixels.
-	 * 
-	 * @return A trimmed two-dimensional array of pixels.
+	 * @param s The symbol to be trimmed.
 	 */
-	protected static boolean[][] removeMargins(boolean[][] pixels) {
+	protected static void removeMargins(SplitSymbol s) {
+		boolean[][] pixels = s.getBinary();
 		int start_x = 0, end_x = pixels.length - 1;
 		int start_y = 0, end_y = pixels[0].length - 1;
 		boolean[][] symbol;
@@ -431,7 +517,7 @@ public class BasicSplitter implements Splitter {
 
 		// found a space character, return
 		if (start_y >= pixels[0].length)
-			return pixels;
+			return;
 		
 		// looking for the last non-empty row
 		while (rowEmpty(pixels, end_y))
@@ -444,6 +530,10 @@ public class BasicSplitter implements Splitter {
 		// looking for the last non-empty column
 		while (columnEmpty(pixels, end_x))
 			end_x--;
+		
+		if (start_x == 0 && start_y == 0 && 
+				end_x == pixels.length - 1 && end_y == pixels[0].length - 1)
+			return ;
 
 		// copying the sub-array containing the symbol
 		int length_y = end_y - start_y + 1;
@@ -452,7 +542,8 @@ public class BasicSplitter implements Splitter {
 		for (int i = 0; i < length_x; i++) {
 			System.arraycopy(pixels[i + start_x], start_y, symbol[i], 0, length_y);
 		}
-		return symbol;
+		s.setBinary(symbol);
+		s.setFirstPixelY(s.getFirstPixelY() + start_y);
 	}
 
 	/**
@@ -479,6 +570,7 @@ public class BasicSplitter implements Splitter {
 		return (int) (height * HEIGHT_TO_WIDTH);
 	}
 	
+	// TODO: remove inner testing function
 	private static void displayBoolArray(boolean[][] multipleSymbol) {
 		for (int i = 0; i < multipleSymbol[0].length ; i++) {
 			for (int j = 0; j < multipleSymbol.length; j++) {

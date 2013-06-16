@@ -23,9 +23,9 @@ public class SplitSymbol extends Symbol {
 	private boolean[][] binary;
 	
 	/** Position of the first pixel column of this image in the page. */
-	private int firstPixelX;
+	private int firstPixelX = 0;
 	/** Position of the first pixel row of this image in the page. */
-	private int firstPixelY;
+	private int firstPixelY = 0;
 	
     /* ************************************************************************
      *                              CONSTRUCTORS                              * 
