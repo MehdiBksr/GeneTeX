@@ -111,14 +111,36 @@ public class BasicPreprocessor implements Preprocessor {
 
 	private float findTextRotation(PreprocessedImage preprocessedImage) {
 		//TODO To be implemented
-		int[] emptyLines = new int[2*preprocessedImage.getPixels()[0].length];
-		for (int i = 0; i < emptyLines.length; i++) emptyLines[i] = 0;
+		int[] emptyLinesFromTopLeft = new int[preprocessedImage.getPixels()[0].length];
+		for (int i = 0; i < emptyLinesFromTopLeft.length; i++) emptyLinesFromTopLeft[i] = 0;
 		for (int yDiff = 0; yDiff < preprocessedImage.getPixels()[0].length; yDiff++) {
 			for (int yStart = 0; yStart < preprocessedImage.getPixels()[0].length - yDiff; yStart++) {
-				Vector<Point> currentLine = bresenhamLinePoints(0, yStart, preprocessedImage.getPixels().length, yStart + yDiff);
-				emptyLines[yDiff] += (emptyLine(preprocessedImage, currentLine)) ? 1 : 0;			
+				Vector<Point> currentLine = bresenhamLinePoints(0, yStart, preprocessedImage.getPixels().length - 1, yStart + yDiff);
+				emptyLinesFromTopLeft[yDiff] += (emptyLine(preprocessedImage, currentLine)) ? 1 : 0;			
 			}
 		}
+		
+		int[] emptyLinesFromTopRight = new int[preprocessedImage.getPixels()[0].length];
+		for (int yDiff = 0; yDiff < preprocessedImage.getPixels()[0].length; yDiff++) {
+			for (int yStart = 0; yStart < preprocessedImage.getPixels()[0].length - yDiff; yStart++) {
+				Vector<Point> currentLine = bresenhamLinePoints(preprocessedImage.getPixels().length - 1, yStart, 0, yStart + yDiff);
+				emptyLinesFromTopRight[yDiff] += (emptyLine(preprocessedImage, currentLine)) ? 1 : 0;			
+			}
+		}
+		
+		int maxFromTopLeft = 0;
+		for (int i = 0; i < emptyLinesFromTopLeft.length; i++) {
+			if (emptyLinesFromTopLeft[i] > maxFromTopLeft) maxFromTopLeft = emptyLinesFromTopLeft[i];
+		}
+		
+		int maxFromTopRight = 0;
+		for (int i = 0; i < emptyLinesFromTopRight.length; i++) {
+			if (emptyLinesFromTopRight[i] > maxFromTopRight) maxFromTopRight = emptyLinesFromTopRight[i];
+		}
+		
+		int max = Math.max(maxFromTopLeft, maxFromTopRight);
+		
+		
 		return 0;
 	}
 	

@@ -182,6 +182,7 @@ public class NeuralNetworkLearner {
 			this.trainNetwork();
 			if (this.hasValidationData) {
 				// Check the error on the validation data.
+				System.out.println("lolilol");
 				this.checkOnValidationData();
 			}
 		}
@@ -287,14 +288,14 @@ public class NeuralNetworkLearner {
 				learningSamplesSize = samples.length - learningSamplesSize;
 			}
 			int validationSamplesSize = samples.length - learningSamplesSize;
-			this.hasValidationData = validationSamplesSize!=0;
+			this.hasValidationData = validationSamplesSize != 0;
 			
 //			System.out.println(learningSamplesSize + " learning data and " +
 //					validationSamplesSize + " validation data.");
 			// randomly choosing the type of each sample.
 			File[] learningSamples = new File[learningSamplesSize];
 			File[] validationSamples = new File[validationSamplesSize];
-			while (learningSamplesSize + validationSamplesSize > 1){
+			while (learningSamplesSize + validationSamplesSize > 0){
 				int r = randomGenerator.nextInt(
 						learningSamplesSize + validationSamplesSize);
 				if (r < learningSamplesSize) {
@@ -307,15 +308,11 @@ public class NeuralNetworkLearner {
 				} else {
 					sampleIndex++;
 					validationSamplesSize--;
-					validationSamples[learningSamplesSize] =
+					validationSamples[validationSamplesSize] =
 							samples[sampleIndex];
 				}
 			}
-			sampleIndex++;
-			learningSamplesSize--;
-			learningSamples[learningSamplesSize] = samples[sampleIndex];
-			//			System.out.println("learning file : " +
-			//					learningSamples[learningSamplesSize]);
+			
 
 			// adding the samples to the maps.
 			this.learningData.put(T, learningSamples);
@@ -407,8 +404,8 @@ public class NeuralNetworkLearner {
 		if (returnedToken == T) {
 			nbSuccess++;
 		} else {
-//			System.out.println(T + " is not recognised. " + returnedToken +
-//					" was returned instead.");
+			System.out.println(T + " is not recognised. " + returnedToken +
+					" was returned instead.");
 		}
 		nbRecognitions++;
 		// updating the local quadratic error.
@@ -502,8 +499,8 @@ public class NeuralNetworkLearner {
 		if (returnedToken == T) {
 			nbSuccess++;
 		} else {
-//			System.out.println(T + " is not recognised. " + returnedToken +
-//					" was returned instead.");
+			System.out.println(T + " is not recognised. " + returnedToken +
+					" was returned instead.");
 		}
 		nbRecognitions++;
 		// calculating total squared gradient

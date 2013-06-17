@@ -51,7 +51,7 @@ public class NeuralNetworkSampler {
 	public static void main(String[] args) throws IOException {
 		// TODO this main is there for testing purposes and shouldn't remain
 		Vector<Token> tokenOrder = setStupidTokenOrder();
-		sampleByGivenOrder(tokenOrder, "samples/Image.png");
+		sampleByGivenOrder(tokenOrder, "samples/Image2.png");
 
 
 
@@ -98,8 +98,9 @@ public class NeuralNetworkSampler {
 				while (itSymbol.hasNext()) {
 					SplitSymbol splittedSymbol = (SplitSymbol)itSymbol.next();
 					BufferedImage bufferedSymbol = Utility.toBI(new PreprocessedImage(splittedSymbol.getBinary()));
+					if (bufferedSymbol.getWidth() < 10 && bufferedSymbol.getHeight() < 10) continue;
 					
-					Displayer displayer = new Displayer(bufferedSymbol);
+					//Displayer displayer = new Displayer(bufferedSymbol);
 					String directoryName = itToken.next().getSampleDirectory();
 
 					Random random = new Random();
@@ -107,7 +108,7 @@ public class NeuralNetworkSampler {
 					
 					File sampleDirectory = new File("learningdata/" + directoryName);
 					if (!sampleDirectory.exists()) {
-						System.out.println("Directory " + sampleDirectory.getAbsolutePath() + "doesn't exist, creating it");						
+						System.out.println("Directory " + sampleDirectory.getAbsolutePath() + " doesn't exist, creating it");						
 						sampleDirectory.mkdirs();
 					}
 					
@@ -115,7 +116,7 @@ public class NeuralNetworkSampler {
 
 					System.out.println("Writing " + saveFile.getAbsolutePath());
 
-					//ImageIO.write(bufferedSymbol, "png", saveFile);
+					ImageIO.write(bufferedSymbol, "png", saveFile);
 
 				}
 			}
