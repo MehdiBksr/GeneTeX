@@ -138,6 +138,11 @@ public class NeuralNetworkSampler {
 		tokenOrder.add(Token.LOWER_CASE_Z);
 		tokenOrder.add(Token.LOWER_CASE_C);
 		tokenOrder.add(Token.LOWER_CASE_E);
+		tokenOrder.add(Token.LOWER_CASE_V);
+		tokenOrder.add(Token.LOWER_CASE_I);
+		tokenOrder.add(Token.LOWER_CASE_E);
+		tokenOrder.add(Token.LOWER_CASE_U);
+		tokenOrder.add(Token.LOWER_CASE_X);
 		tokenOrder.add(Token.LOWER_CASE_W);
 		tokenOrder.add(Token.LOWER_CASE_H);
 		tokenOrder.add(Token.LOWER_CASE_I);

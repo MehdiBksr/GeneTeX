@@ -52,6 +52,7 @@ public class NeuralNetworkLearner {
 	 * new one. The network is saved after each training iteration, so that the
 	 * program can be interrupted and still save a valid network.
 	 * 
+	 * 
 	 * @param args For the moment no options are managed.
 	 * @throws IOException
 	 * @throws ClassNotFoundException
@@ -499,8 +500,8 @@ public class NeuralNetworkLearner {
 		if (returnedToken == T) {
 			nbSuccess++;
 		} else {
-			System.out.println(T + " is not recognised. " + returnedToken +
-					" was returned instead.");
+		//	System.out.println(T + " is not recognised. " + returnedToken +
+			//		" was returned instead.");
 		}
 		nbRecognitions++;
 		// calculating total squared gradient
