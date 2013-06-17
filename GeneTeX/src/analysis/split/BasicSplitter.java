@@ -37,9 +37,9 @@ public class BasicSplitter implements Splitter {
 	/** Number of pixels below which a pixel row is considered empty. */
 	private final static int ROW_PIXELS_THRESHOLD = 1;
 	/** Coefficient estimating the width of a character (width = height*coef). */
-	private final static double HEIGHT_TO_WIDTH = 1.5;
+	private final static double HEIGHT_TO_WIDTH = 0.7;
 	/** Coefficient determining the minimum width of a space (min_sp_width = width/coef). */
-	private final static double SPACE_WIDTH_DIVIDER = 3.3;
+	private final static double SPACE_WIDTH_DIVIDER = 2;
 
 	/* ************************************************************************
 	 *                              METHODS                                   * 
@@ -271,7 +271,7 @@ public class BasicSplitter implements Splitter {
 					symbols.add(s);
 				}
 			} else {
-				current_x += connectedSymbol.getLastPixelX();
+				current_x += connectedSymbol.getFirstPixelX();
 				symbols.add(connectedSymbol);
 			}
 			connectedSymbol = extractFirstOverlappingSymbol(multipleSymbol);
@@ -366,14 +366,12 @@ public class BasicSplitter implements Splitter {
 		// the X position before which symbols have already been checked
 		int x = 0, next = 0;
 		int min = Integer.MAX_VALUE;
-		
-		while (symbols.length - x > width) {
+		while (symbols.length - x > width - offset) {
 			SplitSymbol s;
 			next = x + width;
 			// store the number of pixels in columns from -20% to +20% of the width
-			for (int i = next-offset; i < symbols.length && i < next+offset; i++)
+			for (int i = (next-offset); i < symbols.length && i < (next+offset); i++)
 				verticalHistogram.add(pixelsInColumn(symbols, i));
-			
 			// find the minimum: symbols will be separated there
 			for (int i = 0; i < verticalHistogram.size(); i++)
 				if (min > verticalHistogram.elementAt(i)) {
@@ -383,21 +381,23 @@ public class BasicSplitter implements Splitter {
 			
 			// split the symbol and add it to the list to be returned
 			boolean[][] symbol = new boolean[next-x][symbols[0].length];
-			for (int i = 0; i < symbol.length; i++)
-				System.arraycopy(symbols[x+i], 0, symbol[i], 0, symbol[0].length);
+			for (int i = x; i < next; i++)
+				System.arraycopy(symbols[i], 0, symbol[i-x], 0, symbol[0].length);
 			s = new SplitSymbol(symbol, x, 0);
 			removeMargins(s);
 			res.add(s);
 			x = next;
+			min = Integer.MAX_VALUE;
+			verticalHistogram.clear();
 		}
 		
-		// add the last remaining symbol
-		boolean[][] symbol = new boolean[symbols.length-x][symbols[0].length];
-		for (int i = 0; i < symbol.length; i++)
-			System.arraycopy(symbols[x+i], 0, symbol[i], 0, symbol[0].length);
-		SplitSymbol s = new SplitSymbol(symbol, x, 0);
-		removeMargins(s);
-		res.add(s);
+//		// add the last remaining symbol
+//		boolean[][] symbol = new boolean[symbols.length-x][symbols[0].length];
+//		for (int i = 0; i < symbol.length; i++)
+//			System.arraycopy(symbols[x+i], 0, symbol[i], 0, symbol[0].length);
+//		SplitSymbol s = new SplitSymbol(symbol, x, 0);
+//		removeMargins(s);
+//		res.add(s);
 		
 		return res;
 	}
