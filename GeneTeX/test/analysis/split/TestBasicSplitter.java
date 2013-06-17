@@ -39,10 +39,18 @@ public class TestBasicSplitter {
 				displaySymbol(filename[5], 1, i);
 				Thread.sleep(500);
 			}
+			
+			for (int i = 1; i <= 14; i++) {
+				displaySymbol(filename[5], 2, i);
+				Thread.sleep(500);
+			}
 	    }
 		
 		/**
-		 * Displays a split symbol of the specified text image. 
+		 * Displays a split symbol of the specified text image.
+		 * If the x or y index is before or after the first or last symbol of 
+		 * line, the first or last symbol or line is chosen (e.g. the index 0
+		 * works as if the selected index was 1). 
 		 * @param file The source file name.
 		 * @param y The line containing the symbol (first line at 1)
 		 * @param x The symbol's number in the line (first symbol at 1)
