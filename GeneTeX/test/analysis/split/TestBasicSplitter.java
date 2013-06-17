@@ -28,9 +28,11 @@ public class TestBasicSplitter {
 					"images\\gltroll.png",
 					"images\\test_merge.png",
 					"images\\complex_example.jpg",
-					"images\\alphabet.jpg"};
-//			displayFile(filename[4]);
-			displaySymbol(filename[4], 1, 3);
+					"images\\alphabet.jpg",
+					"images\\portez.jpg",
+					"images\\portez2.jpg"};
+//			displayFile(filename[5]);
+			displaySymbol(filename[6], 2, 10);
 //			displaySymbol(filename[1], 1, 5);
 	    }
 		
