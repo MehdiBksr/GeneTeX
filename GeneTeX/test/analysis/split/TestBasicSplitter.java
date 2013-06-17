@@ -22,7 +22,7 @@ public class TestBasicSplitter {
 		
 		static Displayer displayer;
 
-		public static void main(String[] args) {
+		public static void main(String[] args) throws InterruptedException {
 			String[] filename = {
 					"images\\testGeneTeXexact.png", 
 					"images\\gltroll.png",
@@ -32,8 +32,13 @@ public class TestBasicSplitter {
 					"images\\portez.jpg",
 					"images\\portez2.jpg"};
 //			displayFile(filename[5]);
-			displaySymbol(filename[6], 2, 10);
+//			displaySymbol(filename[5], 1, 2);
 //			displaySymbol(filename[1], 1, 5);
+			
+			for (int i = 0; i < 30; i++) {
+				displaySymbol(filename[5], 1, i);
+				Thread.sleep(500);
+			}
 	    }
 		
 		/**
