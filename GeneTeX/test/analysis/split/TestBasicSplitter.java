@@ -35,7 +35,7 @@ public class TestBasicSplitter {
 //			displaySymbol(filename[5], 1, 2);
 //			displaySymbol(filename[1], 1, 5);
 			
-			for (int i = 0; i < 30; i++) {
+			for (int i = 1; i < 31; i++) {
 				displaySymbol(filename[5], 1, i);
 				Thread.sleep(500);
 			}
