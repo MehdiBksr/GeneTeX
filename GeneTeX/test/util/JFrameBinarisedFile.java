@@ -19,7 +19,7 @@ import analysis.preprocess.Preprocessor;
 
 /** Class testing the binarisation of a given image.
  * 
- * @author Mehdi
+ * @author Mehdi BOUKSARA, Théo MERLE, Marceau THALGOTT
  *
  */
 @SuppressWarnings("serial")
