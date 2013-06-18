@@ -31,17 +31,24 @@ public class TestBasicSplitter {
 					"images\\alphabet.jpg",
 					"images\\portez.jpg",
 					"images\\portez2.jpg"};
-//			displayFile(filename[5]);
-//			displaySymbol(filename[5], 1, 2);
-//			displaySymbol(filename[1], 1, 5);
 			
+			/* PORTEZ 1 */
+//			for (int i = 1; i <= 30; i++) {
+//				displaySymbol(filename[5], 1, i);
+//				Thread.sleep(500);
+//			}
+//			for (int i = 1; i <= 14; i++) {
+//				displaySymbol(filename[5], 2, i);
+//				Thread.sleep(500);
+//			}
+			
+			/* PORTEZ 2 */
 			for (int i = 1; i <= 30; i++) {
-				displaySymbol(filename[5], 1, i);
+				displaySymbol(filename[6], 1, i);
 				Thread.sleep(500);
 			}
-			
-			for (int i = 1; i <= 14; i++) {
-				displaySymbol(filename[5], 2, i);
+			for (int i = 1; i <= 19; i++) {
+				displaySymbol(filename[6], 2, i);
 				Thread.sleep(500);
 			}
 	    }
