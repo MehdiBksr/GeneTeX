@@ -30,19 +30,20 @@ public class TestBasicSplitter {
 					"images\\complex_example.jpg",
 					"images\\alphabet.jpg",
 					"images\\portez.jpg",
-					"images\\portez2.jpg"};
+					"images\\portez2.jpg",
+					"images\\c.png"};
 			
 			/* PORTEZ 1 */
 			for (int i = 1; i < 31; i++) {
 				displaySymbol(filename[5], 1, i);
-				Thread.sleep(500);
+				Thread.sleep(25);
 			}
 
-			/* PORTEZ 2 */
-			for (int i = 1; i <= 19; i++) {
-				displaySymbol(filename[6], 2, i);
-				Thread.sleep(500);
-			}
+//			/* PORTEZ 2 */
+//			for (int i = 1; i <= 19; i++) {
+//				displaySymbol(filename[6], 2, i);
+//				Thread.sleep(500);
+//			}
 	    }
 		
 		/**
