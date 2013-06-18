@@ -33,20 +33,12 @@ public class TestBasicSplitter {
 					"images\\portez2.jpg"};
 			
 			/* PORTEZ 1 */
-//			for (int i = 1; i <= 30; i++) {
-//				displaySymbol(filename[5], 1, i);
-//				Thread.sleep(500);
-//			}
-//			for (int i = 1; i <= 14; i++) {
-//				displaySymbol(filename[5], 2, i);
-//				Thread.sleep(500);
-//			}
-			
-			/* PORTEZ 2 */
-			for (int i = 1; i <= 30; i++) {
-				displaySymbol(filename[6], 1, i);
+			for (int i = 1; i < 31; i++) {
+				displaySymbol(filename[5], 1, i);
 				Thread.sleep(500);
 			}
+
+			/* PORTEZ 2 */
 			for (int i = 1; i <= 19; i++) {
 				displaySymbol(filename[6], 2, i);
 				Thread.sleep(500);

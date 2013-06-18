@@ -124,9 +124,20 @@ public class Primitive implements Layer {
 	 */
 	private float upOutline[], downOutline[], rightOutline[], leftOutline[];
 
-
+	/**
+	 * Number of pixel in the line containing the symbol to be recognised.
+	 * The function setLineWidth must be used to ensure that this parameter is
+	 * correctly initialised before recognising the different symbols in the line.
+	 */
 	private int lineWidth;
 	
+	/**
+	 * The relative coordinates of the symbol :
+	 * <li>
+	 * <ul> relative coordinates X = absolute coordinate X / lineWidth.
+	 * <ul> relative coordinates Y = absolute coordinate Y / lineHeight. Not implemented.
+	 * </li>
+	 */
 	private float firstRelativeX, firstRelativeY, lastRelativeX, lastRelativeY;
 
 	/* ************************************************************************
@@ -301,7 +312,7 @@ public class Primitive implements Layer {
 	 * @param lineWidth The line width.
 	 */
 	public void setLineWidth(int lineWidth) {
-		this.lineWidth = lineWidth;		
+		this.lineWidth = lineWidth;	
 	}
 
 

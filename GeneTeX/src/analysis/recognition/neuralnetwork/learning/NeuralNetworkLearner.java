@@ -52,6 +52,7 @@ public class NeuralNetworkLearner {
 	 * new one. The network is saved after each training iteration, so that the
 	 * program can be interrupted and still save a valid network.
 	 * 
+	 * 
 	 * @param args For the moment no options are managed.
 	 * @throws IOException
 	 * @throws ClassNotFoundException
@@ -177,7 +178,7 @@ public class NeuralNetworkLearner {
 			System.out.println("Improve the network with a new random " +
 					"cross-validation.");
 			// choose the validation and training data.
-			this.createCrossValidationData();
+			this.createCrossValidationData(false);
 			// Trains the network.
 			this.trainNetwork();
 			if (this.hasValidationData) {
@@ -263,7 +264,7 @@ public class NeuralNetworkLearner {
 	 * It ensures that both types have the same number of samples, with possibly
 	 * one more learning sample.
 	 */
-	private void createCrossValidationData() {
+	private void createCrossValidationData(boolean createValidationData) {
 		Random randomGenerator = new Random();
 
 		// initialise the 2-fold cross-validation
@@ -283,11 +284,17 @@ public class NeuralNetworkLearner {
 
 			// determining the numbers of validation and learning data.
 			int sampleIndex = -1;
-			int learningSamplesSize = samples.length/2;
+			int learningSamplesSize, validationSamplesSize;
+			if (createValidationData) {
+			learningSamplesSize = samples.length/2;
 			if (samples.length - learningSamplesSize > learningSamplesSize) {
 				learningSamplesSize = samples.length - learningSamplesSize;
 			}
-			int validationSamplesSize = samples.length - learningSamplesSize;
+			validationSamplesSize = samples.length - learningSamplesSize;
+			} else {
+				learningSamplesSize = samples.length;
+				validationSamplesSize = 0;
+			}
 			this.hasValidationData = validationSamplesSize != 0;
 			
 //			System.out.println(learningSamplesSize + " learning data and " +
@@ -499,8 +506,8 @@ public class NeuralNetworkLearner {
 		if (returnedToken == T) {
 			nbSuccess++;
 		} else {
-			System.out.println(T + " is not recognised. " + returnedToken +
-					" was returned instead.");
+		//	System.out.println(T + " is not recognised. " + returnedToken +
+			//		" was returned instead.");
 		}
 		nbRecognitions++;
 		// calculating total squared gradient

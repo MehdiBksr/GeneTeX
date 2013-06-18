@@ -51,7 +51,7 @@ public class NeuralNetworkSampler {
 	public static void main(String[] args) throws IOException {
 		// TODO this main is there for testing purposes and shouldn't remain
 		Vector<Token> tokenOrder = setStupidTokenOrder();
-		sampleByGivenOrder(tokenOrder, "samples/Image2.png");
+		sampleByGivenOrder(tokenOrder, "images/portez.jpg");
 
 
 
@@ -127,9 +127,49 @@ public class NeuralNetworkSampler {
 	
 	private static Vector<Token> setStupidTokenOrder() {
 		Vector<Token> tokenOrder = new Vector<Token>();
-		for (Token T : Token.values()) {
-			tokenOrder.add(T);
-		}
+		//for (Token T : Token.values()) {
+		//	tokenOrder.add(T);
+		//}
+		tokenOrder.add(Token.UPPER_CASE_P);
+		tokenOrder.add(Token.LOWER_CASE_O);
+		tokenOrder.add(Token.LOWER_CASE_R);
+		tokenOrder.add(Token.LOWER_CASE_T);
+		tokenOrder.add(Token.LOWER_CASE_E);
+		tokenOrder.add(Token.LOWER_CASE_Z);
+		tokenOrder.add(Token.LOWER_CASE_C);
+		tokenOrder.add(Token.LOWER_CASE_E);
+		tokenOrder.add(Token.LOWER_CASE_V);
+		tokenOrder.add(Token.LOWER_CASE_I);
+		tokenOrder.add(Token.LOWER_CASE_E);
+		tokenOrder.add(Token.LOWER_CASE_U);
+		tokenOrder.add(Token.LOWER_CASE_X);
+		tokenOrder.add(Token.LOWER_CASE_W);
+		tokenOrder.add(Token.LOWER_CASE_H);
+		tokenOrder.add(Token.LOWER_CASE_I);
+		tokenOrder.add(Token.LOWER_CASE_S);
+		tokenOrder.add(Token.LOWER_CASE_K);
+		tokenOrder.add(Token.LOWER_CASE_Y);
+		tokenOrder.add(Token.LOWER_CASE_A);
+		tokenOrder.add(Token.LOWER_CASE_U);
+		tokenOrder.add(Token.LOWER_CASE_J);
+		tokenOrder.add(Token.LOWER_CASE_U);
+		tokenOrder.add(Token.LOWER_CASE_G);
+		tokenOrder.add(Token.LOWER_CASE_E);
+		tokenOrder.add(Token.LOWER_CASE_B);
+		tokenOrder.add(Token.LOWER_CASE_L);
+		tokenOrder.add(Token.LOWER_CASE_O);
+		tokenOrder.add(Token.LOWER_CASE_N);
+		tokenOrder.add(Token.LOWER_CASE_D);
+		tokenOrder.add(Token.LOWER_CASE_Q);
+		tokenOrder.add(Token.LOWER_CASE_U);
+		tokenOrder.add(Token.LOWER_CASE_I);
+		tokenOrder.add(Token.LOWER_CASE_F);
+		tokenOrder.add(Token.LOWER_CASE_U);
+		tokenOrder.add(Token.LOWER_CASE_M);
+		tokenOrder.add(Token.LOWER_CASE_E);
+
+
+
 		
 	return tokenOrder;	
 	}

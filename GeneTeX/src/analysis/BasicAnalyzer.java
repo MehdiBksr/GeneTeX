@@ -25,6 +25,15 @@ import data.imagedata.SplitPage;
  */
 public class BasicAnalyzer implements Analyzer {
 	
+	/** 
+	 * Analyses an image file and builds the StructuredPage containing all its
+	 * text information.
+	 * It is advised to use absolute paths to access the file.
+	 * 
+	 * @param fileName The path of the file.
+	 * @return The StructuredPage containing the text information of the image.
+	 * 
+	 */
 	public StructuredPage analyse(String fileName) throws Exception {
 		
 		Utility.printVerbose("Loading image...", false);

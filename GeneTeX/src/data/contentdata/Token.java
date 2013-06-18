@@ -86,7 +86,7 @@ public enum Token implements Serializable {
 	UPPER_CASE_W(false, "W", "Wmaj"),
 	UPPER_CASE_X(false, "X", "Xmaj"),
 	UPPER_CASE_Y(false, "Y", "Ymaj"),
-	UPPER_CASE_Z(false, "Z", "Zmaj");
+	UPPER_CASE_Z(false, "Z", "Zmaj"),
 
     /* ************************************************************************
      *                      LOWER CASE GREEK LETTERS                          * 
@@ -151,8 +151,8 @@ public enum Token implements Serializable {
      *                         PUNCTUATION MARK                               * 
      ************************************************************************ */
 	
-	/*SPACE(false, " ", "space"),
-	ASTERISK(false, "*", "asterisk"),
+	SPACE(false, " ", "space");
+	/*ASTERISK(false, "*", "asterisk"),
 	COLON(false, ":", "colon"),
 	COMMA(false, ",", "comma"),
 	DOT(false, ".", "dot"),
