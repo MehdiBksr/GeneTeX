@@ -27,7 +27,7 @@ public class TestBasicPreprocessor {
 	static Runnable runJFrameBinarisedFile = new Runnable() {
 	    @Override
 	    public void run() {
-	        jFrameBin = new JFrameBinarisedFile("images/c.png");
+	        jFrameBin = new JFrameBinarisedFile("demo/demoPreprocess.png");
 	        jFrameBin.setVisible(true);
 	    }
 	};

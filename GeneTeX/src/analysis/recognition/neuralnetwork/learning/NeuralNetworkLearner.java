@@ -444,7 +444,7 @@ public class NeuralNetworkLearner {
 		this.learningBlocked = true;
 		// as long as the quadratic error is above a given value
 		while ((Math.sqrt(this.quadraticError)/this.nbSamplesExamined) >
-		(1.0/(10.0*Token.values().length))) {
+		(1.0/(5.0*Token.values().length))) {
 			this.learningBlocked = false;
 			
 			this.nbSamplesExamined = 0;

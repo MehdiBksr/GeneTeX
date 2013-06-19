@@ -11,7 +11,6 @@ import java.util.Vector;
 
 import javax.imageio.ImageIO;
 
-import util.Displayer;
 import util.Utility;
 import analysis.preprocess.BasicPreprocessor;
 import analysis.preprocess.Preprocessor;
@@ -51,7 +50,7 @@ public class NeuralNetworkSampler {
 	public static void main(String[] args) throws IOException {
 		// TODO this main is there for testing purposes and shouldn't remain
 		Vector<Token> tokenOrder = setStupidTokenOrder();
-		sampleByGivenOrder(tokenOrder, "images/portez.jpg");
+		sampleByGivenOrder(tokenOrder, "demo/portez.jpg");
 
 
 

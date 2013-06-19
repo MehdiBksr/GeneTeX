@@ -37,6 +37,7 @@ public class BasicSplitter implements Splitter {
 	/** Number of pixels below which a pixel row is considered empty. */
 	private final static int ROW_PIXELS_THRESHOLD = 1;
 	/** Coefficient estimating the width of a character (width = height*coef). */
+	//private final static double HEIGHT_TO_WIDTH = 0.7;
 	private final static double HEIGHT_TO_WIDTH = 1.1;
 	/** Coefficient determining the minimum width of a space (min_sp_width = width/coef). */
 	private final static double SPACE_WIDTH_DIVIDER = 2;

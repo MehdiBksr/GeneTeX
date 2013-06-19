@@ -22,6 +22,10 @@ public class TestBasicSplitter {
 		
 		static Displayer displayer;
 
+		/**
+		 * @param args
+		 * @throws InterruptedException
+		 */
 		public static void main(String[] args) throws InterruptedException {
 			String[] filename = {
 					"images\\testGeneTeXexact.png", 
@@ -29,21 +33,25 @@ public class TestBasicSplitter {
 					"images\\test_merge.png",
 					"images\\complex_example.jpg",
 					"images\\alphabet.jpg",
-					"images\\portez.jpg",
-					"images\\portez2.jpg",
+					"demo\\portez.jpg",
+					"demo\\portez2.jpg",
 					"images\\c.png"};
 			
 			/* PORTEZ 1 */
-			for (int i = 1; i < 31; i++) {
-				displaySymbol(filename[5], 1, i);
-				Thread.sleep(25);
-			}
+//			for (int i = 1; i < 31; i++) {
+//				displaySymbol(filename[5], 1, i);
+//				Thread.sleep(75);
+//			}
+//			for (int i = 1; i < 15; i++) {
+//				displaySymbol(filename[5], 2, i);
+//				Thread.sleep(75);
+//			}
 
 //			/* PORTEZ 2 */
-//			for (int i = 1; i <= 19; i++) {
-//				displaySymbol(filename[6], 2, i);
-//				Thread.sleep(500);
-//			}
+			for (int i = 1; i <= 31; i++) {
+				displaySymbol(filename[6], 1, i);
+				Thread.sleep(500);
+			}
 	    }
 		
 		/**
@@ -94,6 +102,7 @@ public class TestBasicSplitter {
 		 * Displays the given file.
 		 * @param file
 		 */
+		@SuppressWarnings("unused")
 		private static void displayFile(String file) {
 			BufferedImage bufferedImage = null;
 			try {
